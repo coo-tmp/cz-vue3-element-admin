@@ -226,3 +226,72 @@ npm run prod     # 正式环境
 ## 5.6 IDE示例
 
 ![](https://czmdi.cooperzhu.com/technology/vue/vue3-element-plushuan-jing-da-jian-step-by-step/5-6_1.svg)
+
+# 6 element-plus
+
+> see: https://element-plus.org/zh-CN/
+
+## 6.1 安装
+
+```shell
+npm install element-plus
+```
+
+## 6.2 配置
+
+- tsconfig.json
+
+```json
+// /tsconfig.node.json
+// 添加
+
+{
+  "compilerOptions": {
+    "types": ["element-plus/global"]
+  },
+}
+```
+
+- ComponetService.ts
+
+```typescript
+// /src/components/ComponetService.ts
+// 新建
+
+import type { App } from 'vue';
+import ElementPlus from 'element-plus';
+
+const ComponetService = {
+  setupGlobalComponent(app: App) {
+    app.use(ElementPlus);
+  },
+};
+export default ComponetService;
+```
+
+- 全局注册
+
+```typescript
+// /src/main.ts
+// 添加
+
+import 'element-plus/theme-chalk/index.css';
+import ComponetService from '@/components/ComponetService';
+
+ComponetService.setupGlobalComponent(app);
+```
+
+## 6.3 示例
+
+```vue
+// /src/App.vue
+// 添加
+
+<script setup lang="ts">
+import { Edit } from '@element-plus/icons-vue'
+</script>
+
+<template>
+  <el-button type="primary" :icon="Edit" circle></el-button>
+</template>
+```

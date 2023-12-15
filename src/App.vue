@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router';
 import HelloWorld from '@/components/HelloWorld.vue';
+import { Edit } from '@element-plus/icons-vue';
 </script>
 
 <template>
   <header>
     <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
+    <el-button type="primary" :icon="Edit" circle></el-button>
 
     <div class="wrapper">
       <HelloWorld msg="You did it!" />
