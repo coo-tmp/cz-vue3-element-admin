@@ -459,3 +459,78 @@ function testStoreHandler() {
 ### 7.3.4 运行结果
 
 ![](https://czmdi.cooperzhu.com/technology/vue/vue3-element-plushuan-jing-da-jian-step-by-step/7-3-4_1.png)
+
+# 8 路由router
+
+> see: https://router.vuejs.org/zh/
+
+## 8.1 优化配置
+
+- 删除`/src/router/index.ts`
+
+- RouterService.ts
+
+```typescript
+// /src/router/RouterService.ts
+// 新建
+
+import type { RouteRecordRaw } from 'vue-router';
+import type { App } from 'vue';
+import HomeView from '../views/HomeView.vue';
+import { createRouter, createWebHashHistory } from 'vue-router';
+
+const constantRoutes: Array<RouteRecordRaw> = [
+  // 将路由配置添加到此处
+  {
+    path: '/',
+    name: 'home',
+    component: HomeView,
+  },
+  {
+    path: '/about',
+    name: 'about',
+    // route level code-splitting
+    // this generates a separate chunk (About.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import('../views/AboutView.vue'),
+  },
+  {
+    path: '/testing',
+    name: 'testStore',
+    component: () => import('../views/testing/index.vue'),
+  },
+];
+
+const router = createRouter({
+  routes: constantRoutes as RouteRecordRaw[],
+  history: createWebHashHistory(import.meta.env.BASE_URL),
+  scrollBehavior: () => ({ left: 0, top: 0 }), // 刷新时，还原滚动条位置
+});
+
+function setup(app: App<Element>) {
+  app.use(router);
+}
+
+const RouterService = {
+  router,
+  setup,
+};
+
+export default RouterService;
+```
+
+- 全局注册
+
+```typescript
+// /src/main.ts
+// 替换
+
+import router from './router';
+app.use(router);
+               ↓
+import RouterService from '@/router/RouterService';
+RouterService.setup(app);
+```
+
+
+
