@@ -15,6 +15,7 @@ import { Edit } from '@element-plus/icons-vue';
       <nav>
         <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/about">About</RouterLink>
+        <RouterLink to="/testing">Test</RouterLink>
       </nav>
     </div>
   </header>
