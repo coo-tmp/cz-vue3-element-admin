@@ -1,5 +1,6 @@
 import './assets/main.css';
 import 'element-plus/theme-chalk/index.css';
+import 'virtual:svg-icons-register';
 
 import { createApp } from 'vue';
 import StoreService from '@/stores/StoreService';
