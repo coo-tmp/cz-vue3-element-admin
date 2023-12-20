@@ -1597,3 +1597,315 @@ body,#app {
 }
 ```
 
+## 11.2 侧边栏Sidebar
+
+### 11.2.1 核心组件封装
+
+- 类型声明文件
+
+```typescript
+// src/layouts/default/components/TwSidebar/types.ts
+// 添加
+
+interface IMenuItem {
+  id: string; // id，全局唯一
+  name: string; // 名称
+  path?: string; // url（绝对路径）。支持外链
+  icon?: string; // 菜单图标。icon路径。根目录为”/src/assets“
+  visiable?: boolean; // 是否显示。true-是；false-否；
+  children?: IMenuItem[];
+}
+
+export type { IMenuItem };
+```
+
+- 侧边栏核心组件
+
+```vue
+// src/layouts/default/components/TwSidebar/TwSidebarItem.vue
+// 添加
+
+<template>
+  <template v-if="!hasChild(item)">
+    <TwLink v-if="item.visiable === undefined ? true : item.visiable" :to="item.path ?? '#'">
+      <ElMenuItem :index="item.id">
+        <SvgIcon v-if="item.icon" :name="item.icon" />
+        <template #title>
+          {{ item.name }}
+        </template>
+      </ElMenuItem>
+    </TwLink>
+  </template>
+
+  <ElSubMenu v-else :index="item.id" teleported>
+    <template #title>
+      <SvgIcon v-if="item.icon" :name="item.icon" />
+      <span v-if="item.name">{{ item.name }}</span>
+    </template>
+
+    <TwSidebarItem v-for="child in item.children" :key="child.id" :item="child" />
+  </ElSubMenu>
+</template>
+
+<script setup lang="ts">
+import TwLink from './TwLink.vue';
+import SvgIcon from '@/components/SvgIcon/index.vue';
+import type { PropType } from 'vue';
+import type { IMenuItem } from './types';
+
+defineProps({
+  item: {
+    type: Object as PropType<IMenuItem>,
+    required: true,
+  },
+});
+
+/**
+ * 判断当前菜单是否包含可显示的子菜单
+ *
+ * @param item 当前菜单
+ */
+function hasChild(item: IMenuItem) {
+  const effectives = item.children?.filter((item: any) => {
+    if (undefined === item.visiable) {
+      return true;
+    }
+    return item.visiable;
+  });
+
+  if (null == effectives || effectives.length === 0) {
+    return false;
+  }
+
+  return true;
+}
+</script>
+```
+
+- link
+
+```vue
+// src/layouts/default/components/TwSidebar/TwLink.vue
+// 添加
+
+<template>
+  <a v-if="DomUtil.isExternal(to)" :href="to" target="_blank" rel="noopener">
+    <slot />
+  </a>
+  <div v-else @click="push">
+    <slot />
+  </div>
+</template>
+
+<script lang="ts" setup>
+import DomUtil from '@/utils/basic/DomUtil';
+import { useRouter } from 'vue-router';
+
+const props = defineProps({
+  to: {
+    type: String,
+    required: true,
+  },
+});
+
+const router = useRouter();
+function push() {
+  router.push(props.to).catch((err) => {
+    console.error(err);
+  });
+}
+</script>
+```
+
+- index
+
+```vue
+// src/layouts/default/components/TwSidebar/index.vue
+// 添加
+
+<template>
+  <ElScrollbar>
+    <ElMenu :default-active="currRoute.path" :unique-opened="false" :collapse="!appStore.sidebar.opened" mode="vertical">
+      <TwSidebarItem v-for="item in items" :key="item.id" :item="item" />
+    </ElMenu>
+  </ElScrollbar>
+</template>
+
+<script setup lang="ts">
+import { useRoute } from 'vue-router';
+import TwSidebarItem from './TwSidebarItem.vue';
+import appStore from '@/stores/modules/appStore';
+import type { PropType } from 'vue';
+import type { IMenuItem } from './types';
+
+defineProps({
+  items: {
+    type: Object as PropType<IMenuItem[]>,
+    required: true,
+  },
+});
+
+const currRoute = useRoute();
+</script>
+```
+
+### 11.2.2 DomUtil
+
+```typescript
+// /src/utils/basic/DomUtil.ts
+// 添加
+
+/**
+ * Check if an element has a class
+ * @param {HTMLElement} ele
+ * @param {string} cls
+ * @returns {boolean}
+ */
+function hasClass(ele: HTMLElement, cls: string) {
+  return !!ele.className.match(new RegExp('(\\s|^)' + cls + '(\\s|$)'));
+}
+
+/**
+ * Add class to element
+ * @param {HTMLElement} ele
+ * @param {string} cls
+ */
+function addClass(ele: HTMLElement, cls: string) {
+  if (!hasClass(ele, cls)) ele.className += ' ' + cls;
+}
+
+/**
+ * Remove class from element
+ * @param {HTMLElement} ele
+ * @param {string} cls
+ */
+function removeClass(ele: HTMLElement, cls: string) {
+  if (hasClass(ele, cls)) {
+    const reg = new RegExp('(\\s|^)' + cls + '(\\s|$)');
+    ele.className = ele.className.replace(reg, ' ');
+  }
+}
+
+/**
+ * @param {string} path
+ * @returns {Boolean}
+ */
+function isExternal(path: string) {
+  const isExternal = /^(https?:|http?:|mailto:|tel:)/.test(path);
+  return isExternal;
+}
+
+const DomUtil = {
+  hasClass,
+  addClass,
+  removeClass,
+  isExternal,
+};
+export default DomUtil;
+```
+
+### 11.2.3 appStore
+
+```typescript
+// /src/stores/modules/appStore.ts
+// 添加
+
+import { defineStore } from 'pinia';
+import { reactive } from 'vue';
+import { store } from '../StoreService';
+import { ScreenWidthType } from '@/types';
+
+const useStore = defineStore('AppStore', () => {
+  // state
+  const sidebar = reactive({
+    opened: true,
+    withoutAnimation: false,
+  });
+  const screen = reactive({
+    widthType: ScreenWidthType.Big,
+  });
+
+  // actions
+  function openSidebar() {
+    sidebar.opened = true;
+  }
+  function closeSidebar() {
+    sidebar.opened = false;
+  }
+  function toggleSidebar() {
+    sidebar.opened = !sidebar.opened;
+  }
+
+  function changeScreenWidthType(type: ScreenWidthType) {
+    screen.widthType = type;
+  }
+
+  return {
+    sidebar,
+    screen,
+    openSidebar,
+    closeSidebar,
+    toggleSidebar,
+    changeScreenWidthType,
+  };
+});
+
+const appStoreHook = useStore(store); // 在useStore()前声明，可解决错误：etActivePinia()" was called but there was no active Pinia. Did you forget to install pinia?
+
+export default useStore();
+export { appStoreHook };
+```
+
+### 11.2.4 types
+
+```typescript
+// /src/types/index.ts
+// 添加
+
+enum ScreenWidthType {
+  Big,
+  Middle,
+  Small,
+}
+
+export { ScreenWidthType };
+```
+
+### 11.2.5 layout文件
+
+> 详见代码记录
+
+```vue
+// /src/layouts/default/index.vue
+// 修改
+
+<div id="sidebar-wrapper" class="sidebar-wrapper">
+    sidebar-wrapper
+
+    <ul>
+        <li><RouterLink to="/">Home</RouterLink></li>
+        <li><RouterLink to="/about">About</RouterLink></li>
+        <li><RouterLink to="/testing">Test</RouterLink></li>
+    </ul>
+</div>
+                      ↓
+<div id="sidebar-wrapper" class="sidebar-wrapper">
+    <TwSidebar :items="menus" />
+</div>
+
+// 添加
+window.addEventListener('resize', () => {
+  var width = document.body.clientWidth;
+  if (width > middleMaxWidth) {
+    appStore.changeScreenWidthType(ScreenWidthType.Big);
+    appStore.openSidebar();
+  } else if (width <= smallMaxWidth) {
+    appStore.changeScreenWidthType(ScreenWidthType.Small);
+    appStore.closeSidebar();
+  } else {
+    appStore.changeScreenWidthType(ScreenWidthType.Middle);
+    appStore.closeSidebar();
+  }
+});
+```
+

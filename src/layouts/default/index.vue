@@ -4,18 +4,19 @@
     <div id="drawer-bg" class="drawer-bg" @click="toggleSidebar"></div>
 
     <div id="sidebar-wrapper" class="sidebar-wrapper">
-      sidebar-wrapper
+      <TwSidebar :items="menus" />
 
-      <ul>
+      <!-- <ul>
         <li><RouterLink to="/">Home</RouterLink></li>
         <li><RouterLink to="/about">About</RouterLink></li>
         <li><RouterLink to="/testing">Test</RouterLink></li>
-      </ul>
+      </ul> -->
     </div>
     <div class="main-wrapper">
       <div id="header-wrapper" class="header-wrapper">
         <div>
-          <button id="btnToggle" @click="toggleSidebar">&lt;&lt;</button>
+          <button v-if="appStore.screen.widthType !== ScreenWidthType.Small && appStore.sidebar.opened" @click="toggleSidebar">&lt;&lt;</button>
+          <button v-else @click="toggleSidebar">&gt;&gt;</button>
         </div>
         <div>全屏 &nbsp;&nbsp;&nbsp;&nbsp;头像</div>
       </div>
@@ -29,9 +30,12 @@
 </template>
 
 <script setup lang="ts">
+import appStore from '@/stores/modules/appStore';
+import TwSidebar from './components/TwSidebar/index.vue';
+import type { IMenuItem } from './components/TwSidebar/types';
+import { ScreenWidthType } from '@/types';
 const smallMaxWidth = 768; // px
 const middleMaxWidth = 1200; // px
-const sidebarShortWidth = 54; // px
 
 function toggleSidebar() {
   var sidebar = document.getElementById('sidebar-wrapper');
@@ -55,14 +59,7 @@ function toggleSidebar() {
     sidebar?.classList.toggle('sidebar-wrapper-middle-show');
   }
 
-  const btnToggle = document.getElementById('btnToggle') as HTMLButtonElement | null;
-  if (btnToggle) {
-    if (sidebar?.clientWidth && sidebar?.clientWidth > sidebarShortWidth) {
-      btnToggle.innerHTML = '&lt;&lt;';
-    } else {
-      btnToggle.innerHTML = '&gt;&gt;';
-    }
-  }
+  appStore.toggleSidebar();
 }
 
 function toggleFullContent() {
@@ -75,6 +72,18 @@ function toggleFullContent() {
 }
 
 window.addEventListener('resize', () => {
+  var width = document.body.clientWidth;
+  if (width > middleMaxWidth) {
+    appStore.changeScreenWidthType(ScreenWidthType.Big);
+    appStore.openSidebar();
+  } else if (width <= smallMaxWidth) {
+    appStore.changeScreenWidthType(ScreenWidthType.Small);
+    appStore.closeSidebar();
+  } else {
+    appStore.changeScreenWidthType(ScreenWidthType.Middle);
+    appStore.closeSidebar();
+  }
+
   var sidebar = document.getElementById('sidebar-wrapper');
   var drawerBg = document.getElementById('drawer-bg');
 
@@ -83,6 +92,143 @@ window.addEventListener('resize', () => {
   sidebar?.classList.remove('sidebar-wrapper-middle-show');
   drawerBg?.classList.remove('drawer-bg-small-show');
 });
+</script>
+
+<script lang="ts">
+const menus: IMenuItem[] = [
+  {
+    id: 'RES_DASGBOARD',
+    name: '首页',
+    path: '/',
+    icon: 'menu-language',
+  },
+  {
+    id: 'RES_TESTING',
+    name: '测试',
+    path: '/testing',
+    icon: 'menu-language',
+  },
+  {
+    id: 'RES_TESTING2',
+    name: '示例',
+    icon: 'menu-dict',
+    children: [
+      {
+        id: 'RES_TESTING_TESTA',
+        name: '菜单A',
+        path: '/testing/testA',
+        icon: 'menu-dict',
+      },
+      {
+        id: 'RES_TESTING_TESTB',
+        name: '菜单B',
+        path: '/testing/testB',
+        icon: 'menu-dict',
+      },
+      {
+        id: 'RES_TESTING_TESTC',
+        name: '菜单C',
+        path: '/testing/testC',
+        icon: 'menu-dict',
+      },
+      {
+        id: 'RES_TESTING_TESTD',
+        name: '菜单D',
+        path: '/testing/testD',
+        icon: 'menu-dict',
+      },
+      {
+        id: 'RES_TESTING_TESTE',
+        name: '菜单E',
+        path: '/testing/testE',
+        icon: 'menu-dict',
+      },
+      {
+        id: 'RES_TESTING_TESTF',
+        name: '菜单F',
+        path: '/testing/testF',
+        icon: 'menu-dict',
+      },
+    ],
+  },
+  {
+    id: 'RES_EXTERNALLINK1ss',
+    name: '外链1',
+    path: 'https://www.bing.com',
+    icon: 'menu-dict',
+  },
+  {
+    id: 'RES_EXTERNALLINK1ss',
+    name: '外链2',
+    path: '/bing2',
+    icon: 'menu-dict',
+  },
+  {
+    id: 'RES_EXTERNALLINK',
+    name: '外链3',
+    path: '/externallink',
+    icon: 'menu-dict',
+    children: [
+      {
+        id: 'RES_EXTERNALLINK_BING_1',
+        name: '外链3_1',
+        path: 'https://www.bing.com',
+        icon: 'menu-dict',
+      },
+      {
+        id: 'RES_EXTERNALLINK_BING_3',
+        name: '外链3_2',
+        path: '/openInCurrentTag',
+        icon: 'menu-dict',
+      },
+      {
+        id: 'RES_EXTERNALLINK_BING_4',
+        name: '外链3_3',
+        path: '/openInNewTag',
+        icon: 'menu-dict',
+      },
+    ],
+  },
+  {
+    id: 'RES_MULTILEVELMENU',
+    name: '多级菜单',
+    icon: 'menu-dict',
+    children: [
+      {
+        id: 'RES_MULTILEVELMENU_1',
+        name: '一级菜单1',
+        path: 'level1_1',
+        icon: 'menu-dict',
+      },
+      {
+        id: 'RES_MULTILEVELMENU_2',
+        name: '一级菜单2',
+        icon: 'menu-dict',
+        children: [
+          {
+            id: 'RES_MULTILEVELMENU_1_1',
+            name: '二级菜单',
+            icon: 'menu-dict',
+            children: [
+              {
+                id: 'RES_MULTILEVELMENU_1_1_1',
+                name: '三级菜单',
+                path: 'level3_1',
+                icon: 'menu-dict',
+              },
+              {
+                id: 'RES_MULTILEVELMENU_1_1_2',
+                name: '三级菜单',
+                path: 'level3_2',
+                icon: 'menu-dict',
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  },
+];
 </script>
 
 <style scoped>
