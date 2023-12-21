@@ -1,6 +1,7 @@
 <template>
   <template v-if="!hasChild(item)">
-    <TwLink v-if="item.visiable === undefined ? true : item.visiable" :to="item.path ?? '#'">
+    <!-- <TwLink v-if="item.visiable === undefined ? true : item.visiable" :to="item.path ?? '#'" :is-tab="true" :tabTitle="item.name"> -->
+    <TwLink v-if="item.visiable === undefined ? true : item.visiable" :to="item.path ?? '#'" :is-tab="true">
       <ElMenuItem :index="item.id">
         <SvgIcon v-if="item.icon" :name="item.icon" />
         <template #title>
@@ -21,7 +22,7 @@
 </template>
 
 <script setup lang="ts">
-import TwLink from './TwLink.vue';
+import TwLink from '@/layouts/default/components/TwLink/index.vue';
 import SvgIcon from '@/components/SvgIcon/index.vue';
 import type { PropType } from 'vue';
 import type { IMenuItem } from './types';

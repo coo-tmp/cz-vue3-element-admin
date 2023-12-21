@@ -1909,3 +1909,194 @@ window.addEventListener('resize', () => {
 });
 ```
 
+## 11.3 标签页
+
+> - 基于el-tabs
+> - 仅列出核心部分，详见代码
+
+### 11.3.1 tabViewStore
+
+```typescript
+// /src/stores/modules/tabViewStore.ts
+// 添加
+
+import { defineStore } from 'pinia';
+import { store } from '../StoreService';
+import RouterService from '@/router/RouterService';
+import { ref } from 'vue';
+import type { ITabView } from '@/layouts/default/components/TwTabView/types';
+
+const useStore = defineStore('TabViewStore', () => {
+  // state
+  const allTabs = ref<ITabView[]>([]);
+  const activeTab = ref<string>('');
+
+  // actions
+  function addTab(tab: ITabView) {
+    const filters = allTabs.value.filter((item: ITabView) => {
+      return item.path === tab.path;
+    });
+
+    if (filters.length === 0) {
+      allTabs.value.push(tab);
+      activeTab.value = tab.path;
+    } else {
+      activeTab.value = filters[0].path;
+    }
+    RouterService.router.push(activeTab.value);
+  }
+
+  function removeTab(name: String) {
+    const tabs = allTabs.value;
+    let activeName = activeTab.value;
+    if (activeName === name) {
+      tabs.forEach((tab: ITabView, index: number) => {
+        if (tab.path === name) {
+          const nextTab = tabs[index + 1] || tabs[index - 1];
+          if (nextTab) {
+            activeName = nextTab.path;
+          }
+        }
+      });
+    }
+
+    activeTab.value = activeName;
+    allTabs.value = tabs.filter((tab) => tab.path !== name);
+    RouterService.router.replace(activeTab.value);
+  }
+
+  function setActiveTab(name: string) {
+    activeTab.value = name;
+    RouterService.router.push(activeTab.value);
+  }
+
+  return {
+    allTabs,
+    activeTab,
+    addTab,
+    removeTab,
+    setActiveTab,
+  };
+});
+
+const tabViewStoreHook = useStore(store); // 在useStore()前声明，可解决错误：etActivePinia()" was called but there was no active Pinia. Did you forget to install pinia?
+
+export default useStore();
+export { tabViewStoreHook };
+```
+
+### 11.3.2 TabView组件
+
+- 类型
+
+```typescript
+// /src/layouts/default/components/TwTabView/types.ts
+// 添加
+
+interface ITabView {
+  //   name?: string; // 选项卡名称（可选）。默认等于path
+  title: string; // 选项卡标题
+  path: string; // 选项卡对应的router-view path
+  closable: boolean; // 是否可关闭
+}
+
+export type { ITabView };
+```
+
+- TabView组件
+
+```vue
+// /src/layouts/default/components/TwTabView/index.vue
+// 添加
+
+<template>
+  <el-tabs v-model="tabViewStore.activeTab" type="card" class="main-tab" @tab-click="handleClick" @tab-remove="handleRemove">
+    <el-tab-pane v-for="item in tabViewStore.allTabs" :key="item.path" :name="item.path" :label="item.title" :closable="item.closable"></el-tab-pane>
+  </el-tabs>
+</template>
+
+<script setup lang="ts">
+import type { TabPaneName, TabsPaneContext } from 'element-plus';
+import tabViewStore from '@/stores/modules/tabViewStore';
+
+function handleClick(tab: TabsPaneContext) {
+  tabViewStore.setActiveTab(tab.paneName as string);
+}
+
+function handleRemove(name: TabPaneName) {
+  tabViewStore.removeTab(name as String);
+}
+</script>
+
+<style>
+.main-tab {
+  --el-tabs-header-height: 20px;
+}
+.main-tab > .el-tabs__header {
+  margin: 0 !important;
+}
+</style>
+```
+
+### 11.3.3 TwAppMain组件
+
+```vue
+// /src/layouts/default/components/TwAppMain/index.vue
+// 添加
+
+<template>
+  <div class="tabview-wrapper">
+    <TwTabView class="tabview-content" />
+    <div class="tabview-operation"><button @click="toggleFullContent">全屏</button></div>
+  </div>
+  <div class="view-container">
+    <router-view v-slot="{ Component, route }">
+      <keep-alive :include="tabViewStore.allTabs.map((i) => i.path)">
+        <component :is="Component" :key="route.fullPath" />
+      </keep-alive>
+    </router-view>
+  </div>
+</template>
+
+<script setup lang="ts">
+import tabViewStore from '@/stores/modules/tabViewStore';
+import TwTabView from '@/layouts/default/components/TwTabView/index.vue';
+
+function toggleFullContent() {
+  var sidebar = document.getElementById('sidebar-wrapper');
+  var header = document.getElementById('header-wrapper');
+  var content = document.getElementById('content-wrapper');
+  sidebar?.classList.toggle('sidebar-wrapper-full-content');
+  header?.classList.toggle('header-wrapper-full-content');
+  content?.classList.toggle('content-wrapper-full-content');
+}
+</script>
+
+<style scoped>
+.tabview-wrapper {
+  display: flex;
+  overflow: hidden;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.tabview-wrapper > .tabview-content {
+  width: 800px;
+}
+</style>
+```
+
+### 11.3.4 layout文件
+
+```html
+<div id="content-wrapper" class="content-wrapper">
+    Content
+    <button @click="toggleFullContent">全屏</button><br />
+    <RouterView />
+</div>
+                      ↓
+<div id="content-wrapper" class="content-wrapper">
+    <TwAppMain />
+</div>
+```
+

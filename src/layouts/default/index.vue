@@ -5,12 +5,6 @@
 
     <div id="sidebar-wrapper" class="sidebar-wrapper">
       <TwSidebar :items="menus" />
-
-      <!-- <ul>
-        <li><RouterLink to="/">Home</RouterLink></li>
-        <li><RouterLink to="/about">About</RouterLink></li>
-        <li><RouterLink to="/testing">Test</RouterLink></li>
-      </ul> -->
     </div>
     <div class="main-wrapper">
       <div id="header-wrapper" class="header-wrapper">
@@ -21,9 +15,7 @@
         <div>全屏 &nbsp;&nbsp;&nbsp;&nbsp;头像</div>
       </div>
       <div id="content-wrapper" class="content-wrapper">
-        Content
-        <button @click="toggleFullContent">全屏</button><br />
-        <RouterView />
+        <TwAppMain />
       </div>
     </div>
   </div>
@@ -34,6 +26,8 @@ import appStore from '@/stores/modules/appStore';
 import TwSidebar from './components/TwSidebar/index.vue';
 import type { IMenuItem } from './components/TwSidebar/types';
 import { ScreenWidthType } from '@/types';
+import TwAppMain from './components/TwAppMain/index.vue';
+
 const smallMaxWidth = 768; // px
 const middleMaxWidth = 1200; // px
 
@@ -60,15 +54,6 @@ function toggleSidebar() {
   }
 
   appStore.toggleSidebar();
-}
-
-function toggleFullContent() {
-  var sidebar = document.getElementById('sidebar-wrapper');
-  var header = document.getElementById('header-wrapper');
-  var content = document.getElementById('content-wrapper');
-  sidebar?.classList.toggle('sidebar-wrapper-full-content');
-  header?.classList.toggle('header-wrapper-full-content');
-  content?.classList.toggle('content-wrapper-full-content');
 }
 
 window.addEventListener('resize', () => {
