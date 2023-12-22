@@ -1,6 +1,7 @@
 <template>
   <button @click="testStoreHandler">Test Store</button>
   <button @click="testHttpApi">Test HttpApi</button><br />
+  <div id="idScss">SCSS</div>
 
   <div>
     <SvgIcon name="logo" color="#FF0000" />
@@ -33,3 +34,12 @@ function testHttpApi() {
     });
 }
 </script>
+
+<style lang="scss" scoped>
+#idScss {
+  width: 100%;
+  height: 50px;
+  background-color: $background-color;
+  color: $text-color;
+}
+</style>

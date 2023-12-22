@@ -21,4 +21,14 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url)),
     },
   },
+  css: {
+    // CSS 预处理器
+    preprocessorOptions: {
+      //define global scss variable
+      scss: {
+        javascriptEnabled: true,
+        additionalData: `@use "@/layouts/scss/index.scss" as *;`, // 默认scss文件
+      },
+    },
+  },
 });
