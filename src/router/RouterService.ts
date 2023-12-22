@@ -3,25 +3,49 @@ import type { App } from 'vue';
 import HomeView from '../views/HomeView.vue';
 import { createRouter, createWebHashHistory } from 'vue-router';
 
+const DEFAULT_LAYOUT = () => import('@/layouts/default/index.vue');
+
 const constantRoutes: Array<RouteRecordRaw> = [
   // 将路由配置添加到此处
   {
     path: '/',
-    name: 'home',
-    component: HomeView,
+    name: 'dashboard',
+    component: DEFAULT_LAYOUT,
+    redirect: '/dashboard/home',
+    children: [
+      {
+        name: 'dashboard_home',
+        path: '/dashboard/home',
+        component: () => HomeView,
+      },
+    ],
+    // component: HomeView,
   },
   {
     path: '/about',
     name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (About.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import('../views/AboutView.vue'),
+    component: DEFAULT_LAYOUT,
+    redirect: '/about/home',
+    children: [
+      {
+        path: '/about/home',
+        name: 'about_home',
+        component: () => import('../views/AboutView.vue'),
+      },
+    ],
   },
   {
     path: '/testing',
-    name: 'testStore',
-    component: () => import('../views/testing/index.vue'),
+    name: 'testing',
+    component: DEFAULT_LAYOUT,
+    redirect: '/testing/home',
+    children: [
+      {
+        path: '/testing/home',
+        name: 'testStore',
+        component: () => import('../views/testing/index.vue'),
+      },
+    ],
   },
 ];
 

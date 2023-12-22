@@ -1283,4 +1283,820 @@ import SvgIcon from '@/components/SvgIcon/index.vue';
 </script>
 ```
 
+# 11 Layout
+
+## 11.1 基本layout框架
+
+> see: https://blog.cooperzhu.com/css-simple-admin-layout/
+
+- 创建layout文件
+
+```vue
+// /src/layouts/default/index.vue
+// 添加
+
+<template>
+  <div class="app-wrapper">
+    <!-- 手机设备侧边栏打开遮罩层 -->
+    <div id="drawer-bg" class="drawer-bg" @click="toggleSidebar"></div>
+
+    <div id="sidebar-wrapper" class="sidebar-wrapper">
+      sidebar-wrapper
+
+      <ul>
+        <li><RouterLink to="/">Home</RouterLink></li>
+        <li><RouterLink to="/about">About</RouterLink></li>
+        <li><RouterLink to="/testing">Test</RouterLink></li>
+      </ul>
+    </div>
+    <div class="main-wrapper">
+      <div id="header-wrapper" class="header-wrapper">
+        <div>
+          <button id="btnToggle" @click="toggleSidebar">&lt;&lt;</button>
+        </div>
+        <div>全屏 &nbsp;&nbsp;&nbsp;&nbsp;头像</div>
+      </div>
+      <div id="content-wrapper" class="content-wrapper">
+        Content
+        <button @click="toggleFullContent">全屏</button><br />
+        <RouterView />
+      </div>
+    </div>
+  </div>
+</template>
+
+<script setup lang="ts">
+const smallMaxWidth = 768; // px
+const middleMaxWidth = 1200; // px
+const sidebarShortWidth = 54; // px
+
+function toggleSidebar() {
+  var sidebar = document.getElementById('sidebar-wrapper');
+  var drawerBg = document.getElementById('drawer-bg');
+
+  var width = document.body.clientWidth;
+  if (width > middleMaxWidth) {
+    sidebar?.classList.remove('sidebar-wrapper-middle-show');
+    sidebar?.classList.remove('sidebar-wrapper-small-show');
+    drawerBg?.classList.remove('drawer-bg-small-show');
+    sidebar?.classList.toggle('sidebar-wrapper-big-hide');
+  } else if (width <= smallMaxWidth) {
+    sidebar?.classList.remove('sidebar-wrapper-big-hide');
+    sidebar?.classList.remove('sidebar-wrapper-middle-show');
+    sidebar?.classList.toggle('sidebar-wrapper-small-show');
+    drawerBg?.classList.toggle('drawer-bg-small-show');
+  } else {
+    sidebar?.classList.remove('sidebar-wrapper-big-hide');
+    sidebar?.classList.remove('sidebar-wrapper-small-show');
+    drawerBg?.classList.remove('drawer-bg-small-show');
+    sidebar?.classList.toggle('sidebar-wrapper-middle-show');
+  }
+
+  const btnToggle = document.getElementById('btnToggle') as HTMLButtonElement | null;
+  if (btnToggle) {
+    if (sidebar?.clientWidth && sidebar?.clientWidth > sidebarShortWidth) {
+      btnToggle.innerHTML = '&lt;&lt;';
+    } else {
+      btnToggle.innerHTML = '&gt;&gt;';
+    }
+  }
+}
+
+function toggleFullContent() {
+  var sidebar = document.getElementById('sidebar-wrapper');
+  var header = document.getElementById('header-wrapper');
+  var content = document.getElementById('content-wrapper');
+  sidebar?.classList.toggle('sidebar-wrapper-full-content');
+  header?.classList.toggle('header-wrapper-full-content');
+  content?.classList.toggle('content-wrapper-full-content');
+}
+
+window.addEventListener('resize', () => {
+  var sidebar = document.getElementById('sidebar-wrapper');
+  var drawerBg = document.getElementById('drawer-bg');
+
+  sidebar?.classList.remove('sidebar-wrapper-big-hide');
+  sidebar?.classList.remove('sidebar-wrapper-small-show');
+  sidebar?.classList.remove('sidebar-wrapper-middle-show');
+  drawerBg?.classList.remove('drawer-bg-small-show');
+});
+</script>
+
+<style scoped>
+/* @media (min-width: 768px)
+        @media (min-width: 992px)
+        @media (min-width: 1200px)
+        @media (max-width: 767px) */
+html,
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+.app-wrapper {
+  display: flex;
+  height: 100%;
+}
+
+.sidebar-wrapper {
+  flex: 0 0 210px;
+  display: block;
+  overflow: auto;
+  background: lightblue;
+}
+
+.main-wrapper {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+}
+
+.header-wrapper {
+  flex: 0 0 50px;
+  display: flex;
+  overflow: hidden;
+  align-items: center;
+  justify-content: space-between;
+  background: lightgreen;
+}
+
+.content-wrapper {
+  flex: 1 1 auto;
+  height: calc(100% - 50px);
+  background: lightpink;
+  overflow: auto;
+}
+</style>
+
+<style scoped>
+/* 大屏 & 中屏（>768px） */
+@media (min-width: 768px) {
+  .sidebar-wrapper-full-content {
+    /* flex: 0 0 0 !important;
+          overflow: hidden; */
+    display: none !important;
+  }
+
+  .header-wrapper-full-content {
+    /* flex: 0 0 0 !important;
+          overflow: hidden; */
+    display: none !important;
+  }
+
+  .content-wrapper-full-content {
+    height: 100%;
+  }
+}
+</style>
+
+<style scoped>
+/* all: 大屏（>=1200px） */
+@media (min-width: 1200px) {
+  .sidebar-wrapper-big-hide {
+    /*display: none;*/
+    flex: 0 0 54px;
+    display: block;
+  }
+}
+</style>
+
+<style scoped>
+/* 中屏（>768px && < 1200px） */
+@media (max-width: 1200px) and (min-width: 768px) {
+  .sidebar-wrapper {
+    flex: 0 0 54px;
+    display: block;
+    overflow: hidden;
+  }
+
+  .sidebar-wrapper-middle-show {
+    flex: 0 0 210px;
+    display: block;
+  }
+}
+</style>
+
+<style scoped>
+/* all: 小屏（<768px） */
+@media (max-width: 768px) {
+  .sidebar-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1001;
+    height: 100%;
+    display: none;
+  }
+
+  .drawer-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    width: 100%;
+    height: 100%;
+    background: #000;
+    opacity: 0.3;
+    display: none;
+  }
+
+  #sidebar-wrapper.sidebar-wrapper-small-show,
+  #drawer-bg.drawer-bg-small-show {
+    display: block;
+  }
+}
+</style>
+```
+
+- 更新App.vue
+
+```vue
+// /src/App.vue
+// 替换
+
+<script setup lang="ts"></script>
+
+<template>
+  <RouterView />
+</template>
+
+<style scoped></style>
+```
+
+- 更新router
+
+```typescript
+// /src/router/RouterService.ts
+// 修改
+
+const DEFAULT_LAYOUT = () => import('@/layouts/default/index.vue');
+
+const constantRoutes: Array<RouteRecordRaw> = [
+  // 将路由配置添加到此处
+  {
+    path: '/',
+    name: 'dashboard',
+    component: DEFAULT_LAYOUT,
+    redirect: '/dashboard/home',
+    children: [
+      {
+        name: 'dashboard_home',
+        path: '/dashboard/home',
+        component: () => HomeView,
+      },
+    ],
+    // component: HomeView,
+  },
+  {
+    path: '/about',
+    name: 'about',
+    component: DEFAULT_LAYOUT,
+    redirect: '/about/home',
+    children: [
+      {
+        path: '/about/home',
+        name: 'about_home',
+        component: () => import('../views/AboutView.vue'),
+      },
+    ],
+  },
+  {
+    path: '/testing',
+    name: 'testing',
+    component: DEFAULT_LAYOUT,
+    redirect: '/testing/home',
+    children: [
+      {
+        path: '/testing/home',
+        name: 'testStore',
+        component: () => import('../views/testing/index.vue'),
+      },
+    ],
+  },
+];
+```
+
+- 全局css
+
+```css
+// /src/assets/main.css
+// 替换
+
+@import './base.css';
+
+html,
+body,#app {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+```
+
+## 11.2 侧边栏Sidebar
+
+### 11.2.1 核心组件封装
+
+- 类型声明文件
+
+```typescript
+// src/layouts/default/components/TwSidebar/types.ts
+// 添加
+
+interface IMenuItem {
+  id: string; // id，全局唯一
+  name: string; // 名称
+  path?: string; // url（绝对路径）。支持外链
+  icon?: string; // 菜单图标。icon路径。根目录为”/src/assets“
+  visiable?: boolean; // 是否显示。true-是；false-否；
+  children?: IMenuItem[];
+}
+
+export type { IMenuItem };
+```
+
+- 侧边栏核心组件
+
+```vue
+// src/layouts/default/components/TwSidebar/TwSidebarItem.vue
+// 添加
+
+<template>
+  <template v-if="!hasChild(item)">
+    <TwLink v-if="item.visiable === undefined ? true : item.visiable" :to="item.path ?? '#'">
+      <ElMenuItem :index="item.id">
+        <SvgIcon v-if="item.icon" :name="item.icon" />
+        <template #title>
+          {{ item.name }}
+        </template>
+      </ElMenuItem>
+    </TwLink>
+  </template>
+
+  <ElSubMenu v-else :index="item.id" teleported>
+    <template #title>
+      <SvgIcon v-if="item.icon" :name="item.icon" />
+      <span v-if="item.name">{{ item.name }}</span>
+    </template>
+
+    <TwSidebarItem v-for="child in item.children" :key="child.id" :item="child" />
+  </ElSubMenu>
+</template>
+
+<script setup lang="ts">
+import TwLink from './TwLink.vue';
+import SvgIcon from '@/components/SvgIcon/index.vue';
+import type { PropType } from 'vue';
+import type { IMenuItem } from './types';
+
+defineProps({
+  item: {
+    type: Object as PropType<IMenuItem>,
+    required: true,
+  },
+});
+
+/**
+ * 判断当前菜单是否包含可显示的子菜单
+ *
+ * @param item 当前菜单
+ */
+function hasChild(item: IMenuItem) {
+  const effectives = item.children?.filter((item: any) => {
+    if (undefined === item.visiable) {
+      return true;
+    }
+    return item.visiable;
+  });
+
+  if (null == effectives || effectives.length === 0) {
+    return false;
+  }
+
+  return true;
+}
+</script>
+```
+
+- link
+
+```vue
+// src/layouts/default/components/TwSidebar/TwLink.vue
+// 添加
+
+<template>
+  <a v-if="DomUtil.isExternal(to)" :href="to" target="_blank" rel="noopener">
+    <slot />
+  </a>
+  <div v-else @click="push">
+    <slot />
+  </div>
+</template>
+
+<script lang="ts" setup>
+import DomUtil from '@/utils/basic/DomUtil';
+import { useRouter } from 'vue-router';
+
+const props = defineProps({
+  to: {
+    type: String,
+    required: true,
+  },
+});
+
+const router = useRouter();
+function push() {
+  router.push(props.to).catch((err) => {
+    console.error(err);
+  });
+}
+</script>
+```
+
+- index
+
+```vue
+// src/layouts/default/components/TwSidebar/index.vue
+// 添加
+
+<template>
+  <ElScrollbar>
+    <ElMenu :default-active="currRoute.path" :unique-opened="false" :collapse="!appStore.sidebar.opened" mode="vertical">
+      <TwSidebarItem v-for="item in items" :key="item.id" :item="item" />
+    </ElMenu>
+  </ElScrollbar>
+</template>
+
+<script setup lang="ts">
+import { useRoute } from 'vue-router';
+import TwSidebarItem from './TwSidebarItem.vue';
+import appStore from '@/stores/modules/appStore';
+import type { PropType } from 'vue';
+import type { IMenuItem } from './types';
+
+defineProps({
+  items: {
+    type: Object as PropType<IMenuItem[]>,
+    required: true,
+  },
+});
+
+const currRoute = useRoute();
+</script>
+```
+
+### 11.2.2 DomUtil
+
+```typescript
+// /src/utils/basic/DomUtil.ts
+// 添加
+
+/**
+ * Check if an element has a class
+ * @param {HTMLElement} ele
+ * @param {string} cls
+ * @returns {boolean}
+ */
+function hasClass(ele: HTMLElement, cls: string) {
+  return !!ele.className.match(new RegExp('(\\s|^)' + cls + '(\\s|$)'));
+}
+
+/**
+ * Add class to element
+ * @param {HTMLElement} ele
+ * @param {string} cls
+ */
+function addClass(ele: HTMLElement, cls: string) {
+  if (!hasClass(ele, cls)) ele.className += ' ' + cls;
+}
+
+/**
+ * Remove class from element
+ * @param {HTMLElement} ele
+ * @param {string} cls
+ */
+function removeClass(ele: HTMLElement, cls: string) {
+  if (hasClass(ele, cls)) {
+    const reg = new RegExp('(\\s|^)' + cls + '(\\s|$)');
+    ele.className = ele.className.replace(reg, ' ');
+  }
+}
+
+/**
+ * @param {string} path
+ * @returns {Boolean}
+ */
+function isExternal(path: string) {
+  const isExternal = /^(https?:|http?:|mailto:|tel:)/.test(path);
+  return isExternal;
+}
+
+const DomUtil = {
+  hasClass,
+  addClass,
+  removeClass,
+  isExternal,
+};
+export default DomUtil;
+```
+
+### 11.2.3 appStore
+
+```typescript
+// /src/stores/modules/appStore.ts
+// 添加
+
+import { defineStore } from 'pinia';
+import { reactive } from 'vue';
+import { store } from '../StoreService';
+import { ScreenWidthType } from '@/types';
+
+const useStore = defineStore('AppStore', () => {
+  // state
+  const sidebar = reactive({
+    opened: true,
+    withoutAnimation: false,
+  });
+  const screen = reactive({
+    widthType: ScreenWidthType.Big,
+  });
+
+  // actions
+  function openSidebar() {
+    sidebar.opened = true;
+  }
+  function closeSidebar() {
+    sidebar.opened = false;
+  }
+  function toggleSidebar() {
+    sidebar.opened = !sidebar.opened;
+  }
+
+  function changeScreenWidthType(type: ScreenWidthType) {
+    screen.widthType = type;
+  }
+
+  return {
+    sidebar,
+    screen,
+    openSidebar,
+    closeSidebar,
+    toggleSidebar,
+    changeScreenWidthType,
+  };
+});
+
+const appStoreHook = useStore(store); // 在useStore()前声明，可解决错误：etActivePinia()" was called but there was no active Pinia. Did you forget to install pinia?
+
+export default useStore();
+export { appStoreHook };
+```
+
+### 11.2.4 types
+
+```typescript
+// /src/types/index.ts
+// 添加
+
+enum ScreenWidthType {
+  Big,
+  Middle,
+  Small,
+}
+
+export { ScreenWidthType };
+```
+
+### 11.2.5 layout文件
+
+> 详见代码记录
+
+```vue
+// /src/layouts/default/index.vue
+// 修改
+
+<div id="sidebar-wrapper" class="sidebar-wrapper">
+    sidebar-wrapper
+
+    <ul>
+        <li><RouterLink to="/">Home</RouterLink></li>
+        <li><RouterLink to="/about">About</RouterLink></li>
+        <li><RouterLink to="/testing">Test</RouterLink></li>
+    </ul>
+</div>
+                      ↓
+<div id="sidebar-wrapper" class="sidebar-wrapper">
+    <TwSidebar :items="menus" />
+</div>
+
+// 添加
+window.addEventListener('resize', () => {
+  var width = document.body.clientWidth;
+  if (width > middleMaxWidth) {
+    appStore.changeScreenWidthType(ScreenWidthType.Big);
+    appStore.openSidebar();
+  } else if (width <= smallMaxWidth) {
+    appStore.changeScreenWidthType(ScreenWidthType.Small);
+    appStore.closeSidebar();
+  } else {
+    appStore.changeScreenWidthType(ScreenWidthType.Middle);
+    appStore.closeSidebar();
+  }
+});
+```
+
+## 11.3 标签页
+
+> - 基于el-tabs
+> - 仅列出核心部分，详见代码
+
+### 11.3.1 tabViewStore
+
+```typescript
+// /src/stores/modules/tabViewStore.ts
+// 添加
+
+import { defineStore } from 'pinia';
+import { store } from '../StoreService';
+import RouterService from '@/router/RouterService';
+import { ref } from 'vue';
+import type { ITabView } from '@/layouts/default/components/TwTabView/types';
+
+const useStore = defineStore('TabViewStore', () => {
+  // state
+  const allTabs = ref<ITabView[]>([]);
+  const activeTab = ref<string>('');
+
+  // actions
+  function addTab(tab: ITabView) {
+    const filters = allTabs.value.filter((item: ITabView) => {
+      return item.path === tab.path;
+    });
+
+    if (filters.length === 0) {
+      allTabs.value.push(tab);
+      activeTab.value = tab.path;
+    } else {
+      activeTab.value = filters[0].path;
+    }
+    RouterService.router.push(activeTab.value);
+  }
+
+  function removeTab(name: String) {
+    const tabs = allTabs.value;
+    let activeName = activeTab.value;
+    if (activeName === name) {
+      tabs.forEach((tab: ITabView, index: number) => {
+        if (tab.path === name) {
+          const nextTab = tabs[index + 1] || tabs[index - 1];
+          if (nextTab) {
+            activeName = nextTab.path;
+          }
+        }
+      });
+    }
+
+    activeTab.value = activeName;
+    allTabs.value = tabs.filter((tab) => tab.path !== name);
+    RouterService.router.replace(activeTab.value);
+  }
+
+  function setActiveTab(name: string) {
+    activeTab.value = name;
+    RouterService.router.push(activeTab.value);
+  }
+
+  return {
+    allTabs,
+    activeTab,
+    addTab,
+    removeTab,
+    setActiveTab,
+  };
+});
+
+const tabViewStoreHook = useStore(store); // 在useStore()前声明，可解决错误：etActivePinia()" was called but there was no active Pinia. Did you forget to install pinia?
+
+export default useStore();
+export { tabViewStoreHook };
+```
+
+### 11.3.2 TabView组件
+
+- 类型
+
+```typescript
+// /src/layouts/default/components/TwTabView/types.ts
+// 添加
+
+interface ITabView {
+  //   name?: string; // 选项卡名称（可选）。默认等于path
+  title: string; // 选项卡标题
+  path: string; // 选项卡对应的router-view path
+  closable: boolean; // 是否可关闭
+}
+
+export type { ITabView };
+```
+
+- TabView组件
+
+```vue
+// /src/layouts/default/components/TwTabView/index.vue
+// 添加
+
+<template>
+  <el-tabs v-model="tabViewStore.activeTab" type="card" class="main-tab" @tab-click="handleClick" @tab-remove="handleRemove">
+    <el-tab-pane v-for="item in tabViewStore.allTabs" :key="item.path" :name="item.path" :label="item.title" :closable="item.closable"></el-tab-pane>
+  </el-tabs>
+</template>
+
+<script setup lang="ts">
+import type { TabPaneName, TabsPaneContext } from 'element-plus';
+import tabViewStore from '@/stores/modules/tabViewStore';
+
+function handleClick(tab: TabsPaneContext) {
+  tabViewStore.setActiveTab(tab.paneName as string);
+}
+
+function handleRemove(name: TabPaneName) {
+  tabViewStore.removeTab(name as String);
+}
+</script>
+
+<style>
+.main-tab {
+  --el-tabs-header-height: 20px;
+}
+.main-tab > .el-tabs__header {
+  margin: 0 !important;
+}
+</style>
+```
+
+### 11.3.3 TwAppMain组件
+
+```vue
+// /src/layouts/default/components/TwAppMain/index.vue
+// 添加
+
+<template>
+  <div class="tabview-wrapper">
+    <TwTabView class="tabview-content" />
+    <div class="tabview-operation"><button @click="toggleFullContent">全屏</button></div>
+  </div>
+  <div class="view-container">
+    <router-view v-slot="{ Component, route }">
+      <keep-alive :include="tabViewStore.allTabs.map((i) => i.path)">
+        <component :is="Component" :key="route.fullPath" />
+      </keep-alive>
+    </router-view>
+  </div>
+</template>
+
+<script setup lang="ts">
+import tabViewStore from '@/stores/modules/tabViewStore';
+import TwTabView from '@/layouts/default/components/TwTabView/index.vue';
+
+function toggleFullContent() {
+  var sidebar = document.getElementById('sidebar-wrapper');
+  var header = document.getElementById('header-wrapper');
+  var content = document.getElementById('content-wrapper');
+  sidebar?.classList.toggle('sidebar-wrapper-full-content');
+  header?.classList.toggle('header-wrapper-full-content');
+  content?.classList.toggle('content-wrapper-full-content');
+}
+</script>
+
+<style scoped>
+.tabview-wrapper {
+  display: flex;
+  overflow: hidden;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.tabview-wrapper > .tabview-content {
+  width: 800px;
+}
+</style>
+```
+
+### 11.3.4 layout文件
+
+```html
+<div id="content-wrapper" class="content-wrapper">
+    Content
+    <button @click="toggleFullContent">全屏</button><br />
+    <RouterView />
+</div>
+                      ↓
+<div id="content-wrapper" class="content-wrapper">
+    <TwAppMain />
+</div>
+```
 
