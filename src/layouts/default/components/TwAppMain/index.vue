@@ -2,7 +2,7 @@
   <div class="root">
     <div class="tabview-wrapper">
       <TwTabView class="tabview-content" />
-      <div class="tabview-operation"><button v-if="appStore.screen.widthType !== ScreenWidthType.Small" @click="toggleFullContent">全屏</button></div>
+      <div class="tabview-operation"><button v-if="appStore.screen.widthType !== ScreenWidthType.Small" @click="appStore.toggleFullContent">全屏</button></div>
     </div>
     <div class="view-container">
       <ElScrollbar>
@@ -21,15 +21,6 @@ import tabViewStore from '@/stores/modules/tabViewStore';
 import TwTabView from '@/layouts/default/components/TwTabView/index.vue';
 import appStore from '@/stores/modules/appStore';
 import { ScreenWidthType } from '@/types';
-
-function toggleFullContent() {
-  var sidebar = document.getElementById('sidebar-wrapper');
-  var header = document.getElementById('header-wrapper');
-  var content = document.getElementById('content-wrapper');
-  sidebar?.classList.toggle('full-content-sidebar-wrapper');
-  header?.classList.toggle('full-content-header-wrapper');
-  content?.classList.toggle('full-content-content-wrapper');
-}
 </script>
 
 <style lang="scss" scoped>

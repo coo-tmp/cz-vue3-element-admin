@@ -1,23 +1,24 @@
 <template>
   <div class="app-wrapper">
-    <div v-if="isSmallScreenWIdth && isSidebarOpened" id="drawer-bg" class="drawer-bg" @click="appStore.toggleSidebar"></div>
+    <div v-if="isSmallScreenWidth && isSidebarOpened" id="drawer-bg" class="drawer-bg" @click="appStore.toggleSidebar"></div>
 
     <div
       id="sidebar-wrapper"
       class="sidebar-wrapper"
       :class="{
-        'sidebar-wrapper-opened': !isSmallScreenWIdth && isSidebarOpened,
-        'sidebar-wrapper-closed': !isSmallScreenWIdth && !isSidebarOpened,
-        'sidebar-wrapper-small-show': isSmallScreenWIdth && isSidebarOpened,
+        'sidebar-wrapper-opened': !isSmallScreenWidth && isSidebarOpened,
+        'sidebar-wrapper-closed': !isSmallScreenWidth && !isSidebarOpened,
+        'sidebar-wrapper-small-show': isSmallScreenWidth && isSidebarOpened,
+        'full-content-sidebar-wrapper': !isSmallScreenWidth && isFullContent,
       }"
     >
       <TwSidebar :items="menus" />
     </div>
     <div class="main-wrapper">
-      <div id="header-wrapper" class="header-wrapper">
+      <div id="header-wrapper" class="header-wrapper" :class="{ 'full-content-header-wrapper': !isSmallScreenWidth && isFullContent }">
         <TwHeader />
       </div>
-      <div id="content-wrapper" class="content-wrapper">
+      <div id="content-wrapper" class="content-wrapper" :class="{ 'full-content-content-wrapper': !isSmallScreenWidth && isFullContent }">
         <TwAppMain />
       </div>
     </div>
@@ -35,7 +36,8 @@ import { useWindowSize } from '@vueuse/core';
 import { computed, watchEffect } from 'vue';
 
 const isSidebarOpened = computed(() => appStore.sidebar.opened);
-const isSmallScreenWIdth = computed(() => appStore.screen.widthType === ScreenWidthType.Small);
+const isSmallScreenWidth = computed(() => appStore.screen.widthType === ScreenWidthType.Small);
+const isFullContent = computed(() => appStore.isFullContent);
 
 watchEffect(() => {
   const smallMaxWidth = 768; // px

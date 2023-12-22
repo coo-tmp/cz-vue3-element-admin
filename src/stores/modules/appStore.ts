@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { reactive } from 'vue';
+import { reactive, ref } from 'vue';
 import { store } from '../StoreService';
 import { ScreenWidthType } from '@/types';
 
@@ -12,6 +12,7 @@ const useStore = defineStore('AppStore', () => {
   const screen = reactive({
     widthType: ScreenWidthType.Big,
   });
+  const isFullContent = ref<Boolean>(false);
 
   // actions
   function openSidebar() {
@@ -29,23 +30,32 @@ const useStore = defineStore('AppStore', () => {
     switch (screen.widthType) {
       case ScreenWidthType.Big:
         openSidebar();
+        isFullContent.value = false;
         break;
       case ScreenWidthType.Middle:
+        isFullContent.value = false;
         closeSidebar();
         break;
       case ScreenWidthType.Small:
+        isFullContent.value = false;
         closeSidebar();
         break;
     }
   }
 
+  function toggleFullContent() {
+    isFullContent.value = !isFullContent.value;
+  }
+
   return {
     sidebar,
     screen,
+    isFullContent,
     openSidebar,
     closeSidebar,
     toggleSidebar,
     setScreenWidthType,
+    toggleFullContent,
   };
 });
 
