@@ -12,7 +12,10 @@
           <button v-if="appStore.screen.widthType !== ScreenWidthType.Small && appStore.sidebar.opened" @click="toggleSidebar">&lt;&lt;</button>
           <button v-else @click="toggleSidebar">&gt;&gt;</button>
         </div>
-        <div>全屏 &nbsp;&nbsp;&nbsp;&nbsp;头像</div>
+        <div>
+          <button @click="toggle">全屏</button>
+          &nbsp;&nbsp;&nbsp;&nbsp;头像
+        </div>
       </div>
       <div id="content-wrapper" class="content-wrapper">
         <TwAppMain />
@@ -27,9 +30,12 @@ import TwSidebar from './components/TwSidebar/index.vue';
 import type { IMenuItem } from './components/TwSidebar/types';
 import { ScreenWidthType } from '@/types';
 import TwAppMain from './components/TwAppMain/index.vue';
+import { useFullscreen } from '@vueuse/core';
 
 const smallMaxWidth = 768; // px
 const middleMaxWidth = 1200; // px
+
+const { toggle } = useFullscreen();
 
 function toggleSidebar() {
   var sidebar = document.getElementById('sidebar-wrapper');
