@@ -1,7 +1,6 @@
 <template>
   <template v-if="!hasChild(item)">
-    <!-- <TwLink v-if="item.visiable === undefined ? true : item.visiable" :to="item.path ?? '#'" :is-tab="true" :tabTitle="item.name"> -->
-    <TwLink v-if="item.visiable === undefined ? true : item.visiable" :to="item.path ?? '#'" :is-tab="true">
+    <TwLink v-if="item.visiable === undefined ? true : item.visiable" :to="item.path ?? '#'" :is-tab="true" :tabTitle="item.name">
       <ElMenuItem :index="item.id">
         <SvgIcon v-if="item.icon" :name="item.icon" />
         <template #title>

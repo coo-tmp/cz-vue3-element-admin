@@ -10,6 +10,17 @@ const useStore = defineStore('TabViewStore', () => {
   const activeTab = ref<string>('');
 
   // actions
+  function init() {
+    if (allTabs.value.length === 0) {
+      const tab: ITabView = {
+        title: '首页',
+        path: '/',
+        closable: false,
+      };
+      addTab(tab);
+    }
+  }
+
   function addTab(tab: ITabView) {
     const filters = allTabs.value.filter((item: ITabView) => {
       return item.path === tab.path;
@@ -41,6 +52,8 @@ const useStore = defineStore('TabViewStore', () => {
     activeTab.value = activeName;
     allTabs.value = tabs.filter((tab) => tab.path !== name);
     RouterService.router.replace(activeTab.value);
+
+    init();
   }
 
   function setActiveTab(name: string) {
@@ -51,6 +64,7 @@ const useStore = defineStore('TabViewStore', () => {
   return {
     allTabs,
     activeTab,
+    init,
     addTab,
     removeTab,
     setActiveTab,

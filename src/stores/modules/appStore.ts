@@ -24,8 +24,19 @@ const useStore = defineStore('AppStore', () => {
     sidebar.opened = !sidebar.opened;
   }
 
-  function changeScreenWidthType(type: ScreenWidthType) {
+  function setScreenWidthType(type: ScreenWidthType) {
     screen.widthType = type;
+    switch (screen.widthType) {
+      case ScreenWidthType.Big:
+        openSidebar();
+        break;
+      case ScreenWidthType.Middle:
+        closeSidebar();
+        break;
+      case ScreenWidthType.Small:
+        closeSidebar();
+        break;
+    }
   }
 
   return {
@@ -34,7 +45,7 @@ const useStore = defineStore('AppStore', () => {
     openSidebar,
     closeSidebar,
     toggleSidebar,
-    changeScreenWidthType,
+    setScreenWidthType,
   };
 });
 

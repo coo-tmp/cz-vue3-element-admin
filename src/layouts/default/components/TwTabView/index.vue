@@ -1,7 +1,9 @@
 <template>
-  <el-tabs v-model="tabViewStore.activeTab" type="card" class="main-tab" @tab-click="handleClick" @tab-remove="handleRemove">
-    <el-tab-pane v-for="item in tabViewStore.allTabs" :key="item.path" :name="item.path" :label="item.title" :closable="item.closable"></el-tab-pane>
-  </el-tabs>
+  <div class="root">
+    <el-tabs v-model="tabViewStore.activeTab" type="card" class="main-tab" @tab-click="handleClick" @tab-remove="handleRemove">
+      <el-tab-pane v-for="item in tabViewStore.allTabs" :key="item.path" :name="item.path" :label="item.title" :closable="item.closable"></el-tab-pane>
+    </el-tabs>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -18,6 +20,13 @@ function handleRemove(name: TabPaneName) {
 </script>
 
 <style>
+.root {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  overflow: auto;
+}
 .main-tab {
   --el-tabs-header-height: 20px;
 }
