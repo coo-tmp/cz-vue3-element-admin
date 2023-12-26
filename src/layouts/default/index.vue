@@ -207,7 +207,7 @@ body,
 
   .sidebar-wrapper {
     overflow: hidden;
-    background-color: lightblue;
+    background-color: $layout__sidebar__backgrount_color;
   }
 
   .main-wrapper {
@@ -235,6 +235,7 @@ body,
 @media (min-width: $screen_width__small) {
   .sidebar-wrapper {
     display: block;
+    transition: flex $layout__sidebar__transition_duration;
 
     &-closed {
       flex: 0 0 $layout__sidebar_width__closed !important;
@@ -243,6 +244,10 @@ body,
     &-opened {
       flex: 0 0 $layout__sidebar_width__opened !important;
     }
+  }
+
+  .main-wrapper {
+    transition: flex $layout__sidebar__transition_duration;
   }
 
   .full-content {
@@ -288,10 +293,11 @@ body,
     left: 0;
     z-index: 1001;
     height: 100%;
-    display: none;
+    max-width: 0;
+    transition: max-width $layout__sidebar__transition_duration;
 
     &-small-show {
-      display: block !important;
+      max-width: 80% !important;
     }
   }
 

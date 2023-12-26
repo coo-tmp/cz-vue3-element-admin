@@ -1,5 +1,5 @@
 <template>
-  <div class="root">
+  <div class="root-layout-tabview">
     <el-tabs v-model="tabViewStore.activeTab" type="card" class="main-tab" @tab-click="handleClick" @tab-remove="handleRemove">
       <el-tab-pane v-for="item in tabViewStore.allTabs" :key="item.path" :name="item.path" :label="item.title" :closable="item.closable"></el-tab-pane>
     </el-tabs>
@@ -20,7 +20,7 @@ function handleRemove(name: TabPaneName) {
 </script>
 
 <style>
-.root {
+.root-layout-tabview {
   width: 100%;
   height: 100%;
   padding: 0;

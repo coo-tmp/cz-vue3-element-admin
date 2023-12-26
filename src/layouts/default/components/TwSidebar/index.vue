@@ -1,17 +1,31 @@
 <template>
-  <ElScrollbar>
-    <ElMenu :default-active="currRoute.path" :unique-opened="false" :collapse="!appStore.sidebar.opened" mode="vertical">
-      <TwSidebarItem v-for="item in items" :key="item.id" :item="item" />
-    </ElMenu>
-  </ElScrollbar>
+  <div class="root-layout-sidebar">
+    <Logo :collapse="!appStore.sidebar.opened" />
+    <ElScrollbar>
+      <ElMenu
+        :default-active="currRoute.path"
+        :unique-opened="false"
+        mode="vertical"
+        :collapse="!appStore.sidebar.opened && appStore.screen.widthType !== ScreenWidthType.Small"
+        :collapse-transition="false"
+        :background-color="scss.sidebarBackgroundcolor"
+        :text-color="scss.sidebarTextcolor"
+      >
+        <TwSidebarItem v-for="item in items" :key="item.id" :item="item" />
+      </ElMenu>
+    </ElScrollbar>
+  </div>
 </template>
 
 <script setup lang="ts">
+import scss from '@/layouts/scss/variables.module.scss';
 import { useRoute } from 'vue-router';
 import TwSidebarItem from './TwSidebarItem.vue';
 import appStore from '@/stores/modules/appStore';
 import type { PropType } from 'vue';
 import type { IMenuItem } from './types';
+import { ScreenWidthType } from '@/types';
+import Logo from './Logo.vue';
 
 defineProps({
   items: {
@@ -22,3 +36,23 @@ defineProps({
 
 const currRoute = useRoute();
 </script>
+
+<style lang="scss" scoped>
+.root-layout-sidebar {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  flex-direction: column;
+
+  logo {
+    flex: 0 0 auto;
+  }
+
+  el-scrollbar {
+    flex: 1 1 auto;
+  }
+}
+.el-menu {
+  border: 0 !important;
+}
+</style>

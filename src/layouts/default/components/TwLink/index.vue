@@ -11,6 +11,8 @@
 import DomUtil from '@/utils/basic/DomUtil';
 import tabViewStore from '@/stores/modules/tabViewStore';
 import type { ITabView } from '@/layouts/default/components/TwTabView/types';
+import appStore from '@/stores/modules/appStore';
+import { ScreenWidthType } from '@/types';
 
 const props = defineProps({
   to: {
@@ -37,5 +39,9 @@ function push() {
     closable: true,
   };
   tabViewStore.addTab(tab);
+
+  if (appStore.screen.widthType === ScreenWidthType.Small) {
+    appStore.closeSidebar();
+  }
 }
 </script>
