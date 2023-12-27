@@ -33,7 +33,7 @@ defineProps({
 });
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .root-layout-sidebar {
   display: flex;
   width: 100%;
@@ -44,11 +44,16 @@ defineProps({
     flex: 0 0 auto;
   }
 
-  el-scrollbar {
+  .el-scrollbar {
     flex: 1 1 auto;
+    .el-scrollbar__view {
+      min-width: $layout__sidebar_width__opened;
+      width: fit-content;
+    }
+
+    .el-menu {
+      border: 0 !important;
+    }
   }
-}
-.el-menu {
-  border: 0 !important;
 }
 </style>

@@ -16,7 +16,7 @@ defineProps({
 });
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .root-layout-logo {
   display: flex;
   align-items: center;
