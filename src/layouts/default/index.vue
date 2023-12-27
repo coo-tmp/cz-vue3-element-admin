@@ -58,50 +58,50 @@ watchEffect(() => {
 const menus: IMenuItem[] = [
   {
     id: '1',
-    name: '首页',
+    title: '首页',
     path: '/dashboard',
     icon: 'menu-language',
   },
   {
     id: '2',
-    name: '测试',
+    title: '测试',
     path: '/testing',
     icon: 'menu-language',
   },
   {
     id: '3',
-    name: '外链',
+    title: '外链',
     icon: 'menu-dict',
     children: [
       {
         id: '3-1',
-        name: '浏览器标签页',
+        title: '浏览器标签页',
         icon: 'menu-dict',
         children: [
           {
             id: '3-1-1',
-            name: '新标签页打开1',
+            title: '新标签页打开1',
             path: '/externallink/browser/openInBlank',
             icon: 'menu-dict',
             isTab: false,
           },
           {
             id: '3-1-2',
-            name: '新标签页打开2',
+            title: '新标签页打开2',
             path: 'https://www.bing.com',
             icon: 'menu-dict',
             isTab: false,
           },
           {
             id: '3-1-3',
-            name: '当前标签页打开1',
+            title: '当前标签页打开1',
             path: '/externallink/browser/openInCurrentTab',
             icon: 'menu-dict',
             isTab: false,
           },
           {
             id: '3-1-4',
-            name: '当前标签页打开2',
+            title: '当前标签页打开2',
             path: '/externallink/browser/openInCurrentTab2',
             icon: 'menu-dict',
             isTab: false,
@@ -110,7 +110,7 @@ const menus: IMenuItem[] = [
       },
       {
         id: '3-2',
-        name: '系统标签页（不支持）',
+        title: '系统标签页（不支持）',
         icon: 'menu-dict',
         disabled: true,
       },
@@ -119,40 +119,40 @@ const menus: IMenuItem[] = [
 
   {
     id: '4',
-    name: '多级菜单',
+    title: '多级菜单',
     icon: 'menu-dict',
     children: [
       {
         id: '4-1',
-        name: '一级菜单1',
+        title: '一级菜单1',
         path: '/multmenu/level41',
         icon: 'menu-dict',
       },
       {
         id: '4-2',
-        name: '一级菜单2',
+        title: '一级菜单2',
         icon: 'menu-dict',
         children: [
           {
             id: '4-2-1',
-            name: '二级菜单1',
+            title: '二级菜单1',
             path: '/multmenu/level42/level421',
             icon: 'menu-dict',
           },
           {
             id: '4-2-2',
-            name: '二级菜单2',
+            title: '二级菜单2',
             icon: 'menu-dict',
             children: [
               {
                 id: '4-2-2-1',
-                name: '三级菜单1',
+                title: '三级菜单1',
                 path: '/multmenu/level42/level422/level4221',
                 icon: 'menu-dict',
               },
               {
                 id: '4-2-2-2',
-                name: '三级菜单2',
+                title: '三级菜单2',
                 path: '/multmenu/level42/level422/level4222',
                 icon: 'menu-dict',
               },

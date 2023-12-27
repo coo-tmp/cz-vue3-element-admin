@@ -1627,7 +1627,7 @@ export type { IMenuItem };
 
 <template>
   <template v-if="!hasChild(item)">
-    <TwLink v-if="item.visiable === undefined ? true : item.visiable" :to="item.path ?? '#'">
+    <TwLink v-if="item.visiable ?? true" :to="item.path ?? '#'">
       <ElMenuItem :index="item.id">
         <SvgIcon v-if="item.icon" :name="item.icon" />
         <template #title>
@@ -1667,10 +1667,7 @@ defineProps({
  */
 function hasChild(item: IMenuItem) {
   const effectives = item.children?.filter((item: any) => {
-    if (undefined === item.visiable) {
-      return true;
-    }
-    return item.visiable;
+    return item.visiable ?? true;
   });
 
   if (null == effectives || effectives.length === 0) {

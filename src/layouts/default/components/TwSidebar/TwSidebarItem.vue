@@ -1,16 +1,10 @@
 <template>
   <template v-if="!hasChild(item)">
-    <TwLink
-      v-if="item.visiable === undefined ? true : item.visiable"
-      :to="item.path ?? '#'"
-      :is-tab="item.isTab === undefined ? true : item.isTab"
-      :tab-title="item.name"
-      :disabled="item.disabled ?? false"
-    >
+    <TwLink v-if="item.visiable ?? true" :to="item.path ?? '#'" :is-tab="item.isTab ?? true" :tab-title="item.title" :disabled="item.disabled ?? false">
       <ElMenuItem :index="item.path" :disabled="item.disabled ?? false">
         <SvgIcon v-if="item.icon" :name="item.icon" :color="scss.sidebarTextcolor" />
         <template #title>
-          {{ item.name }}
+          {{ item.title }}
         </template>
       </ElMenuItem>
     </TwLink>
@@ -19,7 +13,7 @@
   <ElSubMenu v-else :index="item.id" teleported :disabled="item.disabled ?? false">
     <template #title>
       <SvgIcon v-if="item.icon" :name="item.icon" :color="scss.sidebarTextcolor" />
-      <span v-if="item.name">{{ item.name }}</span>
+      <span v-if="item.title">{{ item.title }}</span>
     </template>
 
     <TwSidebarItem v-for="child in item.children" :key="child.id" :item="child" />
@@ -47,10 +41,7 @@ defineProps({
  */
 function hasChild(item: IMenuItem) {
   const effectives = item.children?.filter((item: any) => {
-    if (undefined === item.visiable) {
-      return true;
-    }
-    return item.visiable;
+    return item.visiable ?? true;
   });
 
   if (null == effectives || effectives.length === 0) {
