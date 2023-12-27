@@ -5,8 +5,10 @@
         <TwTabView class="tabview-content" />
       </div>
       <div class="tabview-action">
-        <SvgIcon v-if="appStore.screen.widthType !== ScreenWidthType.Small && isFullContent" name="layouts-fullcontent_enable" @click="appStore.toggleFullContent" />
-        <SvgIcon v-if="appStore.screen.widthType !== ScreenWidthType.Small && !isFullContent" name="layouts-fullcontent_disable" @click="appStore.toggleFullContent" />
+        <div v-if="appStore.screen.widthType !== ScreenWidthType.Small" @click="appStore.toggleFullContent">
+          <SvgIcon v-if="isFullContent" name="layouts-fullcontent_enable" />
+          <SvgIcon v-if="!isFullContent" name="layouts-fullcontent_disable" />
+        </div>
       </div>
     </div>
     <div class="view-container">
@@ -43,7 +45,7 @@ const isFullContent = computed(() => appStore.isFullContent);
   overflow: hidden;
 
   .tabview-wrapper {
-    flex: 0 0 $layout__tabview_height;
+    flex: 0 0 auto;
     display: flex;
     overflow: hidden;
     align-items: center;
@@ -51,22 +53,31 @@ const isFullContent = computed(() => appStore.isFullContent);
 
     .tabview-title {
       flex: 1 1 auto;
+      overflow: hidden;
     }
 
     .tabview-action {
-      padding: 0px 10px;
+      flex: 0 0 fit-content;
       height: 100%;
       cursor: pointer;
       display: flex;
       align-items: center;
-      border-left: 1px solid #eeeeee;
+
+      div {
+        padding: 0px 10px;
+        border-left: 1px solid #eeeeee;
+
+        &:hover {
+          background-color: $hover-background-color;
+        }
+      }
     }
   }
 
   .view-container {
     flex: 1 1 auto;
-    height: calc(100% - $layout__tabview_height);
-    background-color: lightpink;
+    padding: 3px;
+    background-color: $layout__maincontent__backgrount_color;
     overflow: auto;
   }
 }

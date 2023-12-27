@@ -19,18 +19,35 @@ function handleRemove(name: TabPaneName) {
 }
 </script>
 
-<style>
+<style lang="scss">
 .root-layout-tabview {
   width: 100%;
   height: 100%;
   padding: 0;
-  margin: 0;
-  overflow: auto;
+  margin: 2px;
 }
 .main-tab {
-  --el-tabs-header-height: 20px;
-}
-.main-tab > .el-tabs__header {
-  margin: 0 !important;
+  --el-tabs-header-height: 24px;
+
+  > .el-tabs__header {
+    margin: 0 !important;
+    border: 0 none;
+
+    .el-tabs__nav-next,
+    .el-tabs__nav-prev {
+      line-height: 30px;
+      color: var(--el-text-color-primary);
+    }
+  }
+
+  .el-tabs__item {
+    border-radius: 6px 6px 0 0;
+
+    &.is-active {
+      color: #ffffff;
+      background-color: var(--el-color-primary);
+      border-color: var(--el-color-primary);
+    }
+  }
 }
 </style>

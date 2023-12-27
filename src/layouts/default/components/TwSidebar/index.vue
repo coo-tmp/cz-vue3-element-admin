@@ -3,7 +3,6 @@
     <Logo :collapse="!appStore.sidebar.opened" />
     <ElScrollbar>
       <ElMenu
-        :default-active="currRoute.path"
         :unique-opened="false"
         mode="vertical"
         :collapse="!appStore.sidebar.opened && appStore.screen.widthType !== ScreenWidthType.Small"
@@ -19,7 +18,6 @@
 
 <script setup lang="ts">
 import scss from '@/layouts/scss/variables.module.scss';
-import { useRoute } from 'vue-router';
 import TwSidebarItem from './TwSidebarItem.vue';
 import appStore from '@/stores/modules/appStore';
 import type { PropType } from 'vue';
@@ -33,8 +31,6 @@ defineProps({
     required: true,
   },
 });
-
-const currRoute = useRoute();
 </script>
 
 <style lang="scss" scoped>

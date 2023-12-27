@@ -1,7 +1,13 @@
 <template>
   <template v-if="!hasChild(item)">
-    <TwLink v-if="item.visiable === undefined ? true : item.visiable" :to="item.path ?? '#'" :is-tab="true" :tabTitle="item.name">
-      <ElMenuItem :index="item.id">
+    <TwLink
+      v-if="item.visiable === undefined ? true : item.visiable"
+      :to="item.path ?? '#'"
+      :is-tab="item.isTab === undefined ? true : item.isTab"
+      :tab-title="item.name"
+      :disabled="item.disabled ?? false"
+    >
+      <ElMenuItem :index="item.path" :disabled="item.disabled ?? false">
         <SvgIcon v-if="item.icon" :name="item.icon" :color="scss.sidebarTextcolor" />
         <template #title>
           {{ item.name }}
@@ -10,7 +16,7 @@
     </TwLink>
   </template>
 
-  <ElSubMenu v-else :index="item.id" teleported>
+  <ElSubMenu v-else :index="item.id" teleported :disabled="item.disabled ?? false">
     <template #title>
       <SvgIcon v-if="item.icon" :name="item.icon" :color="scss.sidebarTextcolor" />
       <span v-if="item.name">{{ item.name }}</span>

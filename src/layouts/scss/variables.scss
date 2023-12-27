@@ -11,9 +11,13 @@ $screen_width__small: 768px;
 $layout__sidebar_width__closed: 54px;
 $layout__sidebar_width__opened: 210px;
 $layout__sidebar__transition_duration: 0.28s;
-$layout__header_height: 50px;
-$layout__tabview_height: 30px;
+$layout__header_height: 40px;
 
 $layout__sidebar__backgrount_color: #001529;
 $layout__sidebar__text_color: #b7bdc3;
 $layout__sidebar__active_color: #ffffff;
+
+$layout__maincontent__backgrount_color: #f2f3f5;
+
+// other
+$hover-background-color: #f6f6f6;
