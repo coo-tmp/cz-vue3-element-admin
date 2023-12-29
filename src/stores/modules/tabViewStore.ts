@@ -14,7 +14,7 @@ const useStore = defineStore('TabViewStore', () => {
     if (allTabs.value.length === 0) {
       const tab: ITabView = {
         title: '首页',
-        path: '/',
+        path: '/dashboard',
         closable: false,
       };
       addTab(tab);
@@ -22,17 +22,40 @@ const useStore = defineStore('TabViewStore', () => {
   }
 
   function addTab(tab: ITabView) {
+    if (_isTabAlreadyExists(tab)) {
+      activeTab.value = tab.path;
+    } else {
+      allTabs.value.push(tab);
+      activeTab.value = tab.path;
+    }
+    RouterService.router.push(activeTab.value);
+  }
+
+  function openInCurrentTab(tab: ITabView) {
+    if (activeTab.value === tab.path) {
+      return;
+    }
+
+    if (_isTabAlreadyExists(tab)) {
+      activeTab.value = tab.path;
+    } else {
+      const index = allTabs.value.findIndex((item) => item.path === activeTab.value);
+      if (index >= 0) {
+        allTabs.value.splice(index, 1);
+        allTabs.value.splice(index, 0, tab);
+        activeTab.value = tab.path;
+      }
+    }
+
+    RouterService.router.push(activeTab.value);
+  }
+
+  function _isTabAlreadyExists(tab: ITabView) {
     const filters = allTabs.value.filter((item: ITabView) => {
       return item.path === tab.path;
     });
 
-    if (filters.length === 0) {
-      allTabs.value.push(tab);
-      activeTab.value = tab.path;
-    } else {
-      activeTab.value = filters[0].path;
-    }
-    RouterService.router.push(activeTab.value);
+    return filters.length !== 0;
   }
 
   function removeTab(name: String) {
@@ -66,6 +89,7 @@ const useStore = defineStore('TabViewStore', () => {
     activeTab,
     init,
     addTab,
+    openInCurrentTab,
     removeTab,
     setActiveTab,
   };

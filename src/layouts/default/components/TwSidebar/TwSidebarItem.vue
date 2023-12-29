@@ -1,6 +1,14 @@
 <template>
   <template v-if="!hasChild(item)">
-    <TwLink v-if="item.visiable ?? true" :to="item.path ?? '#'" :is-tab="item.isTab ?? true" :tab-title="item.title" :disabled="item.disabled ?? false">
+    <TwLink
+      v-if="item.visiable ?? true"
+      :to="item.path ?? '#'"
+      :browser="item.browser ?? false"
+      :new-tab="item.newTab ?? true"
+      :tab-title="item.title"
+      :tab-closable="item.tabClosable ?? true"
+      :disabled="item.disabled ?? false"
+    >
       <ElMenuItem :index="item.path" :disabled="item.disabled ?? false">
         <SvgIcon v-if="item.icon" :name="item.icon" :color="scss.sidebarTextcolor" />
         <template #title>
@@ -22,7 +30,7 @@
 
 <script setup lang="ts">
 import scss from '@/layouts/scss/variables.module.scss';
-import TwLink from '@/layouts/default/components/TwLink/index.vue';
+import TwLink from '@/components/TwLink/index.vue';
 import SvgIcon from '@/components/SvgIcon/index.vue';
 import type { PropType } from 'vue';
 import type { IMenuItem } from './types';

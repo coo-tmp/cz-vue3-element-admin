@@ -33,11 +33,16 @@ import { ScreenWidthType } from '@/types';
 import TwHeader from './components/TwHeader/index.vue';
 import TwAppMain from './components/TwAppMain/index.vue';
 import { useWindowSize } from '@vueuse/core';
-import { computed, watchEffect } from 'vue';
+import { computed, onMounted, watchEffect } from 'vue';
+import menuStore from '@/stores/modules/menuStore';
 
 const isSidebarOpened = computed(() => appStore.sidebar.opened);
 const isSmallScreenWidth = computed(() => appStore.screen.widthType === ScreenWidthType.Small);
 const isFullContent = computed(() => appStore.isFullContent);
+
+onMounted(() => {
+  menuStore.setMenus(menus);
+});
 
 watchEffect(() => {
   const smallMaxWidth = 768; // px
@@ -57,108 +62,177 @@ watchEffect(() => {
 <script lang="ts">
 const menus: IMenuItem[] = [
   {
-    id: '1',
+    id: '16598651166273538',
     title: '首页',
     path: '/dashboard',
     icon: 'menu-language',
+    tabClosable: false,
   },
   {
-    id: '2',
+    id: '16598651166273539',
     title: '测试',
     path: '/testing',
     icon: 'menu-language',
   },
   {
-    id: '3',
-    title: '外链',
+    id: '16598651166273540',
+    title: '示例',
     icon: 'menu-dict',
     children: [
       {
-        id: '3-1',
-        title: '浏览器标签页',
+        id: '16598651166273541',
+        title: '内链(Route)',
         icon: 'menu-dict',
         children: [
           {
-            id: '3-1-1',
-            title: '新标签页打开1',
-            path: '/externallink/browser/openInBlank',
-            icon: 'menu-dict',
-            isTab: false,
-          },
-          {
-            id: '3-1-2',
-            title: '新标签页打开2',
-            path: 'https://www.bing.com',
-            icon: 'menu-dict',
-            isTab: false,
-          },
-          {
-            id: '3-1-3',
-            title: '当前标签页打开1',
-            path: '/externallink/browser/openInCurrentTab',
-            icon: 'menu-dict',
-            isTab: false,
-          },
-          {
-            id: '3-1-4',
-            title: '当前标签页打开2',
-            path: '/externallink/browser/openInCurrentTab2',
-            icon: 'menu-dict',
-            isTab: false,
-          },
-        ],
-      },
-      {
-        id: '3-2',
-        title: '系统标签页（不支持）',
-        icon: 'menu-dict',
-        disabled: true,
-      },
-    ],
-  },
-
-  {
-    id: '4',
-    title: '多级菜单',
-    icon: 'menu-dict',
-    children: [
-      {
-        id: '4-1',
-        title: '一级菜单1',
-        path: '/multmenu/level41',
-        icon: 'menu-dict',
-      },
-      {
-        id: '4-2',
-        title: '一级菜单2',
-        icon: 'menu-dict',
-        children: [
-          {
-            id: '4-2-1',
-            title: '二级菜单1',
-            path: '/multmenu/level42/level421',
-            icon: 'menu-dict',
-          },
-          {
-            id: '4-2-2',
-            title: '二级菜单2',
+            id: '16598651166273542',
+            title: '浏览器标签页',
             icon: 'menu-dict',
             children: [
               {
-                id: '4-2-2-1',
-                title: '三级菜单1',
-                path: '/multmenu/level42/level422/level4221',
+                id: '16598651166273543',
+                title: '新标签页打开',
+                path: '/demo/routelink/openInBrowserNewTab',
                 icon: 'menu-dict',
+                browser: true,
+                newTab: true,
               },
               {
-                id: '4-2-2-2',
-                title: '三级菜单2',
-                path: '/multmenu/level42/level422/level4222',
+                id: '16598651166273544',
+                title: '当前标签页打开',
+                path: '/demo/routelink/openInBrowserCurrentTab',
                 icon: 'menu-dict',
+                browser: true,
+                newTab: false,
+              },
+            ],
+          },
+          {
+            id: '16598651166273545',
+            title: '系统标签页',
+            icon: 'menu-dict',
+            children: [
+              {
+                id: '16598651166273546',
+                title: '新标签页打开',
+                path: '/demo/routelink/openInSystemNewTab',
+                icon: 'menu-dict',
+                newTab: true,
+              },
+              {
+                id: '16598651166273547',
+                title: '当前标签页打开',
+                path: '/demo/routelink/openInSystemCurrentTab',
+                icon: 'menu-dict',
+                newTab: false,
               },
             ],
           },
         ],
+      },
+      {
+        id: '16598651166273548',
+        title: '外链',
+        icon: 'menu-dict',
+        children: [
+          {
+            id: '16598651166273549',
+            title: '浏览器标签页',
+            icon: 'menu-dict',
+            children: [
+              {
+                id: '16598651166273559',
+                title: '新标签页打开',
+                path: 'https://www.bing.com',
+                icon: 'menu-dict',
+                browser: true,
+              },
+              {
+                id: '16598651170467840',
+                title: '当前标签页打开',
+                path: 'https://www.baidu.com',
+                icon: 'menu-dict',
+                newTab: false,
+              },
+            ],
+          },
+          {
+            id: '16598651166273553',
+            title: '系统标签页(不支持)',
+            icon: 'menu-dict',
+            disabled: true,
+          },
+        ],
+      },
+      {
+        id: '16598651170467841',
+        title: '外链：内链(Route)实现',
+        icon: 'menu-dict',
+        children: [
+          {
+            id: '16598651170467842',
+            title: '浏览器标签页',
+            icon: 'menu-dict',
+            children: [
+              {
+                id: '16598651170467843',
+                title: '新标签页打开',
+                path: '/demo/externallink/openInBrowserNewTab',
+                icon: 'menu-dict',
+                browser: true,
+              },
+              {
+                id: '16598651170467848',
+                title: '当前标签页打开1',
+                path: '/demo/externallink/openInBrowserCurrentTab1',
+                icon: 'menu-dict',
+                browser: true,
+                newTab: false,
+              },
+              {
+                id: '16598651170467849',
+                title: '当前标签页打开2',
+                path: '/demo/externallink/openInBrowserCurrentTab2',
+                icon: 'menu-dict',
+                browser: true,
+                newTab: false,
+              },
+              {
+                id: '16598651170467851',
+                title: '当前标签页打开3',
+                path: '/demo/externallink/openInBrowserCurrentTab3',
+                icon: 'menu-dict',
+                browser: true,
+                newTab: false,
+              },
+            ],
+          },
+          {
+            id: '16598651170467856',
+            title: '系统标签页(不支持)',
+            icon: 'menu-dict',
+            disabled: true,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: '16598651170467862',
+    title: '进阶示例',
+    icon: 'menu-dict',
+    children: [
+      {
+        id: '16598651170467857',
+        title: '标签页内Route',
+        path: '/advancedemo/tabviewroute',
+        icon: 'menu-dict',
+      },
+      {
+        id: '16598651170467860',
+        title: '非Menu Route',
+        path: '/advancedemo/nonmenuroute',
+        icon: 'menu-dict',
       },
     ],
   },

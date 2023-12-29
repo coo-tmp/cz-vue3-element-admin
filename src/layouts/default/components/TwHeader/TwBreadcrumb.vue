@@ -1,89 +1,123 @@
-<!-- <template>
-  <el-breadcrumb class="h-[50px] flex items-center">
-    <transition-group name="breadcrumb">
-      <el-breadcrumb-item v-for="(item, index) in breadcrumbs" :key="item.path">
-        <span v-if="item.redirect === 'noredirect' || index === breadcrumbs.length - 1" class="text-[var(--el-disabled-text-color)]">{{ item.meta.title }}</span>
-        <a v-else @click.prevent="handleLink(item)">
-          {{ item.meta.title }}
-        </a>
-      </el-breadcrumb-item>
-    </transition-group>
-  </el-breadcrumb>
+<template>
+  <ElBreadcrumb>
+    <TransitionGroup name="breadcrumb">
+      <ElBreadcrumbItem v-for="item in breadcrumbs" :key="item.id">
+        <template v-if="!isInMenus(item)">
+          {{ item.title }}
+        </template>
+
+        <TwLink v-else :to="item.path as string">sdsds</TwLink>
+      </ElBreadcrumbItem>
+    </TransitionGroup>
+  </ElBreadcrumb>
 </template>
 
 <script setup lang="ts">
-import { onBeforeMount, ref, watch } from 'vue';
-import { useRoute, RouteLocationMatched } from 'vue-router';
-import { compile } from 'path-to-regexp';
+import { ref, watch } from 'vue';
 import RouterService from '@/router/RouterService';
+import type { IMenuItem } from '../TwSidebar/types';
+import menuStore from '@/stores/modules/menuStore';
+import TwLink from '@/components/TwLink/index.vue';
 
-const currentRoute = useRoute();
-const pathCompile = (path: string) => {
-  const { params } = currentRoute;
-  const toPath = compile(path);
-  return toPath(params);
-};
-
-const breadcrumbs = ref([] as Array<RouteLocationMatched>);
-
-function getBreadcrumb() {
-  let matched = currentRoute.matched.filter((item) => item.meta && item.meta.title);
-  const first = matched[0];
-  if (!isDashboard(first)) {
-    matched = [{ path: '/dashboard', meta: { title: 'dashboard' } } as any].concat(matched);
-  }
-  breadcrumbs.value = matched.filter((item) => {
-    return item.meta && item.meta.title && item.meta.breadcrumb !== false;
-  });
-}
-
-function isDashboard(route: RouteLocationMatched) {
-  const name = route && route.name;
-  if (!name) {
-    return false;
-  }
-  return name.toString().trim().toLocaleLowerCase() === 'Dashboard'.toLocaleLowerCase();
-}
-
-function handleLink(item: any) {
-  const { redirect, path } = item;
-  if (redirect) {
-    RouterService.router.push(redirect).catch((err) => {
-      console.warn(err);
-    });
-    return;
-  }
-  RouterService.router.push(pathCompile(path)).catch((err) => {
-    console.warn(err);
-  });
-}
-
+const breadcrumbs = ref<IMenuItem[]>([]);
 watch(
-  () => currentRoute.path,
+  () => RouterService.router.currentRoute.value.path,
   (path) => {
-    if (path.startsWith('/redirect/')) {
-      return;
-    }
-    getBreadcrumb();
+    breadcrumbs.value = getBreadcrumbs(path, menuStore.menus);
   },
 );
 
-onBeforeMount(() => {
-  getBreadcrumb();
-});
+function getMatchedMenuPath(val: string, item: IMenuItem, matchedTree: IMenuItem[]): IMenuItem[] | null {
+  if (item.path && item.path === val) {
+    return matchedTree.concat(item);
+  }
+
+  if (item.children) {
+    for (const it of item.children) {
+      const matched = getMatchedMenuPath(val, it, matchedTree.concat(item));
+      if (matched) {
+        return matched;
+      }
+    }
+  }
+
+  return null;
+}
+
+function getMenuBreadcrumbs(val: string, items: IMenuItem[]): IMenuItem[] | null {
+  for (const item of items) {
+    const matched: IMenuItem[] | null = getMatchedMenuPath(val, item, []);
+    if (matched) {
+      return matched;
+    }
+  }
+  return null;
+}
+
+/**
+ * menu配置path可能是route redirect前的path，所以需要获取真实的menu path
+ * @param menus
+ */
+function getTruthMenuRouteBreadcrumbs(menus: IMenuItem[]): IMenuItem[] | null {
+  for (const menu of menus) {
+    for (const item of RouterService.router.currentRoute.value.matched) {
+      if (menu.path && menu.path === item.path) {
+        const matched: IMenuItem[] | null = getMenuBreadcrumbs(menu.path, menus);
+        if (matched) {
+          return matched;
+        }
+      }
+    }
+  }
+
+  return null;
+}
+
+function getBreadcrumbs(val: string, menus: IMenuItem[]): IMenuItem[] {
+  const matched: IMenuItem[] | null = getMenuBreadcrumbs(val, menus);
+  if (matched) {
+    return matched;
+  }
+
+  const matchedRoutes = RouterService.router.currentRoute.value.matched.filter((item) => {
+    return item.path === val;
+  });
+
+  if (matchedRoutes.length === 0) {
+    return [];
+  }
+
+  const truthMenuRoute: IMenuItem[] | null = getTruthMenuRouteBreadcrumbs(menus);
+  if (truthMenuRoute) {
+    return truthMenuRoute;
+  }
+
+  // 非menu redirect的路由，即非Menu Route
+  const items: IMenuItem[] = [];
+  RouterService.router.currentRoute.value.matched.forEach((item) => {
+    if (item.meta && item.meta.title) {
+      items.push({
+        id: item.path,
+        title: item.meta.title as string,
+        path: item.path,
+      });
+    }
+  });
+  return items;
+}
+
+function isInMenus(val: IMenuItem) {
+  return menuStore.menus.some((item) => {
+    return item.path && val.path && item.path === val.path;
+  });
+}
 </script>
 
-<style lang="scss" scoped>
-.app-breadcrumb.el-breadcrumb {
-  display: inline-block;
-  margin-left: 8px;
-  font-size: 14px;
-  line-height: 50px;
+<style lang="scss">
+.el-breadcrumb {
+  .el-breadcrumb__inner,
+  .el-breadcrumb__separator {
+    color: var(--el-text-color-placeholder) !important;
+  }
 }
-
-// 覆盖 element-plus 的样式
-.el-breadcrumb__inner,
-.el-breadcrumb__inner a {
-  font-weight: 400 !important;
-}
-</style> -->
+</style>

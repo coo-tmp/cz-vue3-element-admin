@@ -4,7 +4,7 @@
       <div class="hamburger-wrapper" @click="appStore.toggleSidebar">
         <SvgIcon name="layouts-hamburger" :size="svgSize" class="hamburger" :class="{ 'is-active': appStore.sidebar.opened }" />
       </div>
-      <!-- <TwBreadcrumb v-if="appStore.screen.widthType !== ScreenWidthType.Small" /> -->
+      <TwBreadcrumb v-if="appStore.screen.widthType !== ScreenWidthType.Small" />
     </div>
     <div class="header-action">
       <span @click="toggle">
@@ -38,7 +38,7 @@ import appStore from '@/stores/modules/appStore';
 import SvgIcon from '@/components/SvgIcon/index.vue';
 import { ArrowDown } from '@element-plus/icons-vue';
 import { ElMessage } from 'element-plus';
-// import TwBreadcrumb from './TwBreadcrumb.vue';
+import TwBreadcrumb from './TwBreadcrumb.vue';
 import { ScreenWidthType } from '@/types';
 
 const { isFullscreen, toggle } = useFullscreen();

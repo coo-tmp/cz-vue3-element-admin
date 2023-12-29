@@ -3,6 +3,7 @@
 import type { RouteRecordRaw } from 'vue-router';
 import type { App } from 'vue';
 import { createRouter, createWebHashHistory } from 'vue-router';
+import component from 'element-plus/es/components/tree-select/src/tree-select-option.mjs';
 
 const DEFAULT_LAYOUT = () => import('@/layouts/default/index.vue');
 
@@ -12,6 +13,40 @@ const constantRoutes: RouteRecordRaw[] = [
     path: '/',
     name: 'root',
     redirect: '/dashboard',
+  },
+  {
+    path: '/xxx/advancedemo/nonmenuroutedetail',
+    component: DEFAULT_LAYOUT,
+    redirect: '/xxx/advancedemo/nonmenuroutedetail/level1',
+    meta: {
+      title: '非Menu Route',
+    },
+    children: [
+      {
+        path: '/xxx/advancedemo/nonmenuroutedetail/level1',
+        redirect: '/xxx/advancedemo/nonmenuroutedetail/level1/level11',
+        meta: {
+          title: '二级菜单',
+        },
+        children: [
+          {
+            path: '/xxx/advancedemo/nonmenuroutedetail/level1/level11',
+            meta: {
+              breadcrumb: false, // 默认为true。设置为false，表示不在Breadcrumb路径上显示
+            },
+            children: [
+              {
+                path: '/advancedemo/nonmenuroutedetail',
+                component: () => import('@/views/testing/nonmenuroutedetail.vue'),
+                meta: {
+                  title: '非Menu Route示例', // 需要在末端节点设置title，否则会给用户造成困惑
+                },
+              },
+            ],
+          },
+        ],
+      },
+    ],
   },
 ];
 
@@ -49,120 +84,186 @@ const menuRoutes: RouteRecordRaw[] = [
     ],
   },
   {
-    name: '外链',
-    path: '/xxx-1',
+    path: '/xxx/advancedemo/tabviewroute/redirect',
+    component: DEFAULT_LAYOUT,
+    redirect: '/advancedemo/tabviewroute',
     meta: {
-      id: '3',
+      title: ' 标签页内Route',
     },
     children: [
       {
-        name: '浏览器标签页',
-        path: '/xxx-2',
-        meta: {
-          id: '3-1',
+        path: '/advancedemo/tabviewroute',
+        component: () => import('@/views/testing/test.vue'),
+        props: {
+          message: '标签页内Route',
         },
-        children: [
-          {
-            name: '新标签页打开1',
-            path: '/externallink/browser/openInBlank',
-            beforeEnter(to, from, next) {
-              window.open('https://www.bing.com', '_blank');
-            },
-            component: () => {},
-            meta: {
-              id: '3-1-1',
-            },
-          },
-          {
-            name: '当前标签页打开1',
-            path: '/externallink/browser/openInCurrentTab',
-            beforeEnter(to, from, next) {
-              window.location.href = 'https://www.bing.com';
-            },
-            component: () => {},
-            meta: {
-              id: '3-1-3',
-            },
-          },
-          {
-            name: '当前标签页打开2',
-            path: '/externallink/browser/openInCurrentTab2',
-            beforeEnter(to, from, next) {
-              window.location.replace('https://www.bing.com');
-            },
-            component: () => {},
-            meta: {
-              id: '3-1-4',
-            },
-          },
-        ],
+      },
+      {
+        path: '/demo/routelink/openInBrowserNewTab2',
+        component: () => import('@/views/testing/test.vue'),
+        props: {
+          message: '内链(Route): 【浏览器】新标签页打开',
+        },
+        beforeEnter(to, from, next) {
+          window.open(router.resolve(to).href, '_blank');
+        },
+        meta: {
+          id: '16598651166273543',
+          title: '内链(Route): 【浏览器】新标签页打开',
+        },
       },
     ],
   },
   {
-    name: '多级菜单',
-    path: '/xxx-4',
+    path: '/xxx/advancedemo/nonmenuroute/redirect',
     component: DEFAULT_LAYOUT,
+    redirect: '/advancedemo/nonmenuroute',
     meta: {
-      id: '4',
+      title: '非Menu Route',
     },
     children: [
       {
-        name: '一级菜单1',
-        path: '/multmenu/level41',
+        path: '/advancedemo/nonmenuroute',
+        component: () => import('@/views/testing/nonmenuroute.vue'),
+      },
+    ],
+  },
+  {
+    path: '/xxx/advancedemo/subrouteinmenu/redirect',
+    component: DEFAULT_LAYOUT,
+    redirect: '/advancedemo/subrouteinmenu',
+    children: [
+      {
+        path: '/advancedemo/subrouteinmenu',
+        component: () => import('@/views/testing/SubRouteInMenu.vue'),
+      },
+    ],
+  },
+];
+
+// 【路由结构与menu结构无关】示例
+const menuRouteLinkRoutes: RouteRecordRaw[] = [
+  {
+    path: '/demo/routelink/openInBrowserNewTab',
+    component: () => import('@/views/testing/test.vue'),
+    props: {
+      message: '内链(Route): 【浏览器】新标签页打开',
+    },
+    meta: {
+      id: '16598651166273543',
+      title: '内链(Route): 【浏览器】新标签页打开',
+    },
+  },
+  {
+    path: '/demo/routelink/openInBrowserCurrentTab',
+    component: () => import('@/views/testing/test.vue'),
+    props: {
+      message: '内链(Route): 【浏览器】当前标签页打开',
+    },
+    meta: {
+      id: '16598651166273544',
+      title: '内链(Route): 【浏览器】当前标签页打开',
+    },
+  },
+  {
+    path: '/demo/routelink/openInSystemNewTab/redirect',
+    component: DEFAULT_LAYOUT,
+    redirect: '/demo/routelink/openInSystemNewTab',
+    props: {
+      message: '内链(Route): 【系统】新标签页打开',
+    },
+    children: [
+      {
+        path: '/demo/routelink/openInSystemNewTab',
         component: () => import('@/views/testing/test.vue'),
         props: {
-          message: '一级菜单1',
-        },
-        meta: {
-          id: '4-1',
+          message: '内链(Route): 【系统】新标签页打开',
         },
       },
+    ],
+    meta: {
+      id: '16598651166273546',
+      title: '内链(Route): 【系统】新标签页打开',
+    },
+  },
+  {
+    path: '/demo/routelink/openInSystemCurrentTab/redirect',
+    component: DEFAULT_LAYOUT,
+    redirect: '/demo/routelink/openInSystemCurrentTab',
+    children: [
       {
-        name: '一级菜单2',
-        path: '/xxx-5',
+        path: '/demo/routelink/openInSystemCurrentTab',
+        component: () => import('@/views/testing/test.vue'),
+        props: {
+          message: '内链(Route): 【系统】当前标签页打开',
+        },
+      },
+    ],
+    meta: {
+      id: '16598651166273547',
+      title: '内链(Route): 【系统】当前标签页打开',
+    },
+  },
+];
+
+// 【路由结构与menu结构无关】，也可与menu相同（不受menu结构影响）
+const menuExternallinkRoutes: RouteRecordRaw[] = [
+  {
+    path: '/xxx/demo',
+    meta: {
+      title: '示例',
+    },
+    children: [
+      {
+        path: '/xxx/demo/externallink',
         meta: {
-          id: '4-2',
+          title: '外链：内链(Route)实现',
         },
         children: [
           {
-            name: '二级菜单1',
-            path: '/multmenu/level42/level421',
-            component: () => import('@/views/testing/test.vue'),
-            props: {
-              message: '二级菜单1',
-            },
+            path: '/xxx/demo/externallink',
             meta: {
-              id: '4-2-1',
-            },
-          },
-          {
-            name: '二级菜单2',
-            path: '/xxx-6',
-            meta: {
-              id: '4-2-2',
+              title: '外链：内链(Route)实现: 【浏览器】浏览器标签页',
             },
             children: [
               {
-                name: '三级菜单1',
-                path: '/multmenu/level42/level422/level4221',
-                component: () => import('@/views/testing/test.vue'),
-                props: {
-                  message: '三级菜单1',
+                path: '/demo/externallink/openInBrowserNewTab',
+                beforeEnter(to, from, next) {
+                  window.open('https://www.bing.com', '_blank');
                 },
+                component: () => {},
                 meta: {
-                  id: '4-2-2-1',
+                  title: '外链：内链(Route)实现: 【浏览器】新标签页打开',
                 },
               },
               {
-                name: '三级菜单2',
-                path: '/multmenu/level42/level422/level4222',
-                component: () => import('@/views/testing/test.vue'),
-                props: {
-                  message: '三级菜单2',
+                path: '/demo/externallink/openInBrowserCurrentTab1',
+                beforeEnter(to, from, next) {
+                  window.open('https://www.bing.com', '_self');
                 },
+                component: () => {},
                 meta: {
-                  id: '4-2-2-2',
+                  title: '外链：内链(Route)实现: 【浏览器】当前标签页打开1',
+                },
+              },
+              {
+                path: '/demo/externallink/openInBrowserCurrentTab2',
+                beforeEnter(to, from, next) {
+                  window.location.href = 'https://www.bing.com';
+                },
+                component: () => {},
+                meta: {
+                  title: '外链：内链(Route)实现: 【浏览器】当前标签页打开2',
+                },
+              },
+              {
+                path: '/demo/externallink/openInBrowserCurrentTab3',
+                beforeEnter(to, from, next) {
+                  window.location.replace('https://www.bing.com');
+                },
+                component: () => {},
+                meta: {
+                  title: '外链：内链(Route)实现: 【浏览器】当前标签页打开3',
                 },
               },
             ],
@@ -173,7 +274,7 @@ const menuRoutes: RouteRecordRaw[] = [
   },
 ];
 
-const allRoutes = [...constantRoutes, ...menuRoutes];
+const allRoutes = [...constantRoutes, ...menuRoutes, ...menuRouteLinkRoutes, ...menuExternallinkRoutes];
 
 const router = createRouter({
   routes: allRoutes as RouteRecordRaw[],
