@@ -64,4 +64,12 @@ function hasChild(item: IMenuItem) {
 .svg-icon {
   margin-right: 8px;
 }
+
+::v-deep.el-link {
+  display: block;
+
+  .el-link__inner {
+    display: block !important;
+  }
+}
 </style>

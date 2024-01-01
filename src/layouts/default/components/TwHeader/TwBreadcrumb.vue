@@ -1,12 +1,11 @@
 <template>
   <ElBreadcrumb>
     <TransitionGroup name="breadcrumb">
-      <ElBreadcrumbItem v-for="item in breadcrumbs" :key="item.id">
-        <template v-if="!isInMenus(item)">
+      <ElBreadcrumbItem v-for="item in breadcrumbs" :key="item.title">
+        <TwLink v-if="item.path" :to="item.path">{{ item.title }}</TwLink>
+        <template v-else>
           {{ item.title }}
         </template>
-
-        <TwLink v-else :to="item.path as string">sdsds</TwLink>
       </ElBreadcrumbItem>
     </TransitionGroup>
   </ElBreadcrumb>
@@ -18,8 +17,11 @@ import RouterService from '@/router/RouterService';
 import type { IMenuItem } from '../TwSidebar/types';
 import menuStore from '@/stores/modules/menuStore';
 import TwLink from '@/components/TwLink/index.vue';
+import { IBreadcrumbMode, type IBreadcrumbMenuItemMode, type IBreadcrumbRaw } from '@/types/RouterMeta/IBreadcrumb';
+import type { RouteLocationNormalizedLoaded } from 'vue-router';
 
-const breadcrumbs = ref<IMenuItem[]>([]);
+const breadcrumbs = ref<IBreadcrumbRaw[]>([]);
+
 watch(
   () => RouterService.router.currentRoute.value.path,
   (path) => {
@@ -27,78 +29,57 @@ watch(
   },
 );
 
-function getMatchedMenuPath(val: string, item: IMenuItem, matchedTree: IMenuItem[]): IMenuItem[] | null {
-  if (item.path && item.path === val) {
-    return matchedTree.concat(item);
+function getBreadcrumbs(path: string, menus: IMenuItem[]): IBreadcrumbRaw[] {
+  const router = RouterService.router.currentRoute.value;
+  const meta = router.meta;
+
+  // 未设置自定义Breadcrumb
+  if (!meta || !meta.breadcrumb) {
+    return buildFromMenu(path, menus);
   }
 
-  if (item.children) {
-    for (const it of item.children) {
-      const matched = getMatchedMenuPath(val, it, matchedTree.concat(item));
-      if (matched) {
-        return matched;
-      }
-    }
+  let breadcrumbs: IBreadcrumbRaw[] = [];
+  switch (meta.breadcrumb.mode) {
+    case IBreadcrumbMode.MenuItemMode:
+      breadcrumbs = buildFromMenuItemMode(router, meta.breadcrumb.menuPath, menus);
+      break;
+    case IBreadcrumbMode.RouteMode:
+      breadcrumbs = buildFromRouteMode(router);
+      break;
+    case IBreadcrumbMode.FreeMode:
+      breadcrumbs = buildFromFreeMode(router);
+      break;
   }
-
-  return null;
-}
-
-function getMenuBreadcrumbs(val: string, items: IMenuItem[]): IMenuItem[] | null {
-  for (const item of items) {
-    const matched: IMenuItem[] | null = getMatchedMenuPath(val, item, []);
-    if (matched) {
-      return matched;
-    }
-  }
-  return null;
+  return breadcrumbs;
 }
 
 /**
- * menu配置path可能是route redirect前的path，所以需要获取真实的menu path
- * @param menus
+ * 获取基于menus的Breadcrumbs
+ *
+ * @param path
+ * @param items
+ * @returns null-未匹配到；非null-匹配到的Breadcrumb路径
  */
-function getTruthMenuRouteBreadcrumbs(menus: IMenuItem[]): IMenuItem[] | null {
-  for (const menu of menus) {
-    for (const item of RouterService.router.currentRoute.value.matched) {
-      if (menu.path && menu.path === item.path) {
-        const matched: IMenuItem[] | null = getMenuBreadcrumbs(menu.path, menus);
-        if (matched) {
-          return matched;
-        }
-      }
+function buildFromMenu(path: string, menus: IMenuItem[]): IBreadcrumbRaw[] {
+  for (const item of menus) {
+    const matched: IBreadcrumbRaw[] = getMatchedMenuPath(path, item, []);
+    if (matched.length > 0) {
+      return matched;
     }
   }
-
-  return null;
+  return [];
 }
 
-function getBreadcrumbs(val: string, menus: IMenuItem[]): IMenuItem[] {
-  const matched: IMenuItem[] | null = getMenuBreadcrumbs(val, menus);
-  if (matched) {
-    return matched;
-  }
-
-  const matchedRoutes = RouterService.router.currentRoute.value.matched.filter((item) => {
-    return item.path === val;
-  });
-
-  if (matchedRoutes.length === 0) {
-    return [];
-  }
-
-  const truthMenuRoute: IMenuItem[] | null = getTruthMenuRouteBreadcrumbs(menus);
-  if (truthMenuRoute) {
-    return truthMenuRoute;
-  }
-
-  // 非menu redirect的路由，即非Menu Route
-  const items: IMenuItem[] = [];
-  RouterService.router.currentRoute.value.matched.forEach((item) => {
-    if (item.meta && item.meta.title) {
+/**
+ * 获取基于Route的Breadcrumbs
+ * @param router
+ */
+function buildFromRouteMode(router: RouteLocationNormalizedLoaded): IBreadcrumbRaw[] {
+  const items: IBreadcrumbRaw[] = [];
+  router.matched.forEach((item) => {
+    if (item.meta && item.meta.breadcrumb && item.meta.breadcrumb.title) {
       items.push({
-        id: item.path,
-        title: item.meta.title as string,
+        title: item.meta.breadcrumb.title,
         path: item.path,
       });
     }
@@ -106,15 +87,77 @@ function getBreadcrumbs(val: string, menus: IMenuItem[]): IMenuItem[] {
   return items;
 }
 
-function isInMenus(val: IMenuItem) {
-  return menuStore.menus.some((item) => {
-    return item.path && val.path && item.path === val.path;
-  });
+function getMatchedMenuPath(path: string, item: IMenuItem, matchedTree: IBreadcrumbRaw[]): IBreadcrumbRaw[] {
+  if (item.path && item.path === path) {
+    matchedTree.push({
+      title: item.title,
+      path: item.path,
+    });
+    return matchedTree;
+  }
+
+  if (item.children) {
+    matchedTree.push({
+      title: item.title,
+      path: item.path,
+    });
+    for (const it of item.children) {
+      const matched = getMatchedMenuPath(path, it, matchedTree);
+      if (matched.length > 0) {
+        return matched;
+      }
+    }
+  }
+
+  return [];
+}
+
+function buildFromMenuItemMode(router: RouteLocationNormalizedLoaded, menuPath: string, menus: IMenuItem[]): IBreadcrumbRaw[] {
+  if (!menuPath) {
+    return [];
+  }
+
+  let breadcrumbs: IBreadcrumbRaw[] = buildFromMenu(menuPath, menus);
+  if (!router.meta || !router.meta.breadcrumb) {
+    return breadcrumbs;
+  }
+
+  breadcrumbs.push(...buildFromFreeMode(router));
+  return breadcrumbs;
+}
+
+function buildFromFreeMode(router: RouteLocationNormalizedLoaded): IBreadcrumbRaw[] {
+  let breadcrumbs: IBreadcrumbRaw[] = [];
+  if (!router.meta || !router.meta.breadcrumb) {
+    return breadcrumbs;
+  }
+
+  const parents = (router.meta.breadcrumb as IBreadcrumbMenuItemMode).parents;
+  breadcrumbs.push(...getParentsNode([], parents));
+
+  if (router.meta.breadcrumb.title) {
+    breadcrumbs.push({
+      title: router.meta.breadcrumb.title,
+    });
+  }
+  return breadcrumbs;
+}
+
+function getParentsNode(matchedTree: IBreadcrumbRaw[], item?: IBreadcrumbRaw): IBreadcrumbRaw[] {
+  if (!item) {
+    return matchedTree;
+  }
+
+  matchedTree.push(item);
+  return getParentsNode(matchedTree, item.child);
 }
 </script>
 
 <style lang="scss">
 .el-breadcrumb {
+  display: flex;
+  text-align: center;
+
   .el-breadcrumb__inner,
   .el-breadcrumb__separator {
     color: var(--el-text-color-placeholder) !important;

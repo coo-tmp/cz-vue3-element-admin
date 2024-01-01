@@ -230,8 +230,8 @@ const menus: IMenuItem[] = [
       },
       {
         id: '16598651170467860',
-        title: '非Menu Route',
-        path: '/advancedemo/nonmenuroute',
+        title: '自定义Breadcrumb',
+        path: '/advancedemo/breadcrumb',
         icon: 'menu-dict',
       },
     ],

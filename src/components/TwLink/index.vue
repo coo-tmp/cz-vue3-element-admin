@@ -1,20 +1,7 @@
 <template>
-  <template v-if="disabled">
-    <div class="tw-link">
-      <slot />
-    </div>
-  </template>
-  <template v-else>
-    <!-- <a v-if="!browser && DomUtil.isExternal(to)" :href="to" target="_blank">
-      <slot />
-    </a>
-    <div v-else @click="push">
-      <slot />
-    </div> -->
-    <div class="tw-link" @click="handleClick">
-      <slot />
-    </div>
-  </template>
+  <ElLink class="tw-link" :type="type" :underline="underline" :disabled="disabled" @click="handleClick">
+    <slot />
+  </ElLink>
 </template>
 
 <script lang="ts" setup>
@@ -26,6 +13,12 @@ import { ScreenWidthType } from '@/types';
 import RouterService from '@/router/RouterService';
 
 const props = defineProps({
+  type: {
+    type: String,
+    required: false,
+    values: ['primary', 'success', 'warning', 'info', 'danger', 'default'],
+    default: 'primary',
+  },
   to: {
     type: String,
     required: true,
@@ -52,6 +45,12 @@ const props = defineProps({
     type: Boolean,
     required: false,
     default: true,
+  },
+
+  underline: {
+    type: Boolean,
+    required: false,
+    default: false,
   },
 
   disabled: {
@@ -132,13 +131,4 @@ const routeLinkHandler = {
 };
 </script>
 
-<style lang="scss" scoped>
-a {
-  text-decoration: none;
-}
-
-div {
-  display: inline;
-  cursor: pointer;
-}
-</style>
+<style lang="scss" scoped></style>
