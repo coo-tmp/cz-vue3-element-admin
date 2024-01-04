@@ -7,7 +7,7 @@ export interface IHttpApiResponse<T> {
   /** 提示信息 */
   message: string;
   /** 应答消息体 */
-  data: T;
+  data?: T;
 }
 
 export interface IHttpApiError<T> {
