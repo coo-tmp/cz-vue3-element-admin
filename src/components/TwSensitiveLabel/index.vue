@@ -1,5 +1,6 @@
 <template>
   <span>{{ displayValue }}</span>
+  <SvgIcon v-if="!props.disabled" :name="show ? 'basic-eye_close' : 'basic-eye_open'" @click="toggleEnable" />
 </template>
 
 <script lang="ts">
@@ -21,6 +22,7 @@ enum DesensitiveMode {
 
 <script setup lang="ts">
 import { ref, watch } from 'vue';
+import SvgIcon from '@/components/SvgIcon/index.vue';
 
 const props = defineProps({
   /**
@@ -131,21 +133,40 @@ const props = defineProps({
     required: false,
     default: 2,
   },
+
+  disabled: {
+    type: Boolean,
+    required: false,
+    default: false,
+  },
 });
 
 const displayValue = ref('');
+const show = ref(props.disabled);
 
 watch(
-  () => [props.raw, props.replace, props.displayMode, props.displayLength, props.type, props.mode, props.start, props.end],
+  () => [props.raw, props.replace, props.displayMode, props.displayLength, props.type, props.mode, props.start, props.end, props.disabled],
   () => {
+    show.value = !props.disabled;
     onInput();
   },
 );
+
+function toggleEnable() {
+  show.value = !show.value;
+  console.log('ddddddddddddd', show.value);
+  onInput();
+}
 
 function onInput() {
   let result = '';
   if (props.raw.length <= 0) {
     displayValue.value = result;
+    return;
+  }
+
+  if (props.disabled || !show.value) {
+    displayValue.value = props.raw;
     return;
   }
 
@@ -275,8 +296,9 @@ function fixContent_part(): string {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .svg-icon {
   cursor: pointer;
+  margin-left: 4px;
 }
 </style>
