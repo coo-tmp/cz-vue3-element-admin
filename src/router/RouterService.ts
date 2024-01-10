@@ -3,27 +3,9 @@
 import type { RouteRecordRaw } from 'vue-router';
 import type { App } from 'vue';
 import { createRouter, createWebHashHistory } from 'vue-router';
-import menuRoutes from "./modules/menuRoutes";
-import breadcrumbRoutes from "./modules/breadcrumbRoutes"
-import { DEFAULT_LAYOUT } from './variables';
-
-
-const constantRoutes: RouteRecordRaw[] = [
-  // 将路由配置添加到此处
-  {
-    path: '/',
-    component: DEFAULT_LAYOUT,
-    redirect: '/dashboard',
-    children: [
-      {
-        path: '/dashboard',
-        component: () => import('@/views/dashboard/index.vue'),
-      },
-    ],
-  },
-];
-
-const allRoutes = [...constantRoutes, ...menuRoutes, ...breadcrumbRoutes];
+import RouterGuard from './guard/index';
+import allRoutes from './route/index';
+import whiteListRoutes from './whiteListRoutes';
 
 const router = createRouter({
   routes: allRoutes as RouteRecordRaw[],
