@@ -1,6 +1,7 @@
 <template>
+  <slot v-if="displayValue.length > 0" name="prefix" />
   <span>{{ displayValue }}</span>
-  <SvgIcon v-if="!props.disabled" :name="show ? 'basic-eye_close' : 'basic-eye_open'" @click="toggleEnable" />
+  <SvgIcon v-if="!props.disabled && displayValue.length > 0" :name="show ? 'basic-eye_close' : 'basic-eye_open'" @click="toggleEnable" />
 </template>
 
 <script lang="ts">
@@ -154,7 +155,6 @@ watch(
 
 function toggleEnable() {
   show.value = !show.value;
-  console.log('ddddddddddddd', show.value);
   onInput();
 }
 

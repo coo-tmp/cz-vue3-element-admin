@@ -3,13 +3,13 @@ import { DEFAULT_LAYOUT } from '../../variables';
 
 const routes: RouteRecordRaw[] = [
   {
-    path: '/demo/desensitive/label/redirect',
+    path: '/demo/desensitive/text/redirect',
     component: DEFAULT_LAYOUT,
-    redirect: '/demo/desensitive/label',
+    redirect: '/demo/desensitive/text',
     children: [
       {
-        path: '/demo/desensitive/label',
-        component: () => import('@/views/demo/desensitive/label.vue'),
+        path: '/demo/desensitive/text',
+        component: () => import('@/views/demo/desensitive/text.vue'),
       },
     ],
   },

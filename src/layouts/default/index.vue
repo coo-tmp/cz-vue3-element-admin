@@ -217,13 +217,13 @@ const menus: IMenuItem[] = [
       },
       {
         id: '21026387385397263',
-        title: '敏感数据脱敏',
+        title: '脱敏示例',
         icon: 'menu-dict',
         children: [
           {
             id: '21026387385397264',
-            title: 'Label脱敏',
-            path: '/demo/desensitive/label',
+            title: 'Text脱敏',
+            path: '/demo/desensitive/text',
             icon: 'menu-dict',
           },
         ],

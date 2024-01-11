@@ -16,12 +16,19 @@
         :start="formObj.start"
         :end="formObj.end"
         :disabled="!formObj.enabled"
-      />
+      >
+        <template v-slot:prefix>
+          <SvgIcon v-if="formObj.enabledPrefix" name="menu-dict" />
+        </template>
+      </TwSensitiveLabel>
     </ElFormItem>
 
     <ElDivider content-position="left">设置</ElDivider>
     <ElFormItem label="启用状态" required>
       <el-switch v-model="formObj.enabled" />
+    </ElFormItem>
+    <ElFormItem label="启用图标" required>
+      <el-switch v-model="formObj.enabledPrefix" />
     </ElFormItem>
 
     <template v-if="formObj.enabled">
@@ -64,7 +71,8 @@
 <script setup lang="ts">
 import { ElInput } from 'element-plus';
 import { reactive } from 'vue';
-import TwSensitiveLabel from '@/components/TwSensitiveLabel/index.vue';
+import TwSensitiveLabel from '@/components/TwSensitiveText/index.vue';
+import SvgIcon from '@/components/SvgIcon/index.vue';
 
 //初始表单数据
 let formObj = reactive({
@@ -79,6 +87,7 @@ let formObj = reactive({
   start: 2,
   end: 2,
   enabled: true,
+  enabledPrefix: true,
 });
 </script>
 
