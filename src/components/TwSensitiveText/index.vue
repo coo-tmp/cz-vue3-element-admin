@@ -1,7 +1,9 @@
 <template>
-  <slot v-if="displayValue.length > 0" name="prefix" />
-  <span>{{ displayValue }}</span>
-  <SvgIcon v-if="!props.disabled && displayValue.length > 0" :name="show ? 'basic-eye_close' : 'basic-eye_open'" @click="toggleEnable" />
+  <span class="tw-sensitive-text">
+    <slot v-if="displayValue.length > 0" name="prefix" />
+    <span>{{ displayValue }}</span>
+    <SvgIcon v-if="!props.disabled && displayValue.length > 0" :name="show ? 'basic-eye_open' : 'basic-eye_close'" @click="toggleEnable" />
+  </span>
 </template>
 
 <script lang="ts">
@@ -22,7 +24,7 @@ enum DesensitiveMode {
 </script>
 
 <script setup lang="ts">
-import { ref, watch } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import SvgIcon from '@/components/SvgIcon/index.vue';
 
 const props = defineProps({
@@ -53,7 +55,7 @@ const props = defineProps({
   displayMode: {
     type: String,
     required: false,
-    defalt: DisplayMode.followContent,
+    default: DisplayMode.followContent,
     validator(value: string) {
       switch (value) {
         case DisplayMode.fixLength:
@@ -148,10 +150,14 @@ const show = ref(props.disabled);
 watch(
   () => [props.raw, props.replace, props.displayMode, props.displayLength, props.type, props.mode, props.start, props.end, props.disabled],
   () => {
-    show.value = !props.disabled;
+    show.value = props.disabled;
     onInput();
   },
 );
+
+onMounted(() => {
+  onInput();
+});
 
 function toggleEnable() {
   show.value = !show.value;
@@ -159,26 +165,33 @@ function toggleEnable() {
 }
 
 function onInput() {
+  console.log('onInput=====', props.disabled);
   let result = '';
   if (props.raw.length <= 0) {
+    console.log('1111111111111');
     displayValue.value = result;
     return;
   }
 
-  if (props.disabled || !show.value) {
+  if (props.disabled || show.value) {
+    console.log('2222222222');
     displayValue.value = props.raw;
     return;
   }
 
+  console.log('aaaaaaaaa', props.displayMode);
   switch (props.displayMode) {
     case DisplayMode.followContent:
+      console.log('333333333');
       result = fixContent();
       break;
     case DisplayMode.fixLength:
+      console.log('44444444');
       result = fixLength();
       break;
   }
 
+  console.log('555555555555', displayValue.value);
   displayValue.value = result;
 }
 
@@ -297,6 +310,11 @@ function fixContent_part(): string {
 </script>
 
 <style lang="scss" scoped>
+.tw-sensitive-text {
+  display: inline-flex;
+  align-items: center;
+}
+
 .svg-icon {
   cursor: pointer;
   margin-left: 4px;
