@@ -6,7 +6,7 @@
     </ElFormItem>
 
     <ElFormItem label="脱敏后">
-      <TwSensitiveLabel
+      <TwSensitiveText
         :raw="formObj.rawData"
         :replace="formObj.replace"
         :display-mode="formObj.displayMode"
@@ -20,7 +20,7 @@
         <template v-slot:prefix>
           <SvgIcon v-if="formObj.enabledPrefix" name="menu-dict" />
         </template>
-      </TwSensitiveLabel>
+      </TwSensitiveText>
     </ElFormItem>
 
     <ElDivider content-position="left">设置</ElDivider>
@@ -71,7 +71,7 @@
 <script setup lang="ts">
 import { ElInput } from 'element-plus';
 import { reactive } from 'vue';
-import TwSensitiveLabel from '@/components/TwSensitiveText/index.vue';
+import TwSensitiveText from '@/components/TwSensitiveText/index.vue';
 import SvgIcon from '@/components/SvgIcon/index.vue';
 
 //初始表单数据

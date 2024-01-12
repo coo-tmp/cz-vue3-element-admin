@@ -1,5 +1,3 @@
-// All Replace
-
 import type { RouteRecordRaw } from 'vue-router';
 import type { App } from 'vue';
 import { createRouter, createWebHashHistory } from 'vue-router';
@@ -15,11 +13,17 @@ const router = createRouter({
 
 function setup(app: App<Element>) {
   app.use(router);
+  RouterGuard.setup(router);
+}
+
+function isWhiteList(path: string): boolean {
+  return whiteListRoutes.includes(path);
 }
 
 const RouterService = {
   router,
   setup,
+  isWhiteList,
 };
 
 export { router };

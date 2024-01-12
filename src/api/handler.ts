@@ -1,3 +1,4 @@
+import { ElMessage } from 'element-plus';
 import type { IHttpApiResponse } from './types';
 
 const handleGlobalHttpStatusError = (status: number): void => {
@@ -58,6 +59,7 @@ const handleGlobalBizError = (resp: IHttpApiResponse<any>): void => {
       console.log(`Business Error: ${resp.message}`);
       break;
     default:
+      ElMessage.error(`${resp.message}`);
   }
 };
 
