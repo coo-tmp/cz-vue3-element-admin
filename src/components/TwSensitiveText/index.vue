@@ -165,33 +165,26 @@ function toggleEnable() {
 }
 
 function onInput() {
-  console.log('onInput=====', props.disabled);
   let result = '';
   if (props.raw.length <= 0) {
-    console.log('1111111111111');
     displayValue.value = result;
     return;
   }
 
   if (props.disabled || show.value) {
-    console.log('2222222222');
     displayValue.value = props.raw;
     return;
   }
 
-  console.log('aaaaaaaaa', props.displayMode);
   switch (props.displayMode) {
     case DisplayMode.followContent:
-      console.log('333333333');
       result = fixContent();
       break;
     case DisplayMode.fixLength:
-      console.log('44444444');
       result = fixLength();
       break;
   }
 
-  console.log('555555555555', displayValue.value);
   displayValue.value = result;
 }
 
