@@ -8,11 +8,23 @@
           </span>
         </span>
         <div class="el-input__inner">
-          <ElText :class="isPlaceholder ? 'placeholder' : ''">{{ refDispaly }}</ElText>
+          <ElText :class="[isPlaceholder ? 'placeholder' : '', isSelected && !isPlaceholder ? 'el-text-selected' : '']">{{ refDispaly }}</ElText>
         </div>
       </div>
     </div>
-    <ElInput v-model="refRaw" v-bind="attrs" :minlength="minlength" :maxlength="maxlength" :placeholder="placeholder" :class="$style.input" @input="onInput" clearable>
+    <ElInput
+      v-model="refRaw"
+      v-bind="attrs"
+      :minlength="minlength"
+      :maxlength="maxlength"
+      :placeholder="placeholder"
+      :class="$style.input"
+      @input="onInput"
+      @click="selectAll($event)"
+      @blur="disselectAll()"
+      @focus="selectAll($event)"
+      clearable
+    >
       <template v-slot:suffix>
         <SvgIcon v-if="!props.disabled && refRaw && refRaw.length && refRaw.length > 0" :name="showRaw ? 'basic-eye_open' : 'basic-eye_close'" @click="toggleEnable" />
       </template>
@@ -126,6 +138,7 @@ const refRaw = ref();
 const refDispaly = ref();
 const showRaw = ref(props.disabled);
 const isPlaceholder = ref(false);
+const isSelected = ref(false);
 
 const attrs = useAttrs();
 
@@ -147,6 +160,8 @@ function toggleEnable() {
 }
 
 function onInput() {
+  disselectAll();
+
   if (!refRaw.value || refRaw.value.length === 0) {
     refDispaly.value = props.placeholder;
     isPlaceholder.value = true;
@@ -162,6 +177,15 @@ function onInput() {
   refDispaly.value = fixContent();
 }
 
+function selectAll(e: any) {
+  e.currentTarget.select();
+  isSelected.value = true;
+}
+
+function disselectAll() {
+  isSelected.value = false;
+}
+
 function fixContent(): string {
   switch (props.type) {
     case DesensitiveType.all:
@@ -169,7 +193,7 @@ function fixContent(): string {
     case DesensitiveType.part:
       return fixContent_part();
   }
-  
+
   return '';
 }
 
@@ -225,6 +249,11 @@ export default {
 
 .placeholder {
   color: var(--el-text-color-placeholder);
+}
+
+.el-text-selected {
+  background-color: #3165cf;
+  color: #ffffff;
 }
 </style>
 
