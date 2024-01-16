@@ -19,6 +19,7 @@
       <ElFormItem>
         <ElButton type="primary" @click="submitForm(ruleFormRef)"> 登&nbsp;&nbsp;&nbsp;&nbsp;录 </ElButton>
       </ElFormItem>
+      <ElFormItem> <span>用户名：Cooper 密码：123456</span></ElFormItem>
     </ElForm>
   </div>
 </template>
@@ -41,8 +42,8 @@ interface RuleForm {
 
 const ruleFormRef = ref<FormInstance>();
 const ruleForm = reactive<RuleForm>({
-  account: '',
-  password: '',
+  account: 'Cooper',
+  password: '123456',
 });
 
 const rules = reactive<FormRules<RuleForm>>({
@@ -73,8 +74,8 @@ const submitForm = async (form: FormInstance | undefined) => {
 function login() {
   HttpApi.token
     .create({
-      account: 'Cooper',
-      password: '123456',
+      account: ruleForm.account,
+      password: ruleForm.password,
     })
     .then((resp) => {
       const data = resp.data as TokenCreateResponse;
