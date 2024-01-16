@@ -10,7 +10,7 @@ const apis: IMockParam[] = [
     response: function (options: Record<string, unknown>): IHttpApiResponse<any> {
       const request = JSON.parse(options.body as string) as TokenCreateRequest;
 
-      if (!request || !request.account || !request.password || request.account !== 'Cooper' || request.password !== '123456') {
+      if (!request || !request.account || !request.password || request.account !== 'CooperAdmin' || request.password !== '123456') {
         return {
           requestId: '1',
           code: 400001,
