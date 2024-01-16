@@ -38,6 +38,11 @@ import SvgIcon from '@/components/SvgIcon/index.vue';
 import { DesensitiveType, DesensitiveMode } from '../TwSensitiveText/types';
 
 const props = defineProps({
+  modelValue: {
+    type: String,
+    required: true,
+  },
+
   /**
    * 替换字符。
    *
@@ -134,33 +139,41 @@ const props = defineProps({
   },
 });
 
-const refRaw = ref();
+const refRaw = ref(props.modelValue);
 const refDispaly = ref();
 const showRaw = ref(props.disabled);
 const isPlaceholder = ref(false);
 const isSelected = ref(false);
 
 const attrs = useAttrs();
+let emits = defineEmits(['update:modelValue']);
 
 watch(
-  () => [props.replace, props.type, props.mode, props.start, props.end, props.disabled],
+  () => [props.modelValue, props.replace, props.type, props.mode, props.start, props.end, props.disabled],
   () => {
     showRaw.value = props.disabled;
-    onInput();
+    refRaw.value = props.modelValue;
+    update();
   },
 );
 
 onMounted(() => {
-  onInput();
+  update();
 });
 
 function toggleEnable() {
   showRaw.value = !showRaw.value;
-  onInput();
+  update();
 }
 
-function onInput() {
+function onInput(value: string) {
+  refRaw.value = value;
+  update();
+}
+
+function update() {
   disselectAll();
+  emits('update:modelValue', refRaw.value);
 
   if (!refRaw.value || refRaw.value.length === 0) {
     refDispaly.value = props.placeholder;
