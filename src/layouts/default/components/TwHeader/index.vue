@@ -22,7 +22,7 @@
           <template #dropdown>
             <el-dropdown-menu>
               <el-dropdown-item command="a">个人中心</el-dropdown-item>
-              <el-dropdown-item command="e" divided>退出</el-dropdown-item>
+              <el-dropdown-item command="cmdLogout" divided>注销</el-dropdown-item>
             </el-dropdown-menu>
           </template>
         </el-dropdown>
@@ -37,16 +37,27 @@ import { useFullscreen } from '@vueuse/core';
 import appStore from '@/stores/modules/appStore';
 import SvgIcon from '@/components/SvgIcon/index.vue';
 import { ArrowDown } from '@element-plus/icons-vue';
-import { ElMessage } from 'element-plus';
 import TwBreadcrumb from './TwBreadcrumb.vue';
 import { ScreenWidthType } from '@/types';
+import userStore from '@/stores/modules/userStore';
+import { RoutePathEnum } from '@/router/RoutePathEnum';
+import RouterService from '@/router/RouterService';
 
 const { isFullscreen, toggle } = useFullscreen();
 
 const svgSize = '1.2em';
 const handleCommand = (command: string | number | object) => {
-  ElMessage(`click on item ${command}`);
+  switch (command) {
+    case 'cmdLogout':
+      logout();
+      break;
+  }
 };
+
+function logout() {
+  userStore.updateToken(null);
+  RouterService.router.push(RoutePathEnum.LOGIN);
+}
 </script>
 
 <style lang="scss">

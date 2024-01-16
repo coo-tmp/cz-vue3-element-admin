@@ -1,25 +1,25 @@
 <template>
   <div class="login-form" :class="$style.root">
-    <el-form ref="ruleFormRef" :model="ruleForm" :rules="rules">
+    <ElForm ref="ruleFormRef" :model="ruleForm" :rules="rules">
       <div :class="$style.title">cz-admin</div>
-      <el-form-item prop="account">
-        <el-input v-model="ruleForm.account" placeholder="用户名/手机号/email" maxlength="30" clearable>
+      <ElFormItem prop="account">
+        <TwSensitiveInput v-model="ruleForm.account" placeholder="用户名/手机号/email" maxlength="30" clearable type="part" mode="middle" start="3" end="4">
           <template v-slot:prefix>
             <SvgIcon name="basic-user" />
           </template>
-        </el-input>
-      </el-form-item>
-      <el-form-item prop="password">
-        <el-input v-model="ruleForm.password" placeholder="密码" maxlength="30" show-password clearable>
+        </TwSensitiveInput>
+      </ElFormItem>
+      <ElFormItem prop="password">
+        <ElInput v-model="ruleForm.password" placeholder="密码" maxlength="30" show-password clearable>
           <template v-slot:prefix>
             <SvgIcon name="basic-lock" />
           </template>
-        </el-input>
-      </el-form-item>
-      <el-form-item>
-        <el-button type="primary" @click="submitForm(ruleFormRef)"> 登&nbsp;&nbsp;&nbsp;&nbsp;录 </el-button>
-      </el-form-item>
-    </el-form>
+        </ElInput>
+      </ElFormItem>
+      <ElFormItem>
+        <ElButton type="primary" @click="submitForm(ruleFormRef)"> 登&nbsp;&nbsp;&nbsp;&nbsp;录 </ElButton>
+      </ElFormItem>
+    </ElForm>
   </div>
 </template>
 
@@ -31,7 +31,8 @@ import HttpApi from '@/api/HttpApi';
 import RouterService from '@/router/RouterService';
 import { RoutePathEnum } from '@/router/RoutePathEnum';
 import userStore from '@/stores/modules/userStore';
-import type { CreateTokenResponseV1 } from '@/api/modules/token/types';
+import type { TokenCreateResponse } from '@/api/modules/token/types';
+import TwSensitiveInput from '@/components/TwSensitiveInput/index.vue';
 
 interface RuleForm {
   account: string;
@@ -76,14 +77,8 @@ function login() {
       password: '123456',
     })
     .then((resp) => {
-      const data = resp.data as CreateTokenResponseV1;
-      userStore.updateToken({
-        access_token: data.access_token,
-        token_type: data.token_type,
-        refresh_token: data.refresh_token,
-        expires_in: data.expires_in,
-        openid: data.openid,
-      });
+      const data = resp.data as TokenCreateResponse;
+      userStore.updateToken(data);
       RouterService.router.push(RoutePathEnum.HOME);
     });
 }
