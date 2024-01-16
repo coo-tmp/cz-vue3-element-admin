@@ -226,6 +226,12 @@ const menus: IMenuItem[] = [
             path: '/demo/desensitive/text',
             icon: 'menu-dict',
           },
+          {
+            id: '21026387385397268',
+            title: 'Input脱敏',
+            path: '/demo/desensitive/input',
+            icon: 'menu-dict',
+          },
         ],
       },
     ],
