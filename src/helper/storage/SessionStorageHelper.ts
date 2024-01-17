@@ -12,7 +12,7 @@ const SessionStorageHelper = {
    * @param value value
    */
   set<T>(key: string, value: T): void {
-    SessionStorageUtil.set(key, StorageHelper.encode(value));
+    SessionStorageUtil.set(key, StorageHelper.encrypt(value));
   },
 
   /**
@@ -26,7 +26,7 @@ const SessionStorageHelper = {
   get<T>(key: string, defaultValue?: T): T | null {
     const value = SessionStorageUtil.get(key, null);
     if (null != value) {
-      return StorageHelper.decode<T>(value);
+      return StorageHelper.decrypt<T>(value);
     }
 
     return defaultValue ?? null;

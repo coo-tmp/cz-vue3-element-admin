@@ -15,7 +15,7 @@ const LocalStorageHelper = {
    * @param value value
    */
   set<T>(key: string, value: T): void {
-    LocalStorageUtil.set(key, StorageHelper.encode(value));
+    LocalStorageUtil.set(key, StorageHelper.encrypt(value));
   },
 
   /**
@@ -29,7 +29,7 @@ const LocalStorageHelper = {
   get<T>(key: string, defaultValue?: T): T | null {
     const value = LocalStorageUtil.get(key, null);
     if (null != value) {
-      return StorageHelper.decode<T>(value);
+      return StorageHelper.decrypt<T>(value);
     }
 
     return defaultValue ?? null;
