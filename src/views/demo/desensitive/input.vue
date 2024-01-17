@@ -4,7 +4,7 @@
     <ElFormItem label="脱敏Input">
       <TwSensitiveInput
         placeholder="请输入文本"
-        :raw="formObj.rawData"
+        v-model="formObj.rawData"
         :replace="formObj.replace"
         :type="formObj.type"
         :mode="formObj.mode"
