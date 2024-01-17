@@ -24,11 +24,15 @@
       @blur="disselectAll()"
       @focus="selectAll($event)"
       clearable
+      show-password
     >
-      <template v-slot:suffix>
+      <!-- <template v-slot:suffix>
         <SvgIcon v-if="!props.disabled && refRaw && refRaw.length && refRaw.length > 0" :name="showRaw ? 'basic-eye_open' : 'basic-eye_close'" @click="toggleEnable" />
-      </template>
+      </template> -->
     </ElInput>
+    <div :class="$style['password-visible']">
+      <SvgIcon v-if="!props.disabled && refRaw && refRaw.length && refRaw.length > 0" :name="showRaw ? 'basic-eye_open' : 'basic-eye_close'" @click="toggleEnable" />
+    </div>
   </div>
 </template>
 
@@ -289,6 +293,22 @@ export default {
     :global(.el-input__inner) {
       opacity: 0;
     }
+
+    :global(.el-input__password) {
+      visibility: hidden;
+    }
+  }
+
+  .password-visible {
+    position: absolute !important;
+    right: 10px;
+    top: 1px;
+
+    display: flex;
+    align-items: center;
+    height: 100%;
+    color: #a8abb2;
+    cursor: pointer;
   }
 }
 </style>
