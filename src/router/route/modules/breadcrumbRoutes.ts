@@ -3,10 +3,13 @@ import type { RouteRecordRaw } from 'vue-router';
 import { DEFAULT_LAYOUT } from '../../variables';
 
 const nodes: IBreadcrumbRaw = {
+  id: '21026387389591553',
   title: '节点1',
   child: {
+    id: '21026387389591554',
     title: '节点1-1',
     child: {
+      id: '21026387389591555',
       title: '节点1-1-1',
     },
   },

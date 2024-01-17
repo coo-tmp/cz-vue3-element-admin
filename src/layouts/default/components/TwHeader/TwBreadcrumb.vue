@@ -1,7 +1,7 @@
 <template>
   <ElBreadcrumb>
     <TransitionGroup name="breadcrumb">
-      <ElBreadcrumbItem v-for="item in breadcrumbs" :key="item.title">
+      <ElBreadcrumbItem v-for="item in breadcrumbs" :key="item.id">
         <TwLink v-if="item.path" :to="item.path">{{ item.title }}</TwLink>
         <template v-else>
           {{ item.title }}
@@ -79,6 +79,7 @@ function buildFromRouteMode(router: RouteLocationNormalizedLoaded): IBreadcrumbR
   router.matched.forEach((item) => {
     if (item.meta && item.meta.breadcrumb && item.meta.breadcrumb.title) {
       items.push({
+        id: item.path,
         title: item.meta.breadcrumb.title,
         path: item.path,
       });
@@ -90,6 +91,7 @@ function buildFromRouteMode(router: RouteLocationNormalizedLoaded): IBreadcrumbR
 function getMatchedMenuPath(path: string, item: IMenuItem, matchedTree: IBreadcrumbRaw[]): IBreadcrumbRaw[] {
   if (item.path && item.path === path) {
     matchedTree.push({
+      id: item.id,
       title: item.title,
       path: item.path,
     });
@@ -98,6 +100,7 @@ function getMatchedMenuPath(path: string, item: IMenuItem, matchedTree: IBreadcr
 
   if (item.children) {
     matchedTree.push({
+      id: item.id,
       title: item.title,
       path: item.path,
     });
@@ -137,6 +140,7 @@ function buildFromFreeMode(router: RouteLocationNormalizedLoaded): IBreadcrumbRa
 
   if (router.meta.breadcrumb.title) {
     breadcrumbs.push({
+      id: router.path,
       title: router.meta.breadcrumb.title,
     });
   }
