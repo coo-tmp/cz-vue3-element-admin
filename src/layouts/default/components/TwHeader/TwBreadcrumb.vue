@@ -64,7 +64,7 @@ function buildFromMenu(path: string, menus: IMenuItem[]): IBreadcrumbRaw[] {
   for (const item of menus) {
     const matched: IBreadcrumbRaw[] = getMatchedMenuPath(path, item, []);
     if (matched.length > 0) {
-      return matched;
+      return matched.reverse();
     }
   }
   return [];
@@ -99,14 +99,14 @@ function getMatchedMenuPath(path: string, item: IMenuItem, matchedTree: IBreadcr
   }
 
   if (item.children) {
-    matchedTree.push({
-      id: item.id,
-      title: item.title,
-      path: item.path,
-    });
     for (const it of item.children) {
       const matched = getMatchedMenuPath(path, it, matchedTree);
       if (matched.length > 0) {
+        matchedTree.push({
+          id: item.id,
+          title: item.title,
+          path: item.path,
+        });
         return matched;
       }
     }
