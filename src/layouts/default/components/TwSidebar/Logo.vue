@@ -1,5 +1,5 @@
 <template>
-  <div class="root-layout-logo">
+  <div :class="$style.root">
     <SvgIcon name="logo" size="32px" />
     <span v-if="!collapse">CZ Admin</span>
   </div>
@@ -16,18 +16,20 @@ defineProps({
 });
 </script>
 
-<style lang="scss">
-.root-layout-logo {
+<style lang="scss" scoped>
+span {
+  font-size: 1.2em;
+  margin-left: 4px;
+  font-weight: bold;
+  color: $layout__sidebar__active_color;
+}
+</style>
+
+<style lang="scss" module>
+.root {
   display: flex;
   align-items: center;
   justify-content: center;
   height: $layout__header_height;
-
-  span {
-    font-size: 1.2em;
-    margin-left: 4px;
-    font-weight: bold;
-    color: $layout__sidebar__active_color;
-  }
 }
 </style>

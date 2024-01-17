@@ -1,6 +1,6 @@
 <template>
-  <div class="root-layout-sidebar">
-    <Logo :collapse="!appStore.sidebar.opened" />
+  <div :class="$style.root">
+    <Logo :class="$style.logo" :collapse="!appStore.sidebar.opened" />
     <ElScrollbar>
       <ElMenu
         :default-active="getCurrPath"
@@ -50,25 +50,25 @@ const getCurrPath = computed(() => {
 });
 </script>
 
-<style lang="scss">
-.root-layout-sidebar {
+<style lang="scss" module>
+.root {
   display: flex;
   width: 100%;
   height: 100%;
   flex-direction: column;
 
-  logo {
+  .logo {
     flex: 0 0 auto;
   }
 
-  .el-scrollbar {
+  :global(.el-scrollbar) {
     flex: 1 1 auto;
-    .el-scrollbar__view {
+    :global(.el-scrollbar__view) {
       min-width: $layout__sidebar_width__opened;
       width: fit-content;
     }
 
-    .el-menu {
+    :global(.el-menu) {
       border: 0 !important;
     }
   }
