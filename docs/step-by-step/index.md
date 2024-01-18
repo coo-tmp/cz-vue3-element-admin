@@ -2276,6 +2276,7 @@ export default defineConfig({
         enabled: true,
       },
 
+      vueTemplate: true, // Auto import inside Vue template
       imports: [
         'vue',
         // {
@@ -2288,6 +2289,8 @@ export default defineConfig({
       dirs: [
         // 'src/utils', // only root modules
         'src/utils/**', // all nested modules
+        'src/types/**',
+        'src/stores/modules/**',
       ],
     }),
   ],
