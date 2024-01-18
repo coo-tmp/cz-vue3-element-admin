@@ -1,6 +1,6 @@
 <template>
   <div :class="$style.root">
-    <Logo :class="$style.logo" :collapse="!appStore.sidebar.opened" />
+    <TwLogo :class="$style.logo" :collapse="!appStore.sidebar.opened" />
     <ElScrollbar>
       <ElMenu
         :default-active="getCurrPath"
@@ -21,7 +21,7 @@
 import scss from '@/layouts/scss/variables.module.scss';
 import TwSidebarItem from './TwSidebarItem.vue';
 import type { IMenuItem } from './types';
-import Logo from './Logo.vue';
+import TwLogo from './TwLogo.vue';
 
 defineProps({
   items: {
@@ -52,7 +52,7 @@ const getCurrPath = computed(() => {
   height: 100%;
   flex-direction: column;
 
-  .logo {
+  .tw-logo {
     flex: 0 0 auto;
   }
 
