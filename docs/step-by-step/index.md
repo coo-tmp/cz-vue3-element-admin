@@ -235,6 +235,7 @@ npm run prod     # 正式环境
 
 ```shell
 npm install element-plus
+npm install @element-plus/icons-vue # element icons
 ```
 
 ## 6.2 配置
@@ -260,10 +261,16 @@ npm install element-plus
 
 import type { App } from 'vue';
 import ElementPlus from 'element-plus';
+import * as ElementPlusIconsVue from '@element-plus/icons-vue';
 
 const ComponetService = {
   setupGlobalComponent(app: App) {
     app.use(ElementPlus);
+
+    // element icons
+    for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
+      app.component(key, component);
+    }
   },
 };
 export default ComponetService;
@@ -288,7 +295,6 @@ ComponetService.setupGlobalComponent(app);
 // 添加
 
 <script setup lang="ts">
-import { Edit } from '@element-plus/icons-vue'
 </script>
 
 <template>

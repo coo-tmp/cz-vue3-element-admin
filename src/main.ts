@@ -13,10 +13,14 @@ if (import.meta.env.MODE === 'mock') {
   import('@/mock/index');
 }
 
-const app = createApp(App);
+function setup() {
+  const app = createApp(App);
 
-StoreService.setup(app);
-RouterService.setup(app);
-ComponetService.setupGlobalComponent(app);
+  StoreService.setup(app);
+  RouterService.setup(app);
+  ComponetService.setupGlobalComponent(app);
 
-app.mount('#app');
+  app.mount('#app');
+}
+
+setup();

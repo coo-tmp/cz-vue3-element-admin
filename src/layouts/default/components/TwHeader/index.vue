@@ -34,7 +34,6 @@
 
 <script setup lang="ts">
 import { useFullscreen } from '@vueuse/core';
-import { ArrowDown } from '@element-plus/icons-vue';
 import TwBreadcrumb from './TwBreadcrumb.vue';
 import { RoutePathEnum } from '@/router/RoutePathEnum';
 
