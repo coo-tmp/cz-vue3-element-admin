@@ -3,7 +3,7 @@ import { ref } from 'vue';
 import { store } from '../StoreService';
 import SessionStorageKeys from '@/settings/system/SessionStorageKeys';
 import type { TokenCreateResponse } from '@/api/modules/token/types';
-import LocalStorageHelper from '@/helper/storage/LocalStorageHelper';
+import SessionStorageHelper from '@/helper/storage/SessionStorageHelper';
 
 const useStore = defineStore('UserStore', () => {
   // state
@@ -17,7 +17,7 @@ const useStore = defineStore('UserStore', () => {
   }
 
   function isLogin(): boolean {
-    const token = LocalStorageHelper.get<{ createTime: number; data: TokenCreateResponse }>(SessionStorageKeys.token);
+    const token = SessionStorageHelper.get<{ createTime: number; data: TokenCreateResponse }>(SessionStorageKeys.token);
     if (null == token || null == token.data) {
       return false;
     }
@@ -28,14 +28,14 @@ const useStore = defineStore('UserStore', () => {
   }
 
   function updateToken(value: TokenCreateResponse | null, createTime?: Date) {
-    LocalStorageHelper.set(SessionStorageKeys.token, {
+    SessionStorageHelper.set(SessionStorageKeys.token, {
       createTime: createTime ? createTime.getTime() : new Date().getTime(),
       data: value,
     });
   }
 
   function logout(): void {
-    LocalStorageHelper.clear();
+    SessionStorageHelper.clear();
   }
 
   return {
