@@ -10,7 +10,7 @@
       :disabled="item.disabled ?? false"
     >
       <ElMenuItem :index="item.path" :disabled="item.disabled ?? false">
-        <SvgIcon v-if="item.icon" :name="item.icon" :color="scss.sidebarTextcolor" />
+        <TwSvgIcon v-if="item.icon" :name="item.icon" :color="scss.sidebarTextcolor" />
         <template #title>
           {{ item.title }}
         </template>
@@ -20,7 +20,7 @@
 
   <ElSubMenu v-else :index="item.id" teleported :disabled="item.disabled ?? false">
     <template #title>
-      <SvgIcon v-if="item.icon" :name="item.icon" :color="scss.sidebarTextcolor" />
+      <TwSvgIcon v-if="item.icon" :name="item.icon" :color="scss.sidebarTextcolor" />
       <span v-if="item.title">{{ item.title }}</span>
     </template>
 
@@ -30,9 +30,6 @@
 
 <script setup lang="ts">
 import scss from '@/layouts/scss/variables.module.scss';
-import TwLink from '@/components/TwLink/index.vue';
-import SvgIcon from '@/components/SvgIcon/index.vue';
-import type { PropType } from 'vue';
 import type { IMenuItem } from './types';
 
 defineProps({
@@ -61,7 +58,7 @@ function hasChild(item: IMenuItem) {
 </script>
 
 <style lang="scss" scoped>
-.svg-icon {
+.tw-svg-icon {
   margin-right: 8px;
 }
 

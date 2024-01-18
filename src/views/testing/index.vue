@@ -4,17 +4,16 @@
   <div id="idScss">SCSS</div>
 
   <div>
-    <SvgIcon name="logo" color="#FF0000" />
-    <SvgIcon name="menu-dict" color="#FF0000" />
-    <SvgIcon name="menu-language" color="#FF0000" size="32px" /><!-- 使用logo.svg重命名为language.svg -->
-    <SvgIcon name="basic-language" color="#FF0000" width="40px" height="64px" />
+    <TwSvgIcon name="logo" color="#FF0000" />
+    <TwSvgIcon name="menu-dict" color="#FF0000" />
+    <TwSvgIcon name="menu-language" color="#FF0000" size="32px" /><!-- 使用logo.svg重命名为language.svg -->
+    <TwSvgIcon name="basic-language" color="#FF0000" width="40px" height="64px" />
   </div>
 </template>
 
 <script setup lang="ts">
 import testStore from '@/views/testing/store.vue';
 import HttpApi from '@/api/HttpApi';
-import SvgIcon from '@/components/SvgIcon/index.vue';
 
 function testStoreHandler() {
   testStore();

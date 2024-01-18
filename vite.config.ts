@@ -33,12 +33,13 @@ export default defineConfig({
       vueTemplate: true, // Auto import inside Vue template
       imports: [
         'vue',
-        // {
-        //   // 自定义
-        //   '@/utils/basic/DomUtil': [
-        //     ['default', 'DomUtil'], // import DomUtil from '@/utils/basic/DomUtil';],
-        //   ],
-        // },
+        {
+          // 自定义
+          // '@/utils/basic/DomUtil': [
+          //   ['default', 'DomUtil'], // import DomUtil from '@/utils/basic/DomUtil';],
+          // ],
+          '@/router/RouterService': [['default', 'RouterService']],
+        },
       ],
       dirs: [
         // 'src/utils', // only root modules

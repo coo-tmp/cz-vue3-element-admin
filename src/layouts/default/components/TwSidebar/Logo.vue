@@ -1,13 +1,11 @@
 <template>
   <div :class="$style.root">
-    <SvgIcon name="logo" size="32px" />
+    <TwSvgIcon name="logo" size="32px" />
     <span v-if="!collapse">CZ Admin</span>
   </div>
 </template>
 
 <script setup lang="ts">
-import SvgIcon from '@/components/SvgIcon/index.vue';
-
 defineProps({
   collapse: {
     type: Boolean,

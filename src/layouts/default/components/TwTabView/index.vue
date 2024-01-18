@@ -8,13 +8,9 @@
 
 <script setup lang="ts">
 import type { TabPaneName, TabsPaneContext } from 'element-plus';
-import tabViewStore from '@/stores/modules/tabViewStore';
 import { RoutePathEnum } from '@/router/RoutePathEnum';
-import RouterService from '@/router/RouterService';
-import menuStore from '@/stores/modules/menuStore';
 import type { IMenuItem } from '../TwSidebar/types';
 import type { ITabView } from './types';
-import { watch } from 'vue';
 
 watch(
   () => menuStore.menus,

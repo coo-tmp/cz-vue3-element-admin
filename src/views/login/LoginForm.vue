@@ -5,14 +5,14 @@
       <ElFormItem prop="account">
         <TwSensitiveInput v-model="ruleForm.account" placeholder="用户名/手机号/email" maxlength="30" clearable type="part" mode="middle" start="3" end="4">
           <template v-slot:prefix>
-            <SvgIcon name="basic-user" />
+            <TwSvgIcon name="basic-user" />
           </template>
         </TwSensitiveInput>
       </ElFormItem>
       <ElFormItem prop="password">
         <ElInput v-model="ruleForm.password" placeholder="密码" maxlength="30" show-password clearable>
           <template v-slot:prefix>
-            <SvgIcon name="basic-lock" />
+            <TwSvgIcon name="basic-lock" />
           </template>
         </ElInput>
       </ElFormItem>
@@ -25,15 +25,10 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive, ref } from 'vue';
 import type { FormInstance, FormRules } from 'element-plus';
-import SvgIcon from '@/components/SvgIcon/index.vue';
 import HttpApi from '@/api/HttpApi';
-import RouterService from '@/router/RouterService';
 import { RoutePathEnum } from '@/router/RoutePathEnum';
-import userStore from '@/stores/modules/userStore';
 import type { TokenCreateResponse } from '@/api/modules/token/types';
-import TwSensitiveInput from '@/components/TwSensitiveInput/index.vue';
 
 interface RuleForm {
   account: string;

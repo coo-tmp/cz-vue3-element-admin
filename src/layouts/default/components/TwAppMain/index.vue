@@ -6,8 +6,8 @@
       </div>
       <div class="tabview-action">
         <div v-if="appStore.screen.widthType !== ScreenWidthType.Small" @click="appStore.toggleFullContent">
-          <SvgIcon v-if="isFullContent" name="layouts-fullcontent_enable" />
-          <SvgIcon v-if="!isFullContent" name="layouts-fullcontent_disable" />
+          <TwSvgIcon v-if="isFullContent" name="layouts-fullcontent_enable" />
+          <TwSvgIcon v-if="!isFullContent" name="layouts-fullcontent_disable" />
         </div>
       </div>
     </div>
@@ -24,13 +24,7 @@
 </template>
 
 <script setup lang="ts">
-import tabViewStore from '@/stores/modules/tabViewStore';
 import TwTabView from '@/layouts/default/components/TwTabView/index.vue';
-import appStore from '@/stores/modules/appStore';
-import { ScreenWidthType } from '@/types';
-import { computed } from 'vue';
-import SvgIcon from '@/components/SvgIcon/index.vue';
-
 const isFullContent = computed(() => appStore.isFullContent);
 </script>
 

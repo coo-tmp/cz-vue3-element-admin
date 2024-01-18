@@ -20,13 +20,8 @@
 <script setup lang="ts">
 import scss from '@/layouts/scss/variables.module.scss';
 import TwSidebarItem from './TwSidebarItem.vue';
-import appStore from '@/stores/modules/appStore';
-import RouterService from '@/router/RouterService';
-import { computed, type PropType } from 'vue';
 import type { IMenuItem } from './types';
-import { ScreenWidthType } from '@/types';
 import Logo from './Logo.vue';
-import tabViewStore from '@/stores/modules/tabViewStore';
 
 defineProps({
   items: {

@@ -2,19 +2,19 @@
   <div class="root-layout-header">
     <div class="header-title">
       <div class="hamburger-wrapper" @click="appStore.toggleSidebar">
-        <SvgIcon name="layouts-hamburger" :size="svgSize" class="hamburger" :class="{ 'is-active': appStore.sidebar.opened }" />
+        <TwSvgIcon name="layouts-hamburger" :size="svgSize" class="hamburger" :class="{ 'is-active': appStore.sidebar.opened }" />
       </div>
       <TwBreadcrumb v-if="appStore.screen.widthType !== ScreenWidthType.Small" />
     </div>
     <div class="header-action">
       <span @click="toggle">
-        <SvgIcon v-if="isFullscreen" name="layouts-fullscreen_disable" :size="svgSize" />
-        <SvgIcon v-else name="layouts-fullscreen_enable" :size="svgSize" />
+        <TwSvgIcon v-if="isFullscreen" name="layouts-fullscreen_disable" :size="svgSize" />
+        <TwSvgIcon v-else name="layouts-fullscreen_enable" :size="svgSize" />
       </span>
       <span>
         <el-dropdown @command="handleCommand" style="display: flex; justify-content: left">
           <span style="display: flex; align-items: center">
-            <SvgIcon name="layouts-user" :size="svgSize" />
+            <TwSvgIcon name="layouts-user" :size="svgSize" />
             <span style="padding-left: 3px">
               Hello, Cooper<el-icon class="el-icon--right"><arrow-down /></el-icon>
             </span>
@@ -27,21 +27,16 @@
           </template>
         </el-dropdown>
       </span>
-      <span> <SvgIcon name="layouts-settings" size="1em" /> </span>
+      <span> <TwSvgIcon name="layouts-settings" size="1em" /> </span>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { useFullscreen } from '@vueuse/core';
-import appStore from '@/stores/modules/appStore';
-import SvgIcon from '@/components/SvgIcon/index.vue';
 import { ArrowDown } from '@element-plus/icons-vue';
 import TwBreadcrumb from './TwBreadcrumb.vue';
-import { ScreenWidthType } from '@/types';
 import { RoutePathEnum } from '@/router/RoutePathEnum';
-import RouterService from '@/router/RouterService';
-import userStore from '@/stores/modules/userStore';
 
 const { isFullscreen, toggle } = useFullscreen();
 

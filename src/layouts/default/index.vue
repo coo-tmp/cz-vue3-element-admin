@@ -26,15 +26,11 @@
 </template>
 
 <script setup lang="ts">
-import appStore from '@/stores/modules/appStore';
 import TwSidebar from './components/TwSidebar/index.vue';
 import type { IMenuItem } from './components/TwSidebar/types';
-import { ScreenWidthType } from '@/types';
 import TwHeader from './components/TwHeader/index.vue';
 import TwAppMain from './components/TwAppMain/index.vue';
 import { useWindowSize } from '@vueuse/core';
-import { computed, onMounted, watchEffect } from 'vue';
-import menuStore from '@/stores/modules/menuStore';
 
 const isSidebarOpened = computed(() => appStore.sidebar.opened);
 const isSmallScreenWidth = computed(() => appStore.screen.widthType === ScreenWidthType.Small);

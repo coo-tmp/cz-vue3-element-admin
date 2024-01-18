@@ -27,18 +27,16 @@
       show-password
     >
       <!-- <template v-slot:suffix>
-        <SvgIcon v-if="!props.disabled && refRaw && refRaw.length && refRaw.length > 0" :name="showRaw ? 'basic-eye_open' : 'basic-eye_close'" @click="toggleEnable" />
+        <TwSvgIcon v-if="!props.disabled && refRaw && refRaw.length && refRaw.length > 0" :name="showRaw ? 'basic-eye_open' : 'basic-eye_close'" @click="toggleEnable" />
       </template> -->
     </ElInput>
     <div :class="$style['password-visible']">
-      <SvgIcon v-if="!props.disabled && refRaw && refRaw.length && refRaw.length > 0" :name="showRaw ? 'basic-eye_open' : 'basic-eye_close'" @click="toggleEnable" />
+      <TwSvgIcon v-if="!props.disabled && refRaw && refRaw.length && refRaw.length > 0" :name="showRaw ? 'basic-eye_open' : 'basic-eye_close'" @click="toggleEnable" />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, watch, useAttrs } from 'vue';
-import SvgIcon from '@/components/SvgIcon/index.vue';
 import { DesensitiveType, DesensitiveMode } from '../TwSensitiveText/types';
 
 const props = defineProps({
@@ -260,7 +258,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.svg-icon {
+.tw-svg-icon {
   cursor: pointer;
 }
 

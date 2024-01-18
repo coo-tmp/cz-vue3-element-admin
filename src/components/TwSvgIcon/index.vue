@@ -1,13 +1,11 @@
 <template>
   <!--优先采用width和height。如果width/height未定义，则采用size-->
-  <svg aria-hidden="true" class="svg-icon" :style="'width:' + (width ?? size) + ';height:' + (height ?? size)">
+  <svg aria-hidden="true" class="tw-svg-icon" :style="'width:' + (width ?? size) + ';height:' + (height ?? size)">
     <use :xlink:href="symbolId" :fill="color" />
   </svg>
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
-
 const props = defineProps({
   prefix: {
     type: String,
@@ -41,7 +39,7 @@ const symbolId = computed(() => `#${props.prefix}-${props.name}`);
 </script>
 
 <style scoped>
-.svg-icon {
+.tw-svg-icon {
   overflow: hidden;
   fill: currentColor;
 }

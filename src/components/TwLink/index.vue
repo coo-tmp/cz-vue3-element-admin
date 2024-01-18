@@ -5,12 +5,7 @@
 </template>
 
 <script lang="ts" setup>
-import DomUtil from '@/utils/basic/DomUtil';
-import tabViewStore from '@/stores/modules/tabViewStore';
 import type { ITabView } from '@/layouts/default/components/TwTabView/types';
-import appStore from '@/stores/modules/appStore';
-import { ScreenWidthType } from '@/types';
-import RouterService from '@/router/RouterService';
 
 const props = defineProps({
   type: {

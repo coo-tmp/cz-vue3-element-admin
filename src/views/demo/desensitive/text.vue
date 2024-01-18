@@ -18,7 +18,7 @@
         :disabled="!formObj.enabled"
       >
         <template v-slot:prefix>
-          <SvgIcon v-if="formObj.enabledPrefix" name="menu-dict" />
+          <TwSvgIcon v-if="formObj.enabledPrefix" name="menu-dict" />
         </template>
       </TwSensitiveText>
     </ElFormItem>
@@ -69,11 +69,6 @@
 </template>
 
 <script setup lang="ts">
-import { ElInput } from 'element-plus';
-import { reactive } from 'vue';
-import TwSensitiveText from '@/components/TwSensitiveText/index.vue';
-import SvgIcon from '@/components/SvgIcon/index.vue';
-
 //初始表单数据
 let formObj = reactive({
   rawData: '', // 示例：脱敏前

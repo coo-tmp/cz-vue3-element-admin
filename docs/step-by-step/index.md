@@ -1252,7 +1252,7 @@ const symbolId = computed(() => `#${props.prefix}-${props.name}`);
 </script>
 
 <style scoped>
-.svg-icon {
+.tw-svg-icon {
   overflow: hidden;
   fill: currentColor;
 }
@@ -1272,10 +1272,10 @@ const symbolId = computed(() => `#${props.prefix}-${props.name}`);
 // 添加
 
 <template>
-    <SvgIcon name="logo" color="#FF0000" />
-    <SvgIcon name="menu-dict" color="#FF0000" />
-    <SvgIcon name="menu-language" color="#FF0000" size="32px" /><!-- 使用logo.svg重命名为language.svg -->
-    <SvgIcon name="basic-language" color="#FF0000" width="40px" height="64px" />
+    <TwSvgIcon name="logo" color="#FF0000" />
+    <TwSvgIcon name="menu-dict" color="#FF0000" />
+    <TwSvgIcon name="menu-language" color="#FF0000" size="32px" /><!-- 使用logo.svg重命名为language.svg -->
+    <TwSvgIcon name="basic-language" color="#FF0000" width="40px" height="64px" />
 </template>
 
 <script setup lang="ts">
@@ -1629,7 +1629,7 @@ export type { IMenuItem };
   <template v-if="!hasChild(item)">
     <TwLink v-if="item.visiable ?? true" :to="item.path ?? '#'">
       <ElMenuItem :index="item.id">
-        <SvgIcon v-if="item.icon" :name="item.icon" />
+        <TwSvgIcon v-if="item.icon" :name="item.icon" />
         <template #title>
           {{ item.name }}
         </template>
@@ -1639,7 +1639,7 @@ export type { IMenuItem };
 
   <ElSubMenu v-else :index="item.id" teleported>
     <template #title>
-      <SvgIcon v-if="item.icon" :name="item.icon" />
+      <TwSvgIcon v-if="item.icon" :name="item.icon" />
       <span v-if="item.name">{{ item.name }}</span>
     </template>
 

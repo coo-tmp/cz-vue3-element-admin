@@ -12,10 +12,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, watch } from 'vue';
-import RouterService from '@/router/RouterService';
 import type { IMenuItem } from '../TwSidebar/types';
-import menuStore from '@/stores/modules/menuStore';
 import TwLink from '@/components/TwLink/index.vue';
 import { IBreadcrumbMode, type IBreadcrumbMenuItemMode, type IBreadcrumbRaw } from '@/types/RouterMeta/IBreadcrumb';
 import type { RouteLocationNormalizedLoaded } from 'vue-router';

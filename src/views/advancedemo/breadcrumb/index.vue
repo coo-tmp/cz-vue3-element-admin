@@ -33,9 +33,7 @@
   </fieldset>
 </template>
 
-<script setup lang="ts">
-import TwLink from '@/components/TwLink/index.vue';
-</script>
+<script setup lang="ts"></script>
 
 <style lang="scss" scoped>
 .tw-link {

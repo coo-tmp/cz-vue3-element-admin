@@ -2,13 +2,11 @@
   <span class="tw-sensitive-text">
     <slot v-if="displayValue.length > 0" name="prefix" />
     <span>{{ displayValue }}</span>
-    <SvgIcon v-if="!props.disabled && displayValue.length > 0" :name="showRaw ? 'basic-eye_open' : 'basic-eye_close'" @click="toggleEnable" />
+    <TwSvgIcon v-if="!props.disabled && displayValue.length > 0" :name="showRaw ? 'basic-eye_open' : 'basic-eye_close'" @click="toggleEnable" />
   </span>
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, watch } from 'vue';
-import SvgIcon from '@/components/SvgIcon/index.vue';
 import { DisplayMode, DesensitiveType, DesensitiveMode } from './types';
 
 const props = defineProps({
@@ -299,7 +297,7 @@ function fixContent_part(): string {
   align-items: center;
 }
 
-.svg-icon {
+.tw-svg-icon {
   cursor: pointer;
   margin-left: 4px;
 }

@@ -1,7 +1,6 @@
 <!-- 正确运行 -->
 <!-- <template>测试Store</template>
 <script setup lang="ts">
-import userStore from '@/store/modules/userStore';
 function testStore() {
   console.log('\n============================begin test store============================');
   console.log(userStore.nickname);
@@ -32,8 +31,6 @@ export default testStore;
 <!-- 因为已在userStore.ts中const userStoreHook = useStore(store);声明在useStore()前。but why? -->
 <template>测试Store</template>
 <script lang="ts">
-import userStore from '@/stores/modules/userStore';
-
 function testStore() {
   console.log('\n============================begin test store============================');
   console.log('store: without setup', userStore.nickname);

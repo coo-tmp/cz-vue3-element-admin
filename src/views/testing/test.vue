@@ -49,8 +49,6 @@
 </template>
 
 <script setup lang="ts">
-import TwLink from '@/components/TwLink/index.vue';
-
 defineProps({
   message: {
     type: String,
