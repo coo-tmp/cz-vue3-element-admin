@@ -2201,3 +2201,120 @@ $text-color: #ffffff;
 }
 </style>
 ```
+
+# 14 Auto import
+
+> see: [unplugin-vue-components](https://github.com/unplugin/unplugin-vue-components)
+>
+> see: [unplugin-auto-import](https://github.com/unplugin/unplugin-auto-import)
+
+## 14.1 Auto import Components（unplugin-vue-components）
+
+### 14.1.1 安装
+
+```shell
+npm install unplugin-vue-components -D
+```
+
+### 14.1.2 配置
+
+- vite.config.ts
+
+```typescript
+// /vite.config.ts
+// 添加
+
+import Components from 'unplugin-vue-components/vite'
+
+export default defineConfig({
+  plugins: [
+    Components({
+      // 自动生成/components.d.ts
+      dirs: ['src/components'], // 默认值（包含子孙目录）
+      dts: true, // 默认值
+    }),
+  ],
+})
+```
+
+- tsconfig.app.json
+
+```typescript
+// /tsconfig.app.json
+// 添加
+
+{
+  "include": ["components.d.ts"],
+}
+```
+
+## 14.2 Auto import APIs（unplugin-auto-import）
+
+### 14.2.1 安装
+
+```shell
+npm install unplugin-auto-import -D
+```
+
+### 14.2.1 配置
+
+- vite.config.ts
+
+```typescript
+// /vite.config.ts
+// 添加
+
+import AutoImport from 'unplugin-auto-import/vite';
+
+export default defineConfig({
+  plugins: [
+    AutoImport({
+      dts: 'src/auto-imports.d.ts', // 自定义路径（确保在tsconfig.json的include包含该文件）
+      // dts: true, // 使用默认路径（自动生成/auto-imports.d.ts）
+
+      eslintrc: {
+        enabled: true,
+      },
+
+      imports: [
+        'vue',
+        // {
+        //   // 自定义
+        //   '@/utils/basic/DomUtil': [
+        //     ['default', 'DomUtil'], // import DomUtil from '@/utils/basic/DomUtil';],
+        //   ],
+        // },
+      ],
+      dirs: [
+        // 'src/utils', // only root modules
+        'src/utils/**', // all nested modules
+      ],
+    }),
+  ],
+});
+```
+
+- tsconfig.app.json（可选）
+
+```json
+// /tsconfig.app.json
+// 添加
+
+{
+  "include": ["src/auto-imports.d.ts"],
+}
+```
+
+- eslintrc.js
+
+```typescript
+// /.eslintrc.js
+// 添加
+
+module.exports = {
+  extends: [
+    './.eslintrc-auto-import.json',
+  ],
+}
+```
+

@@ -17,4 +17,5 @@ module.exports = {
     defineExpose: 'readonly',
     withDefaults: 'readonly',
   },
+  extends: ['./.eslintrc-auto-import.json'],
 };
