@@ -39,9 +39,9 @@ import SvgIcon from '@/components/SvgIcon/index.vue';
 import { ArrowDown } from '@element-plus/icons-vue';
 import TwBreadcrumb from './TwBreadcrumb.vue';
 import { ScreenWidthType } from '@/types';
-import userStore from '@/stores/modules/userStore';
 import { RoutePathEnum } from '@/router/RoutePathEnum';
 import RouterService from '@/router/RouterService';
+import userStore from '@/stores/modules/userStore';
 
 const { isFullscreen, toggle } = useFullscreen();
 
@@ -55,7 +55,7 @@ const handleCommand = (command: string | number | object) => {
 };
 
 function logout() {
-  userStore.updateToken(null);
+  userStore.logout();
   RouterService.router.push(RoutePathEnum.LOGIN);
 }
 </script>

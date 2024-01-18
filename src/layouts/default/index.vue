@@ -12,7 +12,7 @@
         'full-content-sidebar-wrapper': !isSmallScreenWidth && isFullContent,
       }"
     >
-      <TwSidebar :items="menus" />
+      <TwSidebar :items="menuStore.menus" />
     </div>
     <div class="main-wrapper">
       <div id="header-wrapper" class="header-wrapper" :class="{ 'full-content-header-wrapper': !isSmallScreenWidth && isFullContent }">

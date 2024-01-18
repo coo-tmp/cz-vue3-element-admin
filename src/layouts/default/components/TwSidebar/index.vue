@@ -4,7 +4,7 @@
     <ElScrollbar>
       <ElMenu
         :default-active="getCurrPath"
-        :unique-opened="false"
+        :unique-opened="true"
         mode="vertical"
         :collapse="!appStore.sidebar.opened && appStore.screen.widthType !== ScreenWidthType.Small"
         :collapse-transition="false"

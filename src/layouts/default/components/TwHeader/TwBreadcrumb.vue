@@ -12,7 +12,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import RouterService from '@/router/RouterService';
 import type { IMenuItem } from '../TwSidebar/types';
 import menuStore from '@/stores/modules/menuStore';
@@ -23,11 +23,16 @@ import type { RouteLocationNormalizedLoaded } from 'vue-router';
 const breadcrumbs = ref<IBreadcrumbRaw[]>([]);
 
 watch(
-  () => RouterService.router.currentRoute.value.path,
-  (path) => {
-    breadcrumbs.value = getBreadcrumbs(path, menuStore.menus);
+  () => [RouterService.router.currentRoute.value.path, menuStore.menus],
+  (newValue) => {
+    breadcrumbs.value = getBreadcrumbs(newValue[0] as string, newValue[1] as IMenuItem[]);
   },
 );
+
+onMounted(() => {
+  const path = RouterService.router.currentRoute.value.path;
+  breadcrumbs.value = getBreadcrumbs(path, menuStore.menus);
+});
 
 function getBreadcrumbs(path: string, menus: IMenuItem[]): IBreadcrumbRaw[] {
   const router = RouterService.router.currentRoute.value;

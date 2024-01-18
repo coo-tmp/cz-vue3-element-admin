@@ -9,7 +9,7 @@
       :tab-closable="item.tabClosable ?? true"
       :disabled="item.disabled ?? false"
     >
-      <ElMenuItem :index="item.id" :disabled="item.disabled ?? false">
+      <ElMenuItem :index="item.path" :disabled="item.disabled ?? false">
         <SvgIcon v-if="item.icon" :name="item.icon" :color="scss.sidebarTextcolor" />
         <template #title>
           {{ item.title }}

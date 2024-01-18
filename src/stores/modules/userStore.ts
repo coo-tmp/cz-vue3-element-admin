@@ -3,7 +3,7 @@ import { ref } from 'vue';
 import { store } from '../StoreService';
 import SessionStorageKeys from '@/settings/system/SessionStorageKeys';
 import type { TokenCreateResponse } from '@/api/modules/token/types';
-import SessionStorageHelper from '@/helper/storage/SessionStorageHelper';
+import LocalStorageHelper from '@/helper/storage/LocalStorageHelper';
 
 const useStore = defineStore('UserStore', () => {
   // state
@@ -17,20 +17,25 @@ const useStore = defineStore('UserStore', () => {
   }
 
   function isLogin(): boolean {
-    const token = SessionStorageHelper.get<{ createTime: number; data: TokenCreateResponse }>(SessionStorageKeys.token);
+    const token = LocalStorageHelper.get<{ createTime: number; data: TokenCreateResponse }>(SessionStorageKeys.token);
     if (null == token || null == token.data) {
       return false;
     }
 
     const now = new Date().getTime();
-    return now < token.createTime + token.data.expires_in * 1000;
+    const tmp = now < token.createTime + token.data.expires_in * 1000;
+    return tmp;
   }
 
-  function updateToken(value: TokenCreateResponse | null) {
-    SessionStorageHelper.set(SessionStorageKeys.token, {
-      createTime: new Date().getTime(),
+  function updateToken(value: TokenCreateResponse | null, createTime?: Date) {
+    LocalStorageHelper.set(SessionStorageKeys.token, {
+      createTime: createTime ? createTime.getTime() : new Date().getTime(),
       data: value,
     });
+  }
+
+  function logout(): void {
+    LocalStorageHelper.clear();
   }
 
   return {
@@ -40,6 +45,7 @@ const useStore = defineStore('UserStore', () => {
     updateNickname,
     isLogin,
     updateToken,
+    logout,
   };
 });
 
