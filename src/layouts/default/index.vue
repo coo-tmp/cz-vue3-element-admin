@@ -251,6 +251,26 @@ const menus: IMenuItem[] = [
       },
     ],
   },
+  {
+    id: '21026387389591562',
+    title: '自定义组件',
+    icon: 'menu-dict',
+    children: [
+      {
+        id: '21026387389591565',
+        title: 'Dock',
+        icon: 'menu-dict',
+        children: [
+          {
+            id: '21026387389591567',
+            title: 'Dock: page',
+            path: '/customcomponent/dock/page',
+            icon: 'menu-dict',
+          },
+        ],
+      },
+    ],
+  },
 ];
 </script>
 

@@ -18,7 +18,6 @@
 </template>
 
 <script setup lang="ts">
-import scss from '@/layouts/scss/variables.module.scss';
 import TwSidebarItem from './TwSidebarItem.vue';
 import type { IMenuItem } from './types';
 import TwLogo from './TwLogo.vue';
