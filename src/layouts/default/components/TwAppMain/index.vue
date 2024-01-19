@@ -28,13 +28,7 @@ import TwTabView from '@/layouts/default/components/TwTabView/index.vue';
 const isFullContent = computed(() => appStore.isFullContent);
 </script>
 
-<style lang="scss" scoped>
-:deep(.el-scrollbar__view) {
-  margin: 10px;
-  padding: 6px;
-  background-color: $content__backgrount_color;
-}
-</style>
+<style lang="scss" scoped></style>
 
 <style lang="scss" module>
 .root {
@@ -80,6 +74,16 @@ const isFullContent = computed(() => appStore.isFullContent);
     flex: 1 1 auto;
     background-color: $layout__maincontent__backgrount_color;
     overflow: hidden;
+
+    > :global(.el-scrollbar) {
+      > :global(.el-scrollbar__wrap) {
+        > :global(.el-scrollbar__view) {
+          margin: 10px;
+          padding: 6px;
+          background-color: $content__backgrount_color;
+        }
+      }
+    }
   }
 }
 </style>
