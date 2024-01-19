@@ -9,7 +9,7 @@
     "prod": "vite --mode prod --port=3000",
     "build": "run-p type-check \"build-only {@}\" --",
     "preview": "vite preview",
-    "build-only": "vite build",
+    "build-only": "vite build --mode prod",
     "type-check": "vue-tsc --noEmit -p tsconfig.app.json --composite false",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
     "format": "prettier --write src/"
@@ -21,6 +21,7 @@
     "element-plus": "^2.4.3",
     "mockjs": "^1.1.0",
     "pinia": "^2.1.7",
+    "terser": "^5.27.0",
     "vite-plugin-svg-icons": "^2.0.1",
     "vue": "^3.3.4",
     "vue-router": "^4.2.5"
