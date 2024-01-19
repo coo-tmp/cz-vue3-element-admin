@@ -39,6 +39,7 @@ export default defineConfig({
           //   ['default', 'DomUtil'], // import DomUtil from '@/utils/basic/DomUtil';],
           // ],
           '@/router/RouterService': [['default', 'RouterService']],
+          '@/layouts/scss/variables.module.scss': [['default', 'scss']],
         },
       ],
       dirs: [

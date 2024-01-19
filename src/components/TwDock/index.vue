@@ -1,15 +1,12 @@
 <template>
   <div class="tw-dock" :class="$style.root">
-    <div class="tw-dock__search" :class="$style.search">
-      <div v-if="showSearchWapper" :class="$style.search__content">
-        <slot name="search" />
+    <div class="tw-dock__title" :class="$style.title">
+      <div v-if="showContent" class="title__content">
+        <slot name="title" />
       </div>
-      <span
-        :class="[$style.search__action, { [$style['search__action_show']]: showSearchWapper }, { [$style['search__action_hide']]: !showSearchWapper }]"
-        @click="toggleSearchWapper"
-      >
+      <span :class="[$style.title__action, { [$style['title__action_show']]: showContent }, { [$style['title__action_hide']]: !showContent }]" @click="toggleShowContent">
         <el-icon :color="scss.sidebarTextcolor">
-          <ArrowDownBold v-if="!showSearchWapper" />
+          <ArrowDownBold v-if="!showContent" />
           <ArrowUpBold v-else />
         </el-icon>
       </span>
@@ -22,10 +19,10 @@
 </template>
 
 <script setup lang="ts">
-const showSearchWapper = ref(false);
+const showContent = ref(false);
 
-function toggleSearchWapper(): void {
-  showSearchWapper.value = !showSearchWapper.value;
+function toggleShowContent(): void {
+  showContent.value = !showContent.value;
 }
 </script>
 
@@ -33,10 +30,10 @@ function toggleSearchWapper(): void {
 
 <style lang="scss" module>
 .root {
-  .search {
+  .title {
     position: relative;
 
-    .search__action {
+    .title__action {
       z-index: 1000;
       width: 60px;
       height: 12px;
@@ -52,11 +49,11 @@ function toggleSearchWapper(): void {
       cursor: pointer;
     }
 
-    .search__action_show {
+    .title__action_show {
       bottom: -8px;
     }
 
-    .search__action_hide {
+    .title__action_hide {
       top: -12px;
     }
   }
