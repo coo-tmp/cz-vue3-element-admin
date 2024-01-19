@@ -1,17 +1,17 @@
 <template>
-  <div class="root-layout-app-main">
-    <div class="tabview-wrapper">
-      <div class="tabview-title">
-        <TwTabView class="tabview-content" />
+  <div :class="$style.root">
+    <div :class="$style['tabview-wrapper']">
+      <div :class="$style['tabview-title']">
+        <TwTabView :class="$style['tabview-content']" />
       </div>
-      <div class="tabview-action">
+      <div :class="$style['tabview-action']">
         <div v-if="appStore.screen.widthType !== ScreenWidthType.Small" @click="appStore.toggleFullContent">
           <TwSvgIcon v-if="isFullContent" name="layouts-fullcontent_enable" />
           <TwSvgIcon v-if="!isFullContent" name="layouts-fullcontent_disable" />
         </div>
       </div>
     </div>
-    <div class="view-container">
+    <div :class="$style['view-container']">
       <ElScrollbar>
         <router-view v-slot="{ Component, route }">
           <keep-alive :include="tabViewStore.allTabs.map((i) => i.path)">
@@ -29,7 +29,15 @@ const isFullContent = computed(() => appStore.isFullContent);
 </script>
 
 <style lang="scss" scoped>
-.root-layout-app-main {
+:deep(.el-scrollbar__view) {
+  margin: 10px;
+  padding: 6px;
+  background-color: $content__backgrount_color;
+}
+</style>
+
+<style lang="scss" module>
+.root {
   width: 100%;
   height: 100%;
   padding: 0;
@@ -70,9 +78,8 @@ const isFullContent = computed(() => appStore.isFullContent);
 
   .view-container {
     flex: 1 1 auto;
-    padding: 3px;
     background-color: $layout__maincontent__backgrount_color;
-    overflow: auto;
+    overflow: hidden;
   }
 }
 </style>

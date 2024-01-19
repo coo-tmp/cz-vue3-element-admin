@@ -1,12 +1,12 @@
 <template>
-  <div class="root-layout-header">
-    <div class="header-title">
-      <div class="hamburger-wrapper" @click="appStore.toggleSidebar">
-        <TwSvgIcon name="layouts-hamburger" :size="svgSize" class="hamburger" :class="{ 'is-active': appStore.sidebar.opened }" />
+  <div :class="$style.root">
+    <div :class="$style['header-title']">
+      <div :class="$style['hamburger-wrapper']" @click="appStore.toggleSidebar">
+        <TwSvgIcon name="layouts-hamburger" :size="svgSize" :class="[{ [$style['is-active']]: appStore.sidebar.opened }, $style['hamburger']]" />
       </div>
       <TwBreadcrumb v-if="appStore.screen.widthType !== ScreenWidthType.Small" />
     </div>
-    <div class="header-action">
+    <div :class="$style['header-action']">
       <span @click="toggle">
         <TwSvgIcon v-if="isFullscreen" name="layouts-fullscreen_disable" :size="svgSize" />
         <TwSvgIcon v-else name="layouts-fullscreen_enable" :size="svgSize" />
@@ -54,8 +54,8 @@ function logout() {
 }
 </script>
 
-<style lang="scss">
-.root-layout-header {
+<style lang="scss" module>
+.root {
   width: 100%;
   height: 100%;
   display: flex;

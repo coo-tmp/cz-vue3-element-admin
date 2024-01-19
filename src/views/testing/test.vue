@@ -57,7 +57,7 @@ defineProps({
 });
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 fieldset {
   margin: 8px 0;
 

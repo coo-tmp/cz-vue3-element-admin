@@ -1,6 +1,6 @@
 <template>
-  <div class="root-layout-tabview">
-    <ElTabs v-model="tabViewStore.activeTab" type="card" class="main-tab" @tab-click="handleClick" @tab-remove="handleRemove">
+  <div :class="$style.root">
+    <ElTabs v-model="tabViewStore.activeTab" type="card" :class="$style['main-tab']" @tab-click="handleClick" @tab-remove="handleRemove">
       <ElTabPane v-for="item in tabViewStore.allTabs" :key="item.path" :name="item.path" :label="item.title" :closable="item.closable"> </ElTabPane>
     </ElTabs>
   </div>
@@ -88,8 +88,8 @@ function getPathInMenu(path: string, menu: IMenuItem): IMenuItem | null {
 }
 </script>
 
-<style lang="scss">
-.root-layout-tabview {
+<style lang="scss" module>
+.root {
   width: 100%;
   height: 100%;
   padding: 0;
@@ -98,21 +98,21 @@ function getPathInMenu(path: string, menu: IMenuItem): IMenuItem | null {
 .main-tab {
   --el-tabs-header-height: 24px;
 
-  > .el-tabs__header {
+  > :global(.el-tabs__header) {
     margin: 0 !important;
     border: 0 none;
 
-    .el-tabs__nav-next,
-    .el-tabs__nav-prev {
+    :global(.el-tabs__nav-next),
+    :global(.el-tabs__nav-prev) {
       line-height: 30px;
       color: var(--el-text-color-primary);
     }
   }
 
-  .el-tabs__item {
+  :global(.el-tabs__item) {
     border-radius: 6px 6px 0 0;
 
-    &.is-active {
+    &:global(.is-active) {
       color: #ffffff;
       background-color: var(--el-color-primary);
       border-color: var(--el-color-primary);
