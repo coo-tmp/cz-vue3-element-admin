@@ -29,7 +29,6 @@
 </template>
 
 <script setup lang="ts">
-import scss from '@/layouts/scss/variables.module.scss';
 import type { IMenuItem } from './types';
 
 defineProps({

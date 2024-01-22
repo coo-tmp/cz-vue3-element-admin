@@ -3,7 +3,7 @@ import ElementPlus from 'element-plus';
 import * as ElementPlusIconsVue from '@element-plus/icons-vue';
 
 const ComponetService = {
-  setupGlobalComponent(app: App) {
+  setup(app: App) {
     app.use(ElementPlus);
 
     // element icons
