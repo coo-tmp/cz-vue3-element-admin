@@ -9,7 +9,7 @@ const helper = {
   },
 
   hasBizError: function (response: AxiosResponse<IHttpApiResponse<any> | Blob>): boolean {
-    if (this.isDownload(response)) {
+    if (response.data instanceof Blob) {
       return response.data.type === 'application/json';
     }
 
