@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 import { store } from '../StoreService';
-import type { IMenuItem } from '@/layouts/default/components/TwSidebar/types';
+import type { IMenuItem } from '@/layouts/default/components/CooSidebar/types';
 import { ref } from 'vue';
 
 const useStore = defineStore('MenuStore', () => {

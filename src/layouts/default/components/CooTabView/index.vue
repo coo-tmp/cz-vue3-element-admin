@@ -9,7 +9,7 @@
 <script setup lang="ts">
 import type { TabPaneName, TabsPaneContext } from 'element-plus';
 import { RoutePathEnum } from '@/router/RoutePathEnum';
-import type { IMenuItem } from '../TwSidebar/types';
+import type { IMenuItem } from '../CooSidebar/types';
 import type { ITabView } from './types';
 
 watch(

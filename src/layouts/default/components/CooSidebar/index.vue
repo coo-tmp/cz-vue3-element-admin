@@ -1,6 +1,6 @@
 <template>
   <div :class="$style.root">
-    <TwLogo :class="$style.logo" :collapse="!appStore.sidebar.opened" />
+    <CooLogo :class="$style.logo" :collapse="!appStore.sidebar.opened" />
     <ElScrollbar>
       <ElMenu
         :default-active="getCurrPath"
@@ -11,16 +11,16 @@
         :background-color="scss.sidebarBackgroundcolor"
         :text-color="scss.sidebarTextcolor"
       >
-        <TwSidebarItem v-for="item in items" :key="item.id" :item="item" />
+        <CooSidebarItem v-for="item in items" :key="item.id" :item="item" />
       </ElMenu>
     </ElScrollbar>
   </div>
 </template>
 
 <script setup lang="ts">
-import TwSidebarItem from './TwSidebarItem.vue';
+import CooSidebarItem from './CooSidebarItem.vue';
 import type { IMenuItem } from './types';
-import TwLogo from './TwLogo.vue';
+import CooLogo from './CooLogo.vue';
 
 defineProps({
   items: {
@@ -51,7 +51,7 @@ const getCurrPath = computed(() => {
   height: 100%;
   flex-direction: column;
 
-  .tw-logo {
+  .coo-logo {
     flex: 0 0 auto;
   }
 

@@ -6,7 +6,7 @@
     </ElFormItem>
 
     <ElFormItem label="脱敏后">
-      <TwSensitiveText
+      <CooSensitiveText
         :raw="formObj.rawData"
         :replace="formObj.replace"
         :display-mode="formObj.displayMode"
@@ -18,9 +18,9 @@
         :disabled="!formObj.enabled"
       >
         <template v-slot:prefix>
-          <TwSvgIcon v-if="formObj.enabledPrefix" name="menu-dict" />
+          <CooSvgIcon v-if="formObj.enabledPrefix" name="menu-dict" />
         </template>
-      </TwSensitiveText>
+      </CooSensitiveText>
     </ElFormItem>
 
     <ElDivider content-position="left">设置</ElDivider>

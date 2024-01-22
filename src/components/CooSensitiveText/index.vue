@@ -1,8 +1,8 @@
 <template>
-  <span class="tw-sensitive-text">
+  <span class="coo-sensitive-text">
     <slot v-if="displayValue.length > 0" name="prefix" />
     <span>{{ displayValue }}</span>
-    <TwSvgIcon v-if="!props.disabled && displayValue.length > 0" :name="showRaw ? 'basic-eye_open' : 'basic-eye_close'" @click="toggleEnable" />
+    <CooSvgIcon v-if="!props.disabled && displayValue.length > 0" :name="showRaw ? 'basic-eye_open' : 'basic-eye_close'" @click="toggleEnable" />
   </span>
 </template>
 
@@ -292,12 +292,12 @@ function fixContent_part(): string {
 </script>
 
 <style lang="scss" scoped>
-.tw-sensitive-text {
+.coo-sensitive-text {
   display: inline-flex;
   align-items: center;
 }
 
-.tw-svg-icon {
+.coo-svg-icon {
   cursor: pointer;
   margin-left: 4px;
 }

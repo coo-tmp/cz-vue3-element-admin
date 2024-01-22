@@ -1,7 +1,7 @@
 <template>
   <div :class="$style.root">
-    <TwSvgIcon name="logo" size="32px" />
-    <span v-if="!collapse">CZ Admin</span>
+    <CooSvgIcon name="logo" size="32px" />
+    <span v-if="!collapse">Coo Admin</span>
   </div>
 </template>
 

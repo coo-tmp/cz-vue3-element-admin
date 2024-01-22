@@ -2,7 +2,7 @@ import { defineStore } from 'pinia';
 import { store } from '../StoreService';
 import RouterService from '@/router/RouterService';
 import { ref } from 'vue';
-import type { ITabView } from '@/layouts/default/components/TwTabView/types';
+import type { ITabView } from '@/layouts/default/components/CooTabView/types';
 
 const useStore = defineStore('TabViewStore', () => {
   // state

@@ -2,19 +2,19 @@
   <div :class="$style.root">
     <div :class="$style['header-title']">
       <div :class="$style['hamburger-wrapper']" @click="appStore.toggleSidebar">
-        <TwSvgIcon name="layouts-hamburger" :size="svgSize" :class="[{ [$style['is-active']]: appStore.sidebar.opened }, $style['hamburger']]" />
+        <CooSvgIcon name="layouts-hamburger" :size="svgSize" :class="[{ [$style['is-active']]: appStore.sidebar.opened }, $style['hamburger']]" />
       </div>
-      <TwBreadcrumb v-if="appStore.screen.widthType !== ScreenWidthType.Small" />
+      <CooBreadcrumb v-if="appStore.screen.widthType !== ScreenWidthType.Small" />
     </div>
     <div :class="$style['header-action']">
       <span @click="toggle">
-        <TwSvgIcon v-if="isFullscreen" name="layouts-fullscreen_disable" :size="svgSize" />
-        <TwSvgIcon v-else name="layouts-fullscreen_enable" :size="svgSize" />
+        <CooSvgIcon v-if="isFullscreen" name="layouts-fullscreen_disable" :size="svgSize" />
+        <CooSvgIcon v-else name="layouts-fullscreen_enable" :size="svgSize" />
       </span>
       <span>
         <el-dropdown @command="handleCommand" style="display: flex; justify-content: left">
           <span style="display: flex; align-items: center">
-            <TwSvgIcon name="layouts-user" :size="svgSize" />
+            <CooSvgIcon name="layouts-user" :size="svgSize" />
             <span style="padding-left: 3px">
               Hello, Cooper<el-icon class="el-icon--right"><arrow-down /></el-icon>
             </span>
@@ -27,14 +27,14 @@
           </template>
         </el-dropdown>
       </span>
-      <span> <TwSvgIcon name="layouts-settings" size="1em" /> </span>
+      <span> <CooSvgIcon name="layouts-settings" size="1em" /> </span>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { useFullscreen } from '@vueuse/core';
-import TwBreadcrumb from './TwBreadcrumb.vue';
+import CooBreadcrumb from './CooBreadcrumb.vue';
 import { RoutePathEnum } from '@/router/RoutePathEnum';
 
 const { isFullscreen, toggle } = useFullscreen();

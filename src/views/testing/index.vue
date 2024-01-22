@@ -4,10 +4,10 @@
   <div id="idScss">SCSS</div>
 
   <div>
-    <TwSvgIcon name="logo" color="#FF0000" />
-    <TwSvgIcon name="menu-dict" color="#FF0000" />
-    <TwSvgIcon name="menu-language" color="#FF0000" size="32px" /><!-- 使用logo.svg重命名为language.svg -->
-    <TwSvgIcon name="basic-language" color="#FF0000" width="40px" height="64px" />
+    <CooSvgIcon name="logo" color="#FF0000" />
+    <CooSvgIcon name="menu-dict" color="#FF0000" />
+    <CooSvgIcon name="menu-language" color="#FF0000" size="32px" /><!-- 使用logo.svg重命名为language.svg -->
+    <CooSvgIcon name="basic-language" color="#FF0000" width="40px" height="64px" />
   </div>
 </template>
 

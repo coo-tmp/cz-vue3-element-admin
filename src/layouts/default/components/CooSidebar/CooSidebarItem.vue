@@ -1,6 +1,6 @@
 <template>
   <template v-if="!hasChild(item)">
-    <TwLink
+    <CooLink
       v-if="item.visiable ?? true"
       :to="item.path ?? '#'"
       :browser="item.browser ?? false"
@@ -10,21 +10,21 @@
       :disabled="item.disabled ?? false"
     >
       <ElMenuItem :index="item.path" :disabled="item.disabled ?? false">
-        <TwSvgIcon v-if="item.icon" :name="item.icon" :color="scss.sidebarTextcolor" />
+        <CooSvgIcon v-if="item.icon" :name="item.icon" :color="scss.sidebarTextcolor" />
         <template #title>
           {{ item.title }}
         </template>
       </ElMenuItem>
-    </TwLink>
+    </CooLink>
   </template>
 
   <ElSubMenu v-else :index="item.id" teleported :disabled="item.disabled ?? false">
     <template #title>
-      <TwSvgIcon v-if="item.icon" :name="item.icon" :color="scss.sidebarTextcolor" />
+      <CooSvgIcon v-if="item.icon" :name="item.icon" :color="scss.sidebarTextcolor" />
       <span v-if="item.title">{{ item.title }}</span>
     </template>
 
-    <TwSidebarItem v-for="child in item.children" :key="child.id" :item="child" />
+    <CooSidebarItem v-for="child in item.children" :key="child.id" :item="child" />
   </ElSubMenu>
 </template>
 
@@ -58,11 +58,11 @@ function hasChild(item: IMenuItem) {
 </script>
 
 <style lang="scss" scoped>
-.tw-svg-icon {
+.coo-svg-icon {
   margin-right: 8px;
 }
 
-.tw-link {
+.coo-link {
   display: block;
 
   :deep(.el-link__inner) {

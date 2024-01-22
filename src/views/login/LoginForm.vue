@@ -3,16 +3,16 @@
     <ElForm ref="ruleFormRef" :model="ruleForm" :rules="rules">
       <div :class="$style.title">cz-admin</div>
       <ElFormItem prop="account">
-        <TwSensitiveInput v-model="ruleForm.account" placeholder="用户名/手机号/email" maxlength="30" clearable type="part" mode="middle" start="3" end="4">
+        <CooSensitiveInput v-model="ruleForm.account" placeholder="用户名/手机号/email" maxlength="30" clearable type="part" mode="middle" start="3" end="4">
           <template v-slot:prefix>
-            <TwSvgIcon name="basic-user" />
+            <CooSvgIcon name="basic-user" />
           </template>
-        </TwSensitiveInput>
+        </CooSensitiveInput>
       </ElFormItem>
       <ElFormItem prop="password">
         <ElInput v-model="ruleForm.password" placeholder="密码" maxlength="30" show-password clearable>
           <template v-slot:prefix>
-            <TwSvgIcon name="basic-lock" />
+            <CooSvgIcon name="basic-lock" />
           </template>
         </ElInput>
       </ElFormItem>

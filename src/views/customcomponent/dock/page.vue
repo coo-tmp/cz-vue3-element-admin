@@ -1,7 +1,7 @@
 <template>
   <div>
-    <TwDock>
-      <template v-slot:title> fcercdfvdfdfwer </template>
+    <CooDock>
+      <template v-slot:title> 这是查询区域 </template>
       <template v-slot:content>
         <el-table :data="tableData">
           <el-table-column prop="date" label="Date" width="180" />
@@ -20,7 +20,7 @@
           @current-change="handleCurrentChange"
         />
       </template>
-    </TwDock>
+    </CooDock>
   </div>
 </template>
 

@@ -1,11 +1,11 @@
 <template>
-  <ElLink class="tw-link" :type="type" :underline="underline" :disabled="disabled" @click="handleClick">
+  <ElLink class="coo-link" :type="type" :underline="underline" :disabled="disabled" @click="handleClick">
     <slot />
   </ElLink>
 </template>
 
 <script lang="ts" setup>
-import type { ITabView } from '@/layouts/default/components/TwTabView/types';
+import type { ITabView } from '@/layouts/default/components/CooTabView/types';
 
 const props = defineProps({
   type: {

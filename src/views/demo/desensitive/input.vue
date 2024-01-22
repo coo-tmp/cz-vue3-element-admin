@@ -2,7 +2,7 @@
   <ElForm :model="formObj" label-width="100px">
     <ElDivider content-position="left">示例</ElDivider>
     <ElFormItem label="脱敏Input">
-      <TwSensitiveInput
+      <CooSensitiveInput
         placeholder="请输入文本"
         v-model="formObj.rawData"
         :replace="formObj.replace"
@@ -13,9 +13,9 @@
         :disabled="!formObj.enabled"
       >
         <template v-slot:prefix>
-          <TwSvgIcon v-if="formObj.enabledPrefix" name="menu-dict" />
+          <CooSvgIcon v-if="formObj.enabledPrefix" name="menu-dict" />
         </template>
-      </TwSensitiveInput>
+      </CooSensitiveInput>
     </ElFormItem>
 
     <ElDivider content-position="left">设置</ElDivider>

@@ -2,12 +2,12 @@
   <div :class="$style.root">
     <div :class="$style['tabview-wrapper']">
       <div :class="$style['tabview-title']">
-        <TwTabView :class="$style['tabview-content']" />
+        <CooTabView :class="$style['tabview-content']" />
       </div>
       <div :class="$style['tabview-action']">
         <div v-if="appStore.screen.widthType !== ScreenWidthType.Small" @click="appStore.toggleFullContent">
-          <TwSvgIcon v-if="isFullContent" name="layouts-fullcontent_enable" />
-          <TwSvgIcon v-if="!isFullContent" name="layouts-fullcontent_disable" />
+          <CooSvgIcon v-if="isFullContent" name="layouts-fullcontent_enable" />
+          <CooSvgIcon v-if="!isFullContent" name="layouts-fullcontent_disable" />
         </div>
       </div>
     </div>
@@ -24,7 +24,7 @@
 </template>
 
 <script setup lang="ts">
-import TwTabView from '@/layouts/default/components/TwTabView/index.vue';
+import CooTabView from '@/layouts/default/components/CooTabView/index.vue';
 const isFullContent = computed(() => appStore.isFullContent);
 </script>
 

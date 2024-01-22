@@ -1,5 +1,5 @@
 <template>
-  <div class="tw-sensitive-input" :class="$style.root">
+  <div class="coo-sensitive-input" :class="$style.root">
     <div class="el-input el-input--prefix el-input--suffix" :class="$style['content-wrapper']">
       <div class="el-input__wrapper">
         <span v-if="$slots.prefix" class="el-input__prefix">
@@ -27,17 +27,17 @@
       show-password
     >
       <!-- <template v-slot:suffix>
-        <TwSvgIcon v-if="!props.disabled && refRaw && refRaw.length && refRaw.length > 0" :name="showRaw ? 'basic-eye_open' : 'basic-eye_close'" @click="toggleEnable" />
+        <CooSvgIcon v-if="!props.disabled && refRaw && refRaw.length && refRaw.length > 0" :name="showRaw ? 'basic-eye_open' : 'basic-eye_close'" @click="toggleEnable" />
       </template> -->
     </ElInput>
     <div :class="$style['password-visible']">
-      <TwSvgIcon v-if="!props.disabled && refRaw && refRaw.length && refRaw.length > 0" :name="showRaw ? 'basic-eye_open' : 'basic-eye_close'" @click="toggleEnable" />
+      <CooSvgIcon v-if="!props.disabled && refRaw && refRaw.length && refRaw.length > 0" :name="showRaw ? 'basic-eye_open' : 'basic-eye_close'" @click="toggleEnable" />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { DesensitiveType, DesensitiveMode } from '../TwSensitiveText/types';
+import { DesensitiveType, DesensitiveMode } from '../CooSensitiveText/types';
 
 const props = defineProps({
   modelValue: {
@@ -252,13 +252,13 @@ function fixContent_part(): string {
 
 <script lang="ts">
 export default {
-  name: 'TwSensitiveInput',
+  name: 'CooSensitiveInput',
   inheritAttrs: false,
 };
 </script>
 
 <style lang="scss" scoped>
-.tw-svg-icon {
+.coo-svg-icon {
   cursor: pointer;
 }
 
@@ -310,3 +310,4 @@ export default {
   }
 }
 </style>
+../CooSensitiveText/types

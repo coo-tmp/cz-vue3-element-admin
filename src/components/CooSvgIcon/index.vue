@@ -1,6 +1,6 @@
 <template>
   <!--优先采用width和height。如果width/height未定义，则采用size-->
-  <svg aria-hidden="true" class="tw-svg-icon" :style="'width:' + (width ?? size) + ';height:' + (height ?? size)">
+  <svg aria-hidden="true" class="coo-svg-icon" :style="'width:' + (width ?? size) + ';height:' + (height ?? size)">
     <use :xlink:href="symbolId" :fill="color" />
   </svg>
 </template>
@@ -39,7 +39,7 @@ const symbolId = computed(() => `#${props.prefix}-${props.name}`);
 </script>
 
 <style scoped>
-.tw-svg-icon {
+.coo-svg-icon {
   overflow: hidden;
   fill: currentColor;
 }

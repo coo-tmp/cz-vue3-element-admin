@@ -12,24 +12,24 @@
         'full-content-sidebar-wrapper': !isSmallScreenWidth && isFullContent,
       }"
     >
-      <TwSidebar :items="menuStore.menus" />
+      <CooSidebar :items="menuStore.menus" />
     </div>
     <div class="main-wrapper">
       <div id="header-wrapper" class="header-wrapper" :class="{ 'full-content-header-wrapper': !isSmallScreenWidth && isFullContent }">
-        <TwHeader />
+        <CooHeader />
       </div>
       <div id="content-wrapper" class="content-wrapper" :class="{ 'full-content-content-wrapper': !isSmallScreenWidth && isFullContent }">
-        <TwAppMain />
+        <CooAppMain />
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import TwSidebar from './components/TwSidebar/index.vue';
-import type { IMenuItem } from './components/TwSidebar/types';
-import TwHeader from './components/TwHeader/index.vue';
-import TwAppMain from './components/TwAppMain/index.vue';
+import CooSidebar from './components/CooSidebar/index.vue';
+import type { IMenuItem } from './components/CooSidebar/types';
+import CooHeader from './components/CooHeader/index.vue';
+import CooAppMain from './components/CooAppMain/index.vue';
 import { useWindowSize } from '@vueuse/core';
 
 const isSidebarOpened = computed(() => appStore.sidebar.opened);

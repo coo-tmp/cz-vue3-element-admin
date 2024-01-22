@@ -1258,7 +1258,7 @@ const symbolId = computed(() => `#${props.prefix}-${props.name}`);
 </script>
 
 <style scoped>
-.tw-svg-icon {
+.coo-svg-icon {
   overflow: hidden;
   fill: currentColor;
 }
@@ -1278,10 +1278,10 @@ const symbolId = computed(() => `#${props.prefix}-${props.name}`);
 // 添加
 
 <template>
-    <TwSvgIcon name="logo" color="#FF0000" />
-    <TwSvgIcon name="menu-dict" color="#FF0000" />
-    <TwSvgIcon name="menu-language" color="#FF0000" size="32px" /><!-- 使用logo.svg重命名为language.svg -->
-    <TwSvgIcon name="basic-language" color="#FF0000" width="40px" height="64px" />
+    <CooSvgIcon name="logo" color="#FF0000" />
+    <CooSvgIcon name="menu-dict" color="#FF0000" />
+    <CooSvgIcon name="menu-language" color="#FF0000" size="32px" /><!-- 使用logo.svg重命名为language.svg -->
+    <CooSvgIcon name="basic-language" color="#FF0000" width="40px" height="64px" />
 </template>
 
 <script setup lang="ts">
@@ -1610,7 +1610,7 @@ body,#app {
 - 类型声明文件
 
 ```typescript
-// src/layouts/default/components/TwSidebar/types.ts
+// src/layouts/default/components/CooSidebar/types.ts
 // 添加
 
 interface IMenuItem {
@@ -1628,33 +1628,33 @@ export type { IMenuItem };
 - 侧边栏核心组件
 
 ```vue
-// src/layouts/default/components/TwSidebar/TwSidebarItem.vue
+// src/layouts/default/components/CooSidebar/CooSidebarItem.vue
 // 添加
 
 <template>
   <template v-if="!hasChild(item)">
-    <TwLink v-if="item.visiable ?? true" :to="item.path ?? '#'">
+    <CooLink v-if="item.visiable ?? true" :to="item.path ?? '#'">
       <ElMenuItem :index="item.id">
-        <TwSvgIcon v-if="item.icon" :name="item.icon" />
+        <CooSvgIcon v-if="item.icon" :name="item.icon" />
         <template #title>
           {{ item.name }}
         </template>
       </ElMenuItem>
-    </TwLink>
+    </CooLink>
   </template>
 
   <ElSubMenu v-else :index="item.id" teleported>
     <template #title>
-      <TwSvgIcon v-if="item.icon" :name="item.icon" />
+      <CooSvgIcon v-if="item.icon" :name="item.icon" />
       <span v-if="item.name">{{ item.name }}</span>
     </template>
 
-    <TwSidebarItem v-for="child in item.children" :key="child.id" :item="child" />
+    <CooSidebarItem v-for="child in item.children" :key="child.id" :item="child" />
   </ElSubMenu>
 </template>
 
 <script setup lang="ts">
-import TwLink from './TwLink.vue';
+import CooLink from './CooLink.vue';
 import SvgIcon from '@/components/SvgIcon/index.vue';
 import type { PropType } from 'vue';
 import type { IMenuItem } from './types';
@@ -1688,7 +1688,7 @@ function hasChild(item: IMenuItem) {
 - link
 
 ```vue
-// src/layouts/default/components/TwSidebar/TwLink.vue
+// src/layouts/default/components/CooSidebar/CooLink.vue
 // 添加
 
 <template>
@@ -1723,20 +1723,20 @@ function push() {
 - index
 
 ```vue
-// src/layouts/default/components/TwSidebar/index.vue
+// src/layouts/default/components/CooSidebar/index.vue
 // 添加
 
 <template>
   <ElScrollbar>
     <ElMenu :default-active="currRoute.path" :unique-opened="false" :collapse="!appStore.sidebar.opened" mode="vertical">
-      <TwSidebarItem v-for="item in items" :key="item.id" :item="item" />
+      <CooSidebarItem v-for="item in items" :key="item.id" :item="item" />
     </ElMenu>
   </ElScrollbar>
 </template>
 
 <script setup lang="ts">
 import { useRoute } from 'vue-router';
-import TwSidebarItem from './TwSidebarItem.vue';
+import CooSidebarItem from './CooSidebarItem.vue';
 import appStore from '@/stores/modules/appStore';
 import type { PropType } from 'vue';
 import type { IMenuItem } from './types';
@@ -1893,7 +1893,7 @@ export { ScreenWidthType };
 </div>
                       ↓
 <div id="sidebar-wrapper" class="sidebar-wrapper">
-    <TwSidebar :items="menus" />
+    <CooSidebar :items="menus" />
 </div>
 
 // 添加
@@ -1927,7 +1927,7 @@ import { defineStore } from 'pinia';
 import { store } from '../StoreService';
 import RouterService from '@/router/RouterService';
 import { ref } from 'vue';
-import type { ITabView } from '@/layouts/default/components/TwTabView/types';
+import type { ITabView } from '@/layouts/default/components/CooTabView/types';
 
 const useStore = defineStore('TabViewStore', () => {
   // state
@@ -1993,7 +1993,7 @@ export { tabViewStoreHook };
 - 类型
 
 ```typescript
-// /src/layouts/default/components/TwTabView/types.ts
+// /src/layouts/default/components/CooTabView/types.ts
 // 添加
 
 interface ITabView {
@@ -2009,7 +2009,7 @@ export type { ITabView };
 - TabView组件
 
 ```vue
-// /src/layouts/default/components/TwTabView/index.vue
+// /src/layouts/default/components/CooTabView/index.vue
 // 添加
 
 <template>
@@ -2041,15 +2041,15 @@ function handleRemove(name: TabPaneName) {
 </style>
 ```
 
-### 11.3.3 TwAppMain组件
+### 11.3.3 CooAppMain组件
 
 ```vue
-// /src/layouts/default/components/TwAppMain/index.vue
+// /src/layouts/default/components/CooAppMain/index.vue
 // 添加
 
 <template>
   <div class="tabview-wrapper">
-    <TwTabView class="tabview-content" />
+    <CooTabView class="tabview-content" />
     <div class="tabview-operation"><button @click="toggleFullContent">全屏</button></div>
   </div>
   <div class="view-container">
@@ -2063,7 +2063,7 @@ function handleRemove(name: TabPaneName) {
 
 <script setup lang="ts">
 import tabViewStore from '@/stores/modules/tabViewStore';
-import TwTabView from '@/layouts/default/components/TwTabView/index.vue';
+import CooTabView from '@/layouts/default/components/CooTabView/index.vue';
 
 function toggleFullContent() {
   var sidebar = document.getElementById('sidebar-wrapper');
@@ -2099,7 +2099,7 @@ function toggleFullContent() {
 </div>
                       ↓
 <div id="content-wrapper" class="content-wrapper">
-    <TwAppMain />
+    <CooAppMain />
 </div>
 ```
 

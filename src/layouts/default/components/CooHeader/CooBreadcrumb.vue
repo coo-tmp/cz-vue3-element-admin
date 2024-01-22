@@ -2,7 +2,7 @@
   <ElBreadcrumb>
     <TransitionGroup name="breadcrumb">
       <ElBreadcrumbItem v-for="item in breadcrumbs" :key="item.id">
-        <TwLink v-if="item.path" :to="item.path">{{ item.title }}</TwLink>
+        <CooLink v-if="item.path" :to="item.path">{{ item.title }}</CooLink>
         <template v-else>
           {{ item.title }}
         </template>
@@ -12,8 +12,8 @@
 </template>
 
 <script setup lang="ts">
-import type { IMenuItem } from '../TwSidebar/types';
-import TwLink from '@/components/TwLink/index.vue';
+import type { IMenuItem } from '../CooSidebar/types';
+import CooLink from '@/components/CooLink/index.vue';
 import { IBreadcrumbMode, type IBreadcrumbMenuItemMode, type IBreadcrumbRaw } from '@/types/RouterMeta/IBreadcrumb';
 import type { RouteLocationNormalizedLoaded } from 'vue-router';
 

@@ -15,7 +15,7 @@
   <fieldset>
     <legend>RouteMode：由Route结构生成</legend>
     说明：由Route的层级结构生成
-    <TwLink to="/advancedemo/breadcrumb/routeMode" tab-title="自定义Breadcrumb：RouteMode">打开示例</TwLink>
+    <CooLink to="/advancedemo/breadcrumb/routeMode" tab-title="自定义Breadcrumb：RouteMode">打开示例</CooLink>
   </fieldset>
 
   <fieldset>
@@ -23,20 +23,20 @@
     说明：<br />
     1、类似FreeMode，可以自定义层级结构；<br />
     2、区别在于，该模型会把层级结构挂载到某一MenuItem叶子节点下，而FreeMode不会；
-    <TwLink to="/advancedemo/breadcrumb/menuItemMode" tab-title="自定义Breadcrumb：MenuItemMode">打开示例</TwLink>
+    <CooLink to="/advancedemo/breadcrumb/menuItemMode" tab-title="自定义Breadcrumb：MenuItemMode">打开示例</CooLink>
   </fieldset>
 
   <fieldset>
     <legend>FreeMode：全自定义生成</legend>
     说明：完全自定义层级结构
-    <TwLink to="/advancedemo/breadcrumb/freeMode" tab-title="自定义Breadcrumb：FreeMode"> 打开示例 </TwLink>
+    <CooLink to="/advancedemo/breadcrumb/freeMode" tab-title="自定义Breadcrumb：FreeMode"> 打开示例 </CooLink>
   </fieldset>
 </template>
 
 <script setup lang="ts"></script>
 
 <style lang="scss" scoped>
-.tw-link {
+.coo-link {
   margin: 8px;
 }
 

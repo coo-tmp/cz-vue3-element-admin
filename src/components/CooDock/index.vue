@@ -1,6 +1,6 @@
 <template>
-  <div class="tw-dock" :class="$style.root">
-    <div class="tw-dock__title" :class="$style.title">
+  <div class="coo-dock" :class="$style.root">
+    <div class="coo-dock__title" :class="$style.title">
       <div v-if="showContent" class="title__content">
         <slot name="title" />
       </div>
@@ -12,7 +12,7 @@
       </span>
     </div>
 
-    <div class="tw-dock__content">
+    <div class="coo-dock__content">
       <slot name="content" />
     </div>
   </div>
